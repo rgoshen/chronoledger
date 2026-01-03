@@ -1,13 +1,33 @@
-# ChronoLedger — Architecture Decision Records (ADRs)
+# Architecture Decision Records (ADRs)
 
-_Last updated: 2026-01-02_
+This folder contains ADRs for ChronoLedger—key decisions, rationale, alternatives, and consequences.
+
+## How to use
+
+- ADRs are the **decision record**. Supporting details and evolving notes belong in `../09-reference/`.
+- When an ADR needs deeper context, link to a supporting doc and keep the ADR itself decision-focused.
+
+## Supporting docs
+
+Some ADRs reference deeper supporting material (design notes, checklists, implementation guidance).
+Those docs live in:
+
+- `../09-reference/`
+
+When adding a supporting doc:
+
+- Link it from the relevant ADR(s)
+- Add “Related ADRs” at the top of the supporting doc
+- Prefer linking rather than duplicating ADR content
 
 ## Conventions
+
 - Each ADR captures **one** decision.
 - Status values: Proposed | Accepted | Deprecated | Superseded
 - Naming: `ADR-XXXX-<kebab-case-title>.md`
 
 ## Index
+
 - [ADR-0000: ADR Process and Template](ADR-0000-adr-process-and-template.md)
 - [ADR-0001: Cloud-First Deployment](ADR-0001-cloud-first-deployment.md)
 - [ADR-0002: PostgreSQL as Primary Datastore (3NF)](ADR-0002-postgresql-3nf.md)
