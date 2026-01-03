@@ -1,86 +1,61 @@
 # ChronoLedger
 
-ChronoLedger is an auditable timekeeping system with pay-period reporting and official exports. This repository contains the complete project, including application code, infrastructure, and documentation.
+ChronoLedger is an auditable timekeeping and pay-period reporting platform with role-based administration and “official” export outputs. This repository contains the complete project: applications, services, infrastructure, and supporting documentation.
 
-## What this is
+## What ChronoLedger does
 
-ChronoLedger is built to help individuals or teams:
+- **Time entry tracking** with rules that prevent common data integrity issues (for example, overlaps and ambiguous open intervals)
+- **Pay-period reporting** (PP1: 1–15, PP2: 16–end of month) for totals, category breakdowns, and rollups
+- **Administrative workflows** such as lock/unlock, approvals, and an auditable record of changes
+- **Official exports** (PDF-first) designed to be consistent, traceable, and reproducible
 
-- Track time entries with strong correctness rules (e.g., no overlaps, clear “open entry” behavior)
-- Summarize time by pay period (PP1: 1–15, PP2: 16–end of month)
-- Support admin workflows (e.g., lock/unlock, audit trail, approvals)
-- Generate “official” export outputs (PDF first; other formats later)
+## Design goals
 
-## Guiding principles
+- **Correctness first**: enforce rules in the data layer and API, not only in the UI.
+- **Auditability by default**: important actions are traceable with who/what/when.
+- **Stable outputs**: exports are versioned and testable (fixtures + deterministic rendering).
+- **Pragmatic scalability**: keep the system simple until real usage requires more.
 
-- **Correctness over convenience**: enforce constraints at the DB + API level, not just the UI.
-- **Auditability by default**: actions that matter produce traceable records.
-- **Docs + ADR-driven decisions**: architecture choices are recorded before implementation.
-- **Testable exports**: PDF outputs should be deterministic (golden fixtures + versioned templates).
-
-## Repository layout
-
-This repo starts **docs-first** (so we don’t write features before the foundation is agreed), then expands into apps/services.
-
-```
-docs/
-  00-roadmap/        # project roadmap + session summaries
-  01-requirements/   # requirements + traceability mapping
-  02-adr/            # architecture decision records (ADRs)
-  03-api/            # API surface outlines / OpenAPI
-  04-data/           # schema blueprint, constraints, fixtures
-  05-ux/             # UX flows + wireframes
-  06-reports/        # report/export catalog
-  07-infra/          # local dev plan, IaC plans, CI/CD plans
-  08-testing/        # test strategy and harness decisions
-
-apps/                # added when feature coding begins (web/mobile/api/worker)
-packages/            # shared types/config/libs (added later)
-infra/               # IaC (added later)
-```
-
-## Key docs to read first
-
-- Roadmap: `docs/00-roadmap/`
-- Requirements: `docs/01-requirements/chronoledger-requirements.md`
-- ADRs (what we’ve decided and why): `docs/02-adr/`
-- Pre-coding checklist / readiness: see the latest roadmap notes in `docs/00-roadmap/`
-
-## Architecture at a glance (target shape)
-
-ChronoLedger is expected to be a small set of clients + services around a single source-of-truth database:
+## High-level architecture
 
 ```mermaid
 flowchart LR
   Web[Web App] --> API[API Service]
   Mobile[Mobile App] --> API
   API --> DB[(Postgres)]
-  API --> Q[(Queue/Jobs)]
+  API --> Q[(Jobs/Queue)]
   Worker[Worker Service] --> DB
   Worker --> S[(Object Storage)]
   API --> S
 ```
 
-Exact technology selections live in `docs/02-adr/` and may evolve as ADRs are accepted.
+## Repository layout
 
-## Project status
+The repository is organized so product code, infrastructure, and documentation can evolve together.
 
-This repo is currently in **foundation mode**:
+```
+docs/               # requirements, ADRs, API notes, UX flows, report catalog, plans
+apps/               # web, mobile, api, worker (added/expanded as implementation grows)
+packages/           # shared libraries (types, validation, config, utilities)
+infra/              # infrastructure-as-code (environments, modules, deploy tooling)
+.github/            # workflows and repo automation
+```
 
-- Consolidating requirements
-- Finalizing ADRs
-- Defining schema + API surface
-- Designing exports and test strategy
+Key documentation:
+- Roadmap and session notes: `docs/00-roadmap/`
+- Requirements: `docs/01-requirements/`
+- Architecture decisions (ADRs): `docs/02-adr/`
 
-Feature coding begins after the “pre-coding readiness” items in the roadmap are satisfied.
+## Getting started
+
+This section will be updated as the runtime components land (local dev, environment variables, seeding, and common workflows).
 
 ## Contributing
 
-- Use ADRs for meaningful architecture decisions (see `docs/02-adr/ADR-TEMPLATE.md`).
-- Keep changes small, reviewable, and well-documented.
-- Prefer adding fixtures/tests alongside any logic that affects correctness or exports.
+- Use ADRs for meaningful architectural decisions.
+- Keep changes small, reviewable, and documented.
+- Add tests and fixtures for logic that affects correctness, audits, or exports.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
