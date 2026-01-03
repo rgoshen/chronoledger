@@ -1,22 +1,41 @@
 # ChronoLedger
 
-ChronoLedger is an auditable timekeeping and pay-period reporting platform with role-based administration and “official” export outputs. This repository contains the complete project: applications, services, infrastructure, and supporting documentation.
+ChronoLedger is an auditable timekeeping and pay-period reporting platform with role-based administration and “official” export outputs. This repository houses the complete system—applications, services, infrastructure, and documentation.
 
-## What ChronoLedger does
+## Table of contents
 
-- **Time entry tracking** with rules that prevent common data integrity issues (for example, overlaps and ambiguous open intervals)
-- **Pay-period reporting** (PP1: 1–15, PP2: 16–end of month) for totals, category breakdowns, and rollups
-- **Administrative workflows** such as lock/unlock, approvals, and an auditable record of changes
-- **Official exports** (PDF-first) designed to be consistent, traceable, and reproducible
+- [Overview](#overview)
+- [Key features](#key-features)
+- [Architecture](#architecture)
+- [Repository structure](#repository-structure)
+- [Getting started](#getting-started)
+- [Configuration](#configuration)
+- [Development workflow](#development-workflow)
+- [Testing](#testing)
+- [Deployments](#deployments)
+- [Security](#security)
+- [Documentation and ADRs](#documentation-and-adrs)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Design goals
+## Overview
 
-- **Correctness first**: enforce rules in the data layer and API, not only in the UI.
-- **Auditability by default**: important actions are traceable with who/what/when.
-- **Stable outputs**: exports are versioned and testable (fixtures + deterministic rendering).
-- **Pragmatic scalability**: keep the system simple until real usage requires more.
+ChronoLedger focuses on correctness, traceability, and reproducible outputs:
 
-## High-level architecture
+- **Correctness:** time-entry rules are enforced beyond the UI (data + API).
+- **Auditability:** important actions are attributable (who/what/when/why).
+- **Official exports:** PDF-first outputs are versioned and testable.
+
+## Key features
+
+- Time entry capture with integrity rules (e.g., overlap prevention, clear open-interval behavior)
+- Pay-period summaries (PP1: 1–15, PP2: 16–end of month) with totals and category breakdowns
+- Admin workflows (lock/unlock, approvals, audit views)
+- Export pipeline for “official” PDFs (additional formats may be added later)
+
+## Architecture
+
+The system is designed around a single source-of-truth database and a small set of clients and services.
 
 ```mermaid
 flowchart LR
@@ -29,32 +48,122 @@ flowchart LR
   API --> S
 ```
 
-## Repository layout
+Notes:
+- The exact technology choices and constraints are recorded in ADRs under `docs/02-adr/`.
+- Some database rules (e.g., exclusion constraints) may require raw migrations even when using an ORM.
 
-The repository is organized so product code, infrastructure, and documentation can evolve together.
+## Repository structure
 
 ```
 docs/               # requirements, ADRs, API notes, UX flows, report catalog, plans
-apps/               # web, mobile, api, worker (added/expanded as implementation grows)
+apps/               # web, mobile, api, worker
 packages/           # shared libraries (types, validation, config, utilities)
 infra/              # infrastructure-as-code (environments, modules, deploy tooling)
 .github/            # workflows and repo automation
 ```
 
-Key documentation:
-- Roadmap and session notes: `docs/00-roadmap/`
-- Requirements: `docs/01-requirements/`
-- Architecture decisions (ADRs): `docs/02-adr/`
-
 ## Getting started
 
-This section will be updated as the runtime components land (local dev, environment variables, seeding, and common workflows).
+> This project may begin docs-first while architecture and contracts are finalized. As runtime components land, this section will be updated with a fully runnable local setup.
+
+### Prerequisites
+
+- Git
+- Docker Desktop (recommended for local infrastructure)
+- Node.js and a package manager (when apps are added)
+- A Postgres client (optional)
+
+### Quickstart (local)
+
+When implemented, local startup will follow the pattern below:
+
+```bash
+# 1) clone
+# 2) configure env (copy example files)
+# 3) start dependencies
+# 4) run migrations + seed
+# 5) start services
+```
+
+If you don’t see runnable services yet, start here:
+- `docs/00-roadmap/` for the current build plan
+- `docs/01-requirements/` for functional requirements
+- `docs/02-adr/` for architecture decisions
+
+## Configuration
+
+Environment variables and configuration files will live alongside each app/service.
+
+Typical categories:
+- Database connection
+- Authentication provider settings
+- Object storage + job/queue settings
+- Export rendering settings (fonts/templates)
+
+Expected conventions (to be enforced):
+- Example files: `.env.example` (never commit real secrets)
+- Local overrides: `.env.local` (gitignored)
+- Secrets: provided via the target deployment platform
+
+## Development workflow
+
+### Branching
+
+- Feature branches from `main`
+- Keep changes small and reviewable
+- Use ADRs for meaningful architecture decisions
+
+### Code standards
+
+- Prefer explicit domain rules and invariants
+- Avoid “rules only in the UI”
+- Keep shared code in `packages/` rather than copy/paste
+
+## Testing
+
+ChronoLedger is designed to be testable at multiple levels:
+
+- **Unit tests:** domain rules (time calculations, pay-period rollups)
+- **Integration tests:** database constraints, audit events, lock/unlock flows
+- **Contract tests:** API request/response compatibility
+- **Export tests:** PDF fixtures (“golden” outputs) with deterministic rendering
+
+As components are added, this section will link to exact commands.
+
+## Deployments
+
+Deployment strategy and environment setup are tracked under `infra/` and `docs/07-infra/`.
+
+Typical environments:
+- `dev` (fast iteration)
+- `staging` (pre-release verification)
+- `prod` (controlled releases)
+
+## Security
+
+Baseline expectations:
+- Least-privilege access (services, users, and admins)
+- Audit logs for privileged actions
+- Secure secret management (no secrets in git)
+- Dependency scanning and CI checks
+
+Security decisions and threat considerations should be captured via ADRs.
+
+## Documentation and ADRs
+
+Documentation lives under `docs/`.
+
+Recommended reading order:
+1. `docs/00-roadmap/` — current plan and milestones
+2. `docs/01-requirements/` — functional requirements
+3. `docs/02-adr/` — decisions and rationale
+4. `docs/03-api/` and `docs/04-data/` — API and schema blueprints
 
 ## Contributing
 
-- Use ADRs for meaningful architectural decisions.
-- Keep changes small, reviewable, and documented.
-- Add tests and fixtures for logic that affects correctness, audits, or exports.
+- Open an issue or discussion for significant changes
+- Add/update tests for logic affecting correctness, audits, or exports
+- Use ADRs for decisions that change architecture, data constraints, security, or export semantics
 
 ## License
 
