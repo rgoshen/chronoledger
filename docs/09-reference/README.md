@@ -17,6 +17,7 @@ Supporting documents referenced by ADRs and implementation planning. These docs 
 - [`chronoledger-security.md`](chronoledger-security.md)
 - [`chronoledger-tech-stack.md`](chronoledger-tech-stack.md)
 - [`adr-support-mapping.md`](adr_support_mapping.md) table: Supporting doc → Related ADR(s)
+- [`chronoledger_candidate_patterns_and_adr_triggers.md`](chronoledger_candidate_patterns_and_adr_triggers.md)
 
 ## Recommended additions
 
