@@ -20,7 +20,7 @@ Adopt a layered testing pyramid with special coverage for time rules and PDFs.
   - timezone display helpers (pure functions only)
 
 ### 2) Integration tests (DB + API)
-- Run API against a real PostgreSQL instance (Testcontainers or dockerized CI DB).
+- Run API against a real PostgreSQL instance (Testcontainers or dockerized CI DB) (see ADR-0036).
 - Validate:
   - constraints (no overlaps, one open entry)
   - locking/unlocking behavior
@@ -54,3 +54,4 @@ Adopt a layered testing pyramid with special coverage for time rules and PDFs.
 ## Notes/Links
 - PDF rendering: ADR-0018
 - Concurrency/integrity: ADR-0031
+- Testing toolchain and test database strategy: ADR-0036

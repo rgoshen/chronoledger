@@ -64,3 +64,4 @@ When adding a supporting doc:
 - [ADR-0033: Testing Strategy (Unit + Integration + Contract + PDF Golden Tests)](ADR-0033-testing-strategy.md)
 - [ADR-0034: API Internal Architecture (Hybrid of vertical slice & hexagonal)](ADR-0034-api-internal-architecture.md)
 - [ADR-0035: Frontend Architecture (Hybrid of feature modules with MVC inspired dumb views)](ADR-0035-frontend-architecture.md)
+- [ADR-0036: Testing toolchain and test database strategy](ADR-0036-testing-toolchain-and-test-database-strategy.md)
