@@ -4,9 +4,4 @@ Testing strategy for ChronoLedger across domain logic, integrations, contracts, 
 
 ## Contents
 
-(TBD — add links as files land.)
-
-## Recommended additions
-
-- `testing-plan.md` (how to run tests, fixtures, golden PDF tests)
-- Link to testing strategy ADR(s) if present in `../02-adr/`
+- [`testing-plan.md`](testing_plan.md) (how to run tests, fixtures, golden PDF tests)

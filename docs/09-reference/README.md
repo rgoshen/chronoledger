@@ -16,10 +16,10 @@ Supporting documents referenced by ADRs and implementation planning. These docs 
 - [`chronoledger-risk-decision-log.md`](chronoledger-risk-decision-log.md)
 - [`chronoledger-security.md`](chronoledger-security.md)
 - [`chronoledger-tech-stack.md`](chronoledger-tech-stack.md)
+- [`adr-support-mapping.md`](adr_support_mapping.md) table: Supporting doc → Related ADR(s)
 
 ## Recommended additions
 
-- `adr-support-mapping.md` — table: Supporting doc → Related ADR(s)
 - Add a short header to each supporting doc:
   - Purpose
   - Related ADRs

@@ -6,12 +6,9 @@ Database and data-layer documentation.
 
 - [`chronoledger-db-migrations.md`](chronoledger-db-migrations.md)
 - [`chronoledger-data-retention.md`](chronoledger-data-retention.md)
+- [`schema_blueprint.md`](schema_blueprint.md)
 - [`fixtures/`](fixtures/)
-
-## Recommended additions (pre-coding blockers)
-
-- `schema-blueprint.md` (entities, relationships, constraints, indexes)
-- `fixtures/README.md` (what fixtures exist and what uses them)
+- [`fixtures/README.md`](./fixtures/README.md)
 
 ## Notes
 

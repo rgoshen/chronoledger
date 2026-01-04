@@ -5,15 +5,28 @@ This folder contains ChronoLedger documentation: roadmap, requirements, ADRs, AP
 ## Quick navigation
 
 - Roadmap: [`00-roadmap/`](00-roadmap/)
-- Requirements: [`01-requirements/`](01-requirements/)
+- Requirements: 
+  - Folder: [`01-requirements/`](01-requirements/)
+  - [`traceability-req-backlog-adr.md`](01-requirements/traceability_req_adr_backlog.md)
 - ADRs: [`02-adr/`](02-adr/)
-- API: [`03-api/`](03-api/)
+- API:
+  - Folder: [`03-api/`](03-api/)
+  - Contract: [`03-api/openapi.yaml`](03-api/openapi.yaml)
 - Data: [`04-data/`](04-data/)
 - UX: [`05-ux/`](05-ux/)
-- Reports/Exports: [`06-reports/`](06-reports/)
-- Infrastructure: [`07-infra/`](07-infra/)
-- Testing: [`08-testing/`](08-testing/)
-- Reference (supporting docs): [`09-reference/`](09-reference/)
+- Reports/Exports:
+  - Folder: [`06-reports/`](06-reports/)
+  - Contract: [`reports-catalog.md](06-reports/reports_catalog.md)
+  - [`pdf-testing.md`](06-reports/pdf_testing.md)
+- Infrastructure: 
+  - Folder: [`07-infra/`](07-infra/)
+  - [`local-dev-plan.md`](07-infra/local_dev_plan.md)
+- Testing:
+  - Folder: [`08-testing/`](08-testing/)
+  - [`testing-plan.md`](08-testing/testing_plan.md)
+- Reference (supporting docs):
+  - Folder: [`09-reference/`](09-reference/)
+  - [`adr_support_mapping.md`](09-reference/adr_support_mapping.md)
 - Archive: [`99-archive/`](99-archive/)
 
 ## Reading order (recommended)
