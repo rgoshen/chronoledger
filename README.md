@@ -1,22 +1,30 @@
 # ChronoLedger
 
-ChronoLedger is an auditable timekeeping and pay-period reporting platform with role-based administration and “official” export outputs. This repository houses the complete system—applications, services, infrastructure, and documentation.
+ChronoLedger is an auditable timekeeping and pay-period reporting system designed for correctness, traceability, and reproducible “official” exports.
+
+This repository contains the full system—applications, services, infrastructure, and documentation.
 
 ## Table of contents
 
-- [Overview](#overview)
-- [Key features](#key-features)
-- [Architecture](#architecture)
-- [Repository structure](#repository-structure)
-- [Getting started](#getting-started)
-- [Configuration](#configuration)
-- [Development workflow](#development-workflow)
-- [Testing](#testing)
-- [Deployments](#deployments)
-- [Security](#security)
-- [Documentation and ADRs](#documentation-and-adrs)
-- [Contributing](#contributing)
-- [License](#license)
+- [ChronoLedger](#chronoledger)
+  - [Table of contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Key features](#key-features)
+  - [Architecture](#architecture)
+  - [Repository structure](#repository-structure)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Quickstart (local)](#quickstart-local)
+  - [Configuration](#configuration)
+  - [Development workflow](#development-workflow)
+    - [Branching](#branching)
+    - [Code standards](#code-standards)
+  - [Testing](#testing)
+  - [Deployments](#deployments)
+  - [Security](#security)
+  - [Documentation and ADRs](#documentation-and-adrs)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Overview
 
@@ -49,43 +57,50 @@ flowchart LR
 ```
 
 Notes:
+
 - The exact technology choices and constraints are recorded in ADRs under `docs/02-adr/`.
 - Some database rules (e.g., exclusion constraints) may require raw migrations even when using an ORM.
 
 ## Repository structure
 
-```
-docs/               # requirements, ADRs, API notes, UX flows, report catalog, plans
-apps/               # web, mobile, api, worker
-packages/           # shared libraries (types, validation, config, utilities)
-infra/              # infrastructure-as-code (environments, modules, deploy tooling)
-.github/            # workflows and repo automation
+```bash
+docs/                   # project documentation (start at docs/README.md)
+apps/
+  api/                  # API service
+  worker/               # export worker (PDF rendering, async jobs)
+  web/                  # web client (when added)
+  mobile/               # mobile client (when added)
+packages/
+  shared/               # shared types and utilities
+infra/
+  local/                # local dev infrastructure (docker compose, bootstrap)
+  cloud/                # cloud infrastructure (later)
+scripts/                # repo scripts (bootstrap, lint, CI helpers)
+.github/
+  workflows/            # CI workflows
 ```
 
 ## Getting started
 
-> This project may begin docs-first while architecture and contracts are finalized. As runtime components land, this section will be updated with a fully runnable local setup.
+> ChronoLedger is being built docs-first: contracts (ADRs, OpenAPI, schema, export specs) and local-dev standards are established before feature coding.
+> The canonical local development workflow lives in `docs/07-infra/local-dev-plan.md`.
 
 ### Prerequisites
 
 - Git
 - Docker Desktop (recommended for local infrastructure)
-- Node.js and a package manager (when apps are added)
+- Node.js (LTS) + a package manager (pnpm recommended)
 - A Postgres client (optional)
 
 ### Quickstart (local)
 
-When implemented, local startup will follow the pattern below:
+Use the local dev plan as the source of truth:
 
-```bash
-# 1) clone
-# 2) configure env (copy example files)
-# 3) start dependencies
-# 4) run migrations + seed
-# 5) start services
-```
+- `docs/07-infra/local-dev-plan.md`
 
 If you don’t see runnable services yet, start here:
+
+- `docs/README.md` (documentation index)
 - `docs/00-roadmap/` for the current build plan
 - `docs/01-requirements/` for functional requirements
 - `docs/02-adr/` for architecture decisions
@@ -95,12 +110,14 @@ If you don’t see runnable services yet, start here:
 Environment variables and configuration files will live alongside each app/service.
 
 Typical categories:
+
 - Database connection
 - Authentication provider settings
 - Object storage + job/queue settings
 - Export rendering settings (fonts/templates)
 
 Expected conventions (to be enforced):
+
 - Example files: `.env.example` (never commit real secrets)
 - Local overrides: `.env.local` (gitignored)
 - Secrets: provided via the target deployment platform
@@ -109,12 +126,13 @@ Expected conventions (to be enforced):
 
 ### Branching
 
-- Feature branches from `main`
-- Keep changes small and reviewable
-- Use ADRs for meaningful architecture decisions
+- Prefer short-lived feature branches
+- Use PRs for review
+- Capture architectural changes with ADRs
 
 ### Code standards
 
+- Prefer small, composable modules
 - Prefer explicit domain rules and invariants
 - Avoid “rules only in the UI”
 - Keep shared code in `packages/` rather than copy/paste
@@ -128,6 +146,10 @@ ChronoLedger is designed to be testable at multiple levels:
 - **Contract tests:** API request/response compatibility
 - **Export tests:** PDF fixtures (“golden” outputs) with deterministic rendering
 
+See:
+- `docs/08-testing/testing-plan.md`
+- `docs/06-reports/pdf-testing.md`
+
 As components are added, this section will link to exact commands.
 
 ## Deployments
@@ -135,6 +157,7 @@ As components are added, this section will link to exact commands.
 Deployment strategy and environment setup are tracked under `infra/` and `docs/07-infra/`.
 
 Typical environments:
+
 - `dev` (fast iteration)
 - `staging` (pre-release verification)
 - `prod` (controlled releases)
@@ -142,6 +165,7 @@ Typical environments:
 ## Security
 
 Baseline expectations:
+
 - Least-privilege access (services, users, and admins)
 - Audit logs for privileged actions
 - Secure secret management (no secrets in git)
@@ -149,15 +173,29 @@ Baseline expectations:
 
 Security decisions and threat considerations should be captured via ADRs.
 
+See: `docs/02-adr/ADR-0027-security-baseline.md`
+
 ## Documentation and ADRs
 
-Documentation lives under `docs/`.
+Documentation lives under `docs/`. Start here:
+
+- `docs/README.md` (documentation index)
 
 Recommended reading order:
+
 1. `docs/00-roadmap/` — current plan and milestones
 2. `docs/01-requirements/` — functional requirements
-3. `docs/02-adr/` — decisions and rationale
+3. `docs/02-adr/` — decisions and rationale (see `docs/02-adr/ADR-INDEX.md`)
 4. `docs/03-api/` and `docs/04-data/` — API and schema blueprints
+5. `docs/06-reports/` — reports/exports contracts and determinism testing
+6. `docs/07-infra/` and `docs/08-testing/` — local dev and testing plans
+
+Key contracts (direct links):
+
+- API contract: `docs/03-api/openapi.yaml`
+- Schema blueprint: `docs/04-data/schema-blueprint.md`
+- Requirements traceability: `docs/01-requirements/traceability-req-adr-backlog.md`
+- Reports catalog: `docs/06-reports/reports-catalog.md`
 
 ## Contributing
 
@@ -168,3 +206,4 @@ Recommended reading order:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
