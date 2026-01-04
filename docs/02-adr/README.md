@@ -62,3 +62,5 @@ When adding a supporting doc:
 - [ADR-0031: Concurrency Control and Idempotency (DB Constraints + Idempotency Keys)](ADR-0031-concurrency-idempotency.md)
 - [ADR-0032: Local Development and Environment Strategy (Docker Compose + AWS Dev Env)](ADR-0032-local-dev-env-strategy.md)
 - [ADR-0033: Testing Strategy (Unit + Integration + Contract + PDF Golden Tests)](ADR-0033-testing-strategy.md)
+- [ADR-0034: API Internal Architecture (Hybrid of vertical slice & hexagonal)](ADR-0034-api-internal-architecture.md)
+- [ADR-0035: Frontend Architecture (Hybrid of feature modules with MVC inspired dumb views)](ADR-0035-frontend-architecture.md)

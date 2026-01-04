@@ -40,3 +40,5 @@ This index provides a quick, stable navigation view of all Architecture Decision
 | ADR-0031 | Concurrency and idempotency | — | [ADR-0031-concurrency-idempotency.md](ADR-0031-concurrency-idempotency.md) |
 | ADR-0032 | Local dev environment strategy | — | [ADR-0032-local-dev-env-strategy.md](ADR-0032-local-dev-env-strategy.md) |
 | ADR-0033 | Testing strategy | — | [ADR-0033-testing-strategy.md](ADR-0033-testing-strategy.md) |
+| ADR-0034 | API Internal Architecture | - | [ADR-034-api-internal-architecture](ADR-0034-api-internal-architecture.md) |
+| ADR-035 | Frontend Architecture | - | [ADR-0035: Frontend Architecture](ADR-0035-frontend-architecture.md) |
