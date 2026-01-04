@@ -28,6 +28,9 @@ This folder contains ChronoLedger documentation: roadmap, requirements, ADRs, AP
   - Folder: [`09-reference/`](09-reference/)
   - [`adr_support_mapping.md`](09-reference/adr_support_mapping.md)
   - [`chronoledger_candidate_patterns_and_adr_triggers.md`](09-reference/chronoledger_candidate_patterns_and_adr_triggers.md)
+- Governance:
+  - Folder: [`10-governance/`](10-governance/)
+  - Roles: [`10-governance/roles/`](10-governance/roles/)
 - Archive: [`99-archive/`](99-archive/)
 
 ## Reading order (recommended)
