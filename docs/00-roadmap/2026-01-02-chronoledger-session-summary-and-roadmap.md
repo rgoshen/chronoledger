@@ -44,6 +44,7 @@ You decided to keep it cloud-first for multi-device sync, with a web app + mobil
 All ADRs listed below are **Accepted**.
 
 ### 2.1 Foundational platform and hosting
+
 - Cloud-first AWS architecture
 - Containerized services on **ECS/Fargate**
 - API ingress via **ALB → ECS**
@@ -52,6 +53,7 @@ All ADRs listed below are **Accepted**.
 - Official exports stored in **S3** (with lifecycle)
 
 ### 2.2 Tech stack and tooling
+
 - **TypeScript-first** system
   - Web: React + TypeScript
   - Mobile: React Native + TypeScript
@@ -61,6 +63,7 @@ All ADRs listed below are **Accepted**.
 - Migrations + typed access: **Prisma**
 
 ### 2.3 Security, auth, and admin controls
+
 - Auth: **Auth0** (OIDC/OAuth2), PKCE flows
 - Admin: separate UI `/admin` and API routes under `/api/v1/admin`
 - Admin MFA recommended and accepted
@@ -69,12 +72,14 @@ All ADRs listed below are **Accepted**.
 - TLS everywhere (CloudFront + ALB with ACM)
 
 ### 2.4 Multi-device and preference handling
+
 - Separate hostnames: `app.<domain>` and `api.<domain>`
 - Require `X-Device-Id` on authenticated requests
 - Account linking behavior: social login with verified email auto-links to existing account with same verified email
 - Store all times in UTC; display is per device tz or user/device override
 
 ### 2.5 Data integrity, locking, and audit
+
 - **Soft deletes** for time entries (default)
 - Domain audit tables (separate tables per domain):
   - `audit_time_entry`
@@ -89,6 +94,7 @@ All ADRs listed below are **Accepted**.
   - Transaction boundaries include domain change + audit row
 
 ### 2.6 API conventions and operability
+
 - REST conventions and monorepo layout ADRs
 - Standard error contract: **RFC 7807 Problem+JSON**
 - Observability baseline:
@@ -104,11 +110,14 @@ All ADRs listed below are **Accepted**.
 ## 3) Documents produced (where to find them)
 
 ### 3.1 ADR source of truth
+
 - **ADR directory (authoritative):** `sandbox:/mnt/data/adr/`
 - **ADR Index:** `sandbox:/mnt/data/adr/README.md`
 
 ### 3.2 Supporting project docs (non-ADR)
+
 These live at the top level (downloads previously provided), including:
+
 - API design notes
 - Multitenancy notes
 - PDF rendering notes
@@ -124,6 +133,7 @@ These live at the top level (downloads previously provided), including:
 This is the “pre-coding checklist” that gets us to a clean, low-risk starting line. Once completed, we begin repo scaffolding and then features.
 
 ### 4.1 Requirements consolidation (single source of truth)
+
 **Goal:** ensure the requirements doc + backlog + ADRs are aligned with no contradictions.
 
 - Merge any outstanding requirement updates into one canonical requirements doc.
@@ -133,10 +143,12 @@ This is the “pre-coding checklist” that gets us to a clean, low-risk startin
 - Confirm report list (PDF exports) and “official output” definitions are explicit and testable.
 
 **Deliverables**
+
 - Updated `chronoledger-requirements.md` (finalized)
 - Backlog cross-reference section (“Req → Backlog → ADR”)
 
 ### 4.2 Define the report/export catalog (PDFs)
+
 **Goal:** define every “official export” and its required layout/content.
 
 - List each export type:
@@ -154,10 +166,12 @@ This is the “pre-coding checklist” that gets us to a clean, low-risk startin
 - Decide “golden test fixtures” for each.
 
 **Deliverables**
+
 - `reports-catalog.md` (or equivalent)
 - Sample data fixtures for PDF golden tests (documented)
 
 ### 4.3 Data model blueprint (tables + constraints + indexes)
+
 **Goal:** convert our rules into a concrete schema plan before we touch Prisma.
 
 - Define tables and relationships:
@@ -179,10 +193,12 @@ This is the “pre-coding checklist” that gets us to a clean, low-risk startin
   - exports listing
 
 **Deliverables**
+
 - `db-schema-blueprint.md` (or ERD + notes)
 - “Constraint list” section that maps to ADR-0031
 
 ### 4.4 API surface definition (OpenAPI-first outline)
+
 **Goal:** define endpoints and DTOs up-front (even if code generates the final OpenAPI later).
 
 - Define resources + routes:
@@ -197,10 +213,12 @@ This is the “pre-coding checklist” that gets us to a clean, low-risk startin
 - Define idempotency requirements per endpoint.
 
 **Deliverables**
+
 - `openapi-outline.md` (or initial OpenAPI YAML stub)
 - Error code catalog doc
 
 ### 4.5 UX flows and wireframes (minimum viable clarity)
+
 **Goal:** avoid building UI blind; we only need enough to prevent rework.
 
 - Web (user):
@@ -216,9 +234,11 @@ This is the “pre-coding checklist” that gets us to a clean, low-risk startin
   - secure storage + device ID handling notes
 
 **Deliverables**
+
 - `ux-flows.md` + simple wireframes (even rough)
 
 ### 4.6 Local dev workflow definition (ready-to-run plan)
+
 **Goal:** define the exact local setup so the repo scaffolding is straightforward.
 
 - Docker Compose services:
@@ -234,9 +254,11 @@ This is the “pre-coding checklist” that gets us to a clean, low-risk startin
   - local dev domain/origin plan
 
 **Deliverables**
+
 - `local-dev-plan.md` (commands + env vars + seed plan)
 
 ### 4.7 CI/CD + IaC “first apply” plan
+
 **Goal:** we shouldn’t write code until we know how it will ship.
 
 - Define initial AWS dev environment resources and minimal sizing:
@@ -246,10 +268,12 @@ This is the “pre-coding checklist” that gets us to a clean, low-risk startin
 - Define migration gate command and how it runs (one-off ECS task)
 
 **Deliverables**
+
 - `infra-first-apply-plan.md` (step-by-step)
 - `ci-cd-first-pipeline-plan.md` (workflow steps)
 
 ### 4.8 Testing harness plan (tooling + fixtures)
+
 **Goal:** decide the testing stack now so code is shaped correctly.
 
 - Unit tests: time rules, split logic, rate selection
@@ -259,6 +283,7 @@ This is the “pre-coding checklist” that gets us to a clean, low-risk startin
 - Decide test tooling (Jest/Vitest, Testcontainers, Playwright, etc.)
 
 **Deliverables**
+
 - `testing-plan-implementation.md` (tool choices + fixtures)
 
 ---
@@ -278,11 +303,13 @@ When the items below are checked, we start repo scaffolding (then feature work).
 - [ ] Testing harness/tooling chosen and fixtures planned
 
 ---
+
 ## 5.1 Roadmap after coding starts: P1 and P2 ADRs (so we don’t forget)
 
 These are not required to begin repo scaffolding, but we should decide them soon after the initial build is underway.
 
 ### P1 ADRs (soon after initial build starts)
+
 1) **Offline + sync policy for mobile**
    - Decide online-only vs offline-first
    - Define conflict resolution (last-write-wins, merge-by-field, etc.)
@@ -298,16 +325,17 @@ These are not required to begin repo scaffolding, but we should decide them soon
    - Update retention impact (CSV storage/lifecycle)
 
 ### P2 ADRs (later, when it matters)
+
 4) **Mobile release strategy**
    - Store pipelines (iOS/Android), signing, versioning approach
    - Decide on OTA updates (if desired)
 
-5) **Advanced tracing**
+2) **Advanced tracing**
    - Decide OpenTelemetry adoption timing
    - Define sampling and privacy rules
 
 ---
 
 ## 6) When you resume later (suggested next command)
-“Open the latest ChronoLedger session summary and then start with Section 4.1 Requirements consolidation; propose the concrete documents and stubs we need to create, in order, without starting repo scaffolding yet.”
 
+“Open the latest ChronoLedger session summary and then start with Section 4.1 Requirements consolidation; propose the concrete documents and stubs we need to create, in order, without starting repo scaffolding yet.”

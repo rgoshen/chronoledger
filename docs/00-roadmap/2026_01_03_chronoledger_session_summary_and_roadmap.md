@@ -53,9 +53,11 @@ These are the key artifacts created/updated today to reduce ambiguity before imp
 - `docs/07-infra/local-dev-plan.md` — repeatable local dev approach (compose, migrations, seeding, api + worker dev loop).
 
 **ADR support navigation**
+
 - `docs/09-reference/adr-support-mapping.md` — mapping of supporting docs to the ADRs they support.
 
 ### 1.4 Process standards locked in (to prevent churn)
+
 - Diagrams are **Mermaid inside Markdown**.
 - Docs must be delivered **as separate files** (no “template packs”).
 - No editorial/chatty comments inside repo docs.
@@ -66,12 +68,14 @@ These are the key artifacts created/updated today to reduce ambiguity before imp
 ## 2) Technical issues encountered (and what we changed)
 
 ### 2.1 “No direct repo read” friction
+
 - Constraint: I can’t directly browse your GitHub repo contents the way some other tools can.
 - Mitigation we used today:
   - You pasted the current `docs/README.md` when needed.
   - We standardized on **index-first docs** and repeatable conventions so you don’t need me to “discover” files.
 
 ### 2.2 Output hygiene problems (formatting + scope)
+
 - Problems that occurred:
   - Creating a single combined “template pack” instead of separate files.
   - Including non-production commentary in documentation text.
@@ -104,6 +108,7 @@ These are the key artifacts created/updated today to reduce ambiguity before imp
 This is the remaining “pre-coding checklist,” updated based on what we completed today.
 
 ### 4.1 Finish requirements consolidation (single source of truth)
+
 **Goal:** ensure the canonical requirements doc is consistent with the traceability table.
 
 - Confirm the canonical requirements file and remove/retire duplicates.
@@ -113,10 +118,12 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
   - backlog item reference (GitHub issue)
 
 **Deliverables**
+
 - Canonical requirements doc finalized
 - Traceability table updated to match
 
 ### 4.2 Convert placeholders to a real backlog (GitHub Issues)
+
 **Goal:** turn `BL-####` placeholders into trackable work with owners and acceptance criteria.
 
 - Create GitHub issues for:
@@ -128,10 +135,12 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
 - Update `traceability-req-adr-backlog.md` to link to issues.
 
 **Deliverables**
+
 - Issues created + linked
 - A minimal milestone/epic structure (P0 foundation, P1 features)
 
 ### 4.3 Repo scaffolding (implementation skeleton, not features)
+
 **Goal:** get a runnable skeleton that proves the environment and contracts are executable.
 
 - Root workspace configuration (choose pnpm/npm/yarn; set Node version).
@@ -151,11 +160,13 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
   - “write placeholder artifact” path (no real rendering yet)
 
 **Deliverables**
+
 - `pnpm-workspace.yaml` (or equivalent)
 - baseline `docker-compose.yml`
 - runnable `apps/api` and `apps/worker` shells
 
 ### 4.4 Database execution plan (Prisma + raw SQL constraints)
+
 **Goal:** translate the schema blueprint into executable migrations.
 
 - Create initial Prisma schema.
@@ -167,11 +178,13 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
   - baseline time codes
 
 **Deliverables**
+
 - `prisma/schema.prisma`
 - initial migration(s)
 - seed script plan
 
 ### 4.5 UX flows/wireframes (minimum viable clarity)
+
 **Goal:** avoid building UI blind; define just enough to prevent rework.
 
 - Web user time-clock flow
@@ -179,9 +192,11 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
 - Mobile “quick clock” flow
 
 **Deliverables**
+
 - `docs/05-ux/ux-flows.md` (+ rough wireframes)
 
 ### 4.6 CI baseline (quality gates)
+
 **Goal:** enforce hygiene immediately.
 
 - GitHub Action for:
@@ -191,6 +206,7 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
   - (later) integration tests with Postgres
 
 **Deliverables**
+
 - `.github/workflows/ci.yml`
 
 ---
@@ -213,13 +229,15 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
 ## 5.1 Roadmap after coding starts: P1 and P2 ADRs (so we don’t forget)
 
 ### P1 ADRs (soon after initial build starts)
+
 1) Offline + sync policy for mobile
 2) Reporting/query strategy (views/materialized views/raw SQL)
 3) Export formats beyond PDF (CSV, “official vs non-official”)
 
 ### P2 ADRs (later, when it matters)
+
 4) Mobile release strategy
-5) Advanced tracing (OpenTelemetry)
+2) Advanced tracing (OpenTelemetry)
 
 ---
 

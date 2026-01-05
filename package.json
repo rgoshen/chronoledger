@@ -7,10 +7,21 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "yarn workspaces foreach -pt run dev",
-    "build": "yarn workspaces foreach -pt run build",
-    "test": "yarn workspaces foreach -pt run test",
-    "lint": "yarn workspaces foreach -pt run lint",
-    "typecheck": "yarn workspaces foreach -pt run typecheck"
+    "dev": "yarn workspaces foreach -Apt run dev",
+    "build": "yarn workspaces foreach -At run build",
+    "test": "yarn workspaces foreach -At run test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "yarn workspaces foreach -At run typecheck"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@types/node": "^25.0.3",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.0.0",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.51.0"
   }
 }
