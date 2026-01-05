@@ -23,6 +23,7 @@ Key ADRs:
 - ADR-0034 — API Internal Architecture: Vertical Slice + Hexagonal Boundaries
 - ADR-0035 — Frontend Architecture: Feature Modules + MVC-ish Layers + Dumb Views
 - ADR-0036 — Testing Toolchain + Test Database Strategy
+- ADR-0037 — CI/CD Execution Model: Build Once, Promote by SHA
 
 See also: `AGENTS.md` (AI + developer operating rules).
 
@@ -61,6 +62,43 @@ Code must be human-readable without fail:
 
 ---
 
+## Git workflow and branching
+ChronoLedger uses **trunk-based development** with **short-lived branches**.
+
+### Branch model
+- `main` is the trunk and should remain releasable.
+- All work happens in short-lived branches and merges via PR.
+- `main` builds deployable artifacts tagged with the Git SHA (see ADR-0037).
+- Promotion to `staging`/`prod` is performed by promoting a known-good SHA, not rebuilding.
+
+### Branch naming (required)
+Use one of the following prefixes:
+
+- `feature/<ticket>-<slug>`
+- `bugfix/<ticket>-<slug>`
+- `refactor/<ticket>-<slug>`
+- `chore/<ticket>-<slug>`
+- `docs/<ticket>-<slug>`
+- `hotfix/<ticket>-<slug>` (reserved for urgent production fixes)
+
+Examples:
+- `feature/CL-142-timesheet-week-view`
+- `bugfix/CL-155-timer-rounding`
+- `chore/CL-001-ci-cache-tuning`
+
+If a ticket ID is not available, use `no-ticket`:
+- `feature/no-ticket-<slug>`
+
+### PR merge rules
+- No direct pushes to `main`.
+- PRs must be single-purpose and reviewable.
+- Rebase/merge locally is fine, but PRs merge into `main` through GitHub review + checks.
+
+For the detailed workflow (including promotion and hotfix handling), see:
+- `docs/10-governance/git-workflow.md`
+
+---
+
 ## Architecture rules
 
 ### API rules (ADR-0034)
@@ -92,6 +130,7 @@ Hard restrictions:
 ## Testing requirements (ADR-0036)
 
 ### Required test coverage
+
 - **Unit tests**: domain/model/use-case behavior (fast, no DB).
 - **Integration tests**: DB-backed behavior (migrations, constraints, adapters) using isolated DB.
 - **E2E tests**:
@@ -100,6 +139,7 @@ Hard restrictions:
   - API boundary: Supertest against booted app + real test DB
 
 ### Test database policy
+
 - Integration/E2E tests MUST NOT run against dev/prod DBs.
 - Default to ephemeral Postgres per run using Testcontainers.
 
@@ -108,18 +148,22 @@ Hard restrictions:
 ## Pull request guidelines
 
 ### Keep PRs small and reviewable
+
 - Prefer single-purpose PRs.
 - Avoid drive-by refactors.
 - Do not reformat unrelated code.
 
 ### PR template expectations
+
 Include:
+
 - What changed and why
 - How to test
 - Any DB migration notes
 - Screenshots for user-facing changes
 
 ### Definition of Done (must be true)
+
 - Strict TDD was followed and meaningful tests exist
 - SOLID/DRY/modularity upheld
 - Code is human-readable
@@ -129,6 +173,7 @@ Include:
 ---
 
 ## Documentation hygiene
+
 - If you add a doc, update discoverability links:
   - `docs/README.md`
   - `docs/02-adr/README.md` (for ADRs)
@@ -137,18 +182,11 @@ Include:
 ---
 
 ## AI contributions
+
 AI agents must follow `AGENTS.md`.
 If using an AI agent, ensure outputs:
+
 - do not perform mass rewrites
 - respect architecture boundaries
 - include tests (strict TDD)
 - make minimal diffs
-
----
-
-## Repo placement
-Save this file at the repo root:
-- `CONTRIBUTING.md`
-
-Add links in `README.md` and/or `docs/README.md` so it is discoverable.
-

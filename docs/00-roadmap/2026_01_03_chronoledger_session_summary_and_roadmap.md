@@ -9,6 +9,7 @@ This document summarizes what we accomplished today (repo + documentation harden
 ## 1) What we accomplished today
 
 ### 1.1 GitHub repo initialization + baseline structure
+
 - Initialized the ChronoLedger GitHub repository.
 - Established a monorepo folder layout and committed placeholder files so Git tracks empty folders:
   - `apps/` (api, worker, web, mobile)
@@ -18,6 +19,7 @@ This document summarizes what we accomplished today (repo + documentation harden
   - `.github/workflows/`
 
 ### 1.2 Documentation cleanup and navigation hygiene
+
 - Cleaned up and standardized documentation layout under `docs/`.
 - Added/confirmed a docs home index (`docs/README.md`) and ensured top-level folder navigation is consistent.
 - Introduced a clear split between **ADRs** (`docs/02-adr/`) and **supporting reference docs** (`docs/09-reference/`).
@@ -28,20 +30,25 @@ This document summarizes what we accomplished today (repo + documentation harden
 These are the key artifacts created/updated today to reduce ambiguity before implementation:
 
 **Data and schema**
+
 - `docs/04-data/schema-blueprint.md` — initial schema blueprint with entities/invariants and a Mermaid ER overview.
 - `docs/04-data/fixtures/README.md` — deterministic fixtures standards (including export golden fixtures).
 
 **API contract**
+
 - `docs/03-api/openapi.yaml` — initial OpenAPI contract stub (health, me, tenants, time-entries, pay-periods, exports, admin unlock requests).
 
 **Reports and exports**
+
 - `docs/06-reports/reports-catalog.md` — export/report catalog with “official PDF” definition.
 - `docs/06-reports/pdf-testing.md` — deterministic rendering + golden PDF testing strategy.
 
 **Requirements and traceability**
+
 - `docs/01-requirements/traceability-req-adr-backlog.md` — req → ADR → backlog mapping table (backlog placeholders to be converted to GitHub issues).
 
 **Testing and local development**
+
 - `docs/08-testing/testing-plan.md` — test pyramid + golden exports + CI gates.
 - `docs/07-infra/local-dev-plan.md` — repeatable local dev approach (compose, migrations, seeding, api + worker dev loop).
 
@@ -219,4 +226,3 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
 ## 6) When you resume later (suggested next command)
 
 “Open the latest ChronoLedger session summary and then start with Section 4.3 Repo scaffolding. Propose the minimal workspace config, docker compose, and runnable API/worker shells so we can validate the local dev loop before feature work.”
-

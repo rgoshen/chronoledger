@@ -1,0 +1,8 @@
+{
+  "name": "@chronoledger/api",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "node -e \"console.log('api dev placeholder')\""
+  }
+}

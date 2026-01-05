@@ -9,6 +9,7 @@ This document summarizes what we accomplished so far (requirements + architectur
 ## 1) What we accomplished
 
 ### 1.1 Product scope and requirements (high level)
+
 We defined ChronoLedger as a personal (initially) time-clock style system that later scales to additional users with tenant configurability. Core behaviors and constraints:
 
 - Track work time like a time clock (start/stop entries).
@@ -30,7 +31,9 @@ We defined ChronoLedger as a personal (initially) time-clock style system that l
 - **Login:** Auth0 (industry standard flows); account auto-link by verified email.
 
 ### 1.2 “Cloud-first” and platform decisions
+
 You decided to keep it cloud-first for multi-device sync, with a web app + mobile apps:
+
 - Web usable on your work computer
 - Mobile iOS + Android support
 
