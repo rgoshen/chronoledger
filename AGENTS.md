@@ -10,6 +10,15 @@ This document defines **non-negotiable rules** for humans and AI agents contribu
 
 ---
 
+## Source of truth / Navigation
+
+- [**Agent orchestration**:](docs/10-governance/agent-orchestration.md)
+- [**Templates index**:] (docs/10-governance/templates/README.md)
+- [**Retrospective template**:] (docs/10-governance/templates/feature-retrospective-template.md)
+- [**Decision log template**:] (docs/10-governance/templates/decision-log-template.md)
+
+---
+
 ## Decision hierarchy (source of truth)
 
 When guidance conflicts, follow this order:
