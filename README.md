@@ -4,19 +4,25 @@ ChronoLedger is an auditable timekeeping and pay-period reporting platform with 
 
 ## Table of contents
 
-- [Overview](#overview)
-- [Key features](#key-features)
-- [Architecture](#architecture)
-- [Repository structure](#repository-structure)
-- [Getting started](#getting-started)
-- [Configuration](#configuration)
-- [Development workflow](#development-workflow)
-- [Testing](#testing)
-- [Deployments](#deployments)
-- [Security](#security)
-- [Documentation and ADRs](#documentation-and-adrs)
-- [Contributing](#contributing)
-- [License](#license)
+- [ChronoLedger](#chronoledger)
+  - [Table of contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Key features](#key-features)
+  - [Architecture](#architecture)
+  - [Repository structure](#repository-structure)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Quickstart (local)](#quickstart-local)
+  - [Configuration](#configuration)
+  - [Development workflow](#development-workflow)
+    - [Branching](#branching)
+    - [Code standards](#code-standards)
+  - [Testing](#testing)
+  - [Deployments](#deployments)
+  - [Security](#security)
+  - [Documentation and ADRs](#documentation-and-adrs)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Overview
 
@@ -49,6 +55,7 @@ flowchart LR
 ```
 
 Notes:
+
 - The exact technology choices and constraints are recorded in ADRs under `docs/02-adr/`.
 - Some database rules (e.g., exclusion constraints) may require raw migrations even when using an ORM.
 
@@ -86,6 +93,7 @@ When implemented, local startup will follow the pattern below:
 ```
 
 If you don’t see runnable services yet, start here:
+
 - `docs/00-roadmap/` for the current build plan
 - `docs/01-requirements/` for functional requirements
 - `docs/02-adr/` for architecture decisions
@@ -95,12 +103,14 @@ If you don’t see runnable services yet, start here:
 Environment variables and configuration files will live alongside each app/service.
 
 Typical categories:
+
 - Database connection
 - Authentication provider settings
 - Object storage + job/queue settings
 - Export rendering settings (fonts/templates)
 
 Expected conventions (to be enforced):
+
 - Example files: `.env.example` (never commit real secrets)
 - Local overrides: `.env.local` (gitignored)
 - Secrets: provided via the target deployment platform
@@ -135,6 +145,7 @@ As components are added, this section will link to exact commands.
 Deployment strategy and environment setup are tracked under `infra/` and `docs/07-infra/`.
 
 Typical environments:
+
 - `dev` (fast iteration)
 - `staging` (pre-release verification)
 - `prod` (controlled releases)
@@ -142,6 +153,7 @@ Typical environments:
 ## Security
 
 Baseline expectations:
+
 - Least-privilege access (services, users, and admins)
 - Audit logs for privileged actions
 - Secure secret management (no secrets in git)
@@ -154,6 +166,7 @@ Security decisions and threat considerations should be captured via ADRs.
 Documentation lives under `docs/`.
 
 Recommended reading order:
+
 1. `docs/00-roadmap/` — current plan and milestones
 2. `docs/01-requirements/` — functional requirements
 3. `docs/02-adr/` — decisions and rationale

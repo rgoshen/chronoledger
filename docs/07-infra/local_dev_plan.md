@@ -6,6 +6,7 @@
 **Last reviewed:** YYYY-MM-DD
 
 **Related ADRs:**
+
 - ADR-0032-local-dev-env-strategy.md
 - ADR-0023-iac-opentofu.md
 - ADR-0024-prisma-migrations.md
@@ -27,6 +28,7 @@
 - Docker + Docker Compose
 
 Optional (recommended):
+
 - `direnv` for local env var loading
 
 ## Repo structure assumptions
@@ -59,6 +61,7 @@ Preferred local stack:
 - Local AWS emulator (LocalStack) for SQS + S3
 
 Alternative:
+
 - Postgres + MinIO (S3-compatible) + a lightweight queue (if desired)
 
 ## Startup flow
@@ -89,6 +92,7 @@ From repo root (or `infra/local` if you prefer):
 - `docker compose up -d`
 
 Services should include:
+
 - `postgres`
 - `localstack` (SQS/S3)
 
@@ -99,6 +103,7 @@ From `apps/api` (or a shared migration package):
 - `pnpm db:migrate`
 
 Migration rules:
+
 - CI must validate fresh migrations from empty DB.
 - Raw SQL migrations are allowed for Postgres constraints not supported by Prisma.
 
@@ -107,6 +112,7 @@ Migration rules:
 - `pnpm db:seed`
 
 Fixture source of truth:
+
 - `docs/04-data/fixtures/README.md`
 
 ### 5) Run the API
@@ -114,6 +120,7 @@ Fixture source of truth:
 - `pnpm dev:api`
 
 Expected endpoints:
+
 - `GET /health`
 
 ### 6) Run the worker
@@ -121,6 +128,7 @@ Expected endpoints:
 - `pnpm dev:worker`
 
 Worker should:
+
 - Poll SQS
 - Render PDFs
 - Store artifacts
@@ -135,6 +143,7 @@ Worker should:
 ## Observability (local)
 
 Minimum:
+
 - Structured logs to stdout
 - Request IDs propagated from API to worker jobs
 
@@ -168,4 +177,3 @@ Minimum:
   - `pnpm dev:api`
 - `GET /health` returns 200
 - A basic export job can be created and completes locally
-

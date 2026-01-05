@@ -4,7 +4,9 @@
 - Date: 2026-01-02
 
 ## Context
+
 ChronoLedger is cloud-first and must support:
+
 - Web + mobile clients with reliable sync
 - Server-side workloads such as report generation and official PDF exports
 - A future path to multi-user, configurable deployments
@@ -12,6 +14,7 @@ ChronoLedger is cloud-first and must support:
 We want predictable request latency, straightforward PostgreSQL connectivity, and an easy path for background workers.
 
 ## Decision
+
 Host the backend as **containerized services on AWS** (not serverless functions).
 
 - Primary runtime: containerized API service
@@ -20,6 +23,7 @@ Host the backend as **containerized services on AWS** (not serverless functions)
   - Candidate services: **App Runner** (simplicity) or **ECS on Fargate** (control/flexibility)
 
 ## Consequences
+
 - ✅ Predictable performance (no cold-start behavior typical of serverless)
 - ✅ Straightforward PostgreSQL connection pooling
 - ✅ Natural fit for background jobs (worker containers)
@@ -28,4 +32,5 @@ Host the backend as **containerized services on AWS** (not serverless functions)
 - ⚠️ More operational surface area (build/deploy, scaling policies, networking)
 
 ## Alternatives Considered
+
 - API Gateway + Lambda: rejected due to operational complexity around relational DB connectivity and heavier workloads like PDF generation.

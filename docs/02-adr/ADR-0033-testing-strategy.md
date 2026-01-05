@@ -4,12 +4,15 @@
 - Date: 2026-01-02
 
 ## Context
+
 ChronoLedger includes complex time rules (timezone boundaries, overlaps, ATO caps), admin workflows, and “official” PDFs. We need confidence without heavyweight process.
 
 ## Decision
+
 Adopt a layered testing pyramid with special coverage for time rules and PDFs.
 
 ### 1) Unit tests (fast)
+
 - Domain services:
   - overlap detection logic (API-side)
   - ATO rules (Mon–Fri only, 8h/day cap, weekly cap)
@@ -20,6 +23,7 @@ Adopt a layered testing pyramid with special coverage for time rules and PDFs.
   - timezone display helpers (pure functions only)
 
 ### 2) Integration tests (DB + API)
+
 - Run API against a real PostgreSQL instance (Testcontainers or dockerized CI DB) (see ADR-0036).
 - Validate:
   - constraints (no overlaps, one open entry)
@@ -28,10 +32,12 @@ Adopt a layered testing pyramid with special coverage for time rules and PDFs.
   - tenant scoping enforcement
 
 ### 3) Contract tests
+
 - Generate and maintain an OpenAPI spec (from code or written-first).
 - Validate request/response shapes and Problem+JSON error contract (ADR-0030).
 
 ### 4) End-to-end (targeted)
+
 - Web E2E with Playwright for:
   - start/stop time entry
   - lock + unlock request flow
@@ -39,12 +45,14 @@ Adopt a layered testing pyramid with special coverage for time rules and PDFs.
 - Mobile E2E is deferred initially; focus on unit/integration + manual smoke until stable.
 
 ### 5) PDF “golden” tests (official exports)
+
 - For each PDF template version:
   - render with deterministic fixture data
   - compare checksum/metadata and (optionally) pixel-diff snapshots
 - Run these tests in CI for template changes.
 
 ## Consequences
+
 - ✅ High confidence in the rules that matter most
 - ✅ Prevents regressions in “official” exports
 - ✅ Keeps feedback loops fast while covering integration risks
@@ -52,6 +60,7 @@ Adopt a layered testing pyramid with special coverage for time rules and PDFs.
 - ⚠️ Timezone tests require carefully curated fixtures and fixed “now” injection
 
 ## Notes/Links
+
 - PDF rendering: ADR-0018
 - Concurrency/integrity: ADR-0031
 - Testing toolchain and test database strategy: ADR-0036

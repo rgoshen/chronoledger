@@ -3,6 +3,7 @@
 _Last updated: 2026-01-02_
 
 ## 1) Modules (recommended)
+
 - `networking` (VPC, subnets, route tables, NAT, security groups)
 - `ecs` (cluster, services, task defs, autoscaling)
 - `rds_postgres` (DB instance, subnet group, parameter group)
@@ -13,6 +14,7 @@ _Last updated: 2026-01-02_
 - `observability` (log groups, alarms, dashboards)
 
 ## 2) Environment layout
+
 ```text
 infra/terraform/
   modules/
@@ -36,15 +38,18 @@ infra/terraform/
 ```
 
 ## 3) Promotion flow
+
 - Merge infra changes to main
 - Apply to `dev`
 - Promote to `staging`
 - Promote to `prod` with manual approval gates
 
 ## 4) Drift control
+
 - Run `tofu plan` in CI on PRs for infra changes
 - Require approval before `tofu apply` in staging/prod
 
 ## 5) Naming conventions
+
 - Prefix resources with `chronoledger-<env>-...`
 - Keep tags consistent (env, service, owner, cost-center)

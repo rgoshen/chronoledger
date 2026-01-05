@@ -4,13 +4,16 @@
 - Date: 2026-01-02
 
 ## Context
+
 ChronoLedger must:
+
 - correctly handle time zones and device changes
 - support cross-midnight entries via auto-splitting
 - avoid rounding drift by keeping raw times/hours as source of truth
 - show times in a way that matches user expectations across devices
 
 ## Decision
+
 1) **Store all timestamps in UTC** in the database.  
 2) **Capture IANA time zone** information at time entry capture.  
 3) **Default UI display** uses the **current device time zone**.  
@@ -19,6 +22,7 @@ ChronoLedger must:
 6) Cross-midnight entries are **auto-split** into two linked entries before validation and overlap checks.
 
 ## Consequences
+
 - ✅ Correctness across DST and time zone changes.
 - ✅ Device-native display “just looks right” by default.
 - ✅ Override supports consistent viewing when desired (e.g., always show “home TZ”).

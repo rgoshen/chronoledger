@@ -16,6 +16,7 @@ This section documents the operating rules for building ChronoLedger: how we col
 
 - [Contributor standards](../../CONTRIBUTING.md)
 - [Git workflow](git-workflow.md)
+- [agent Orchestration](agent-orchestration.md)
 - [Role charters index](roles/README.md)
 
 ## Related

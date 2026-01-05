@@ -4,33 +4,33 @@ Created: January 2, 2026 12:21 PM
 Last edited time: January 2, 2026 1:12 PM
 Tags: Personal, Planning, Work
 
-# Purpose:
+## Purpose
 
 TimeKeeper is a solution to help me track my current hours worked per day per code.  Track my Accrued Time Off (ATO) and my projected use/lose ATO.  It will produce a pay period summary, current month summary, and a current year summary.  It will also keep current year and historical work records.
 
-# Platforms:
+## Platforms
 
 - Web
 - Mobile (phone and tablet)
 - Host on AWS
 
-# Requirements:
+## Requirements
 
 - Rule: Two pay periods in a month
-    - PP1: from 1st to 15th of the month
-    - PP2: from 16th to eom
+  - PP1: from 1st to 15th of the month
+  - PP2: from 16th to eom
 - Rule: can not carry over more than 120 hours per year
 - Rule: Accumulate 10 hrs per pay period
-    - Only calculate ATO for past pay periods and not the current pay period
+  - Only calculate ATO for past pay periods and not the current pay period
 - Rule: Cannot take anymore than 40 hours against contract codes per week
 - Rule: Cannot take more than 4 additional hours above 40 contract hours per week
-    - i.e. combination of training, other, recruiting, connexion, flexcelerate up to 4 additional hours
+  - i.e. combination of training, other, recruiting, connexion, flexcelerate up to 4 additional hours
 - Rule: If more than 44 total hours per week, should ensure have prior authorization
 - Rule: no overtime for pay purposes
 - Rule: ATO pay is based on hourly rate at which it was accrued
 - Should be able to sync across platforms
 
-## Time entry:
+### Time entry
 
 1. Enter date in MM/DD/YYYY format (always required)
 2. Enter start time in HH:MM format
@@ -50,7 +50,7 @@ TimeKeeper is a solution to help me track my current hours worked per day per co
 10. Entry form should should show title
 11. Entry form should show current pay period
 
-## Pay Period Summary:
+### Pay Period Summary
 
 1. Show title
 2. Show pay period
@@ -68,7 +68,7 @@ TimeKeeper is a solution to help me track my current hours worked per day per co
 12. Show/calculate Projected ATO left to accumulate
 13. Show/calculate ATO use/lose (projected)
 
-## Reports:
+### Reports
 
 1. Time entry reports
     1. selected by:

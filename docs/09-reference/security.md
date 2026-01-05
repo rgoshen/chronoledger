@@ -3,6 +3,7 @@
 _Last updated: 2026-01-02_
 
 ## 1) High-level security diagram
+
 ```mermaid
 flowchart TB
   subgraph Edge
@@ -27,6 +28,7 @@ flowchart TB
 ```
 
 ## 2) CORS (recommended)
+
 - Allow origins:
   - `https://app.<domain>`
   - dev origins only when `env=dev`
@@ -34,7 +36,9 @@ flowchart TB
 - Allow headers: Authorization, Content-Type, X-Device-Id, X-Request-Id, Idempotency-Key
 
 ## 3) Web security headers (CloudFront response headers policy)
+
 Recommended:
+
 - HSTS (includeSubDomains; preload after stable)
 - CSP (start strict, add exceptions as needed)
 - X-Content-Type-Options: nosniff
@@ -42,14 +46,17 @@ Recommended:
 - Permissions-Policy: minimal
 
 ## 4) Token handling
+
 - Never log tokens.
 - Prefer in-memory token storage for web; rely on Auth0 recommended patterns for SPAs.
 - Mobile uses Keychain/Keystore for refresh tokens and device IDs.
 
 ## 5) Dependency + image scanning
+
 - CI: dependency audit (npm audit or dedicated tool)
 - ECR image scanning enabled (or CI scanning) for API/worker images
 
 ## 6) Admin safety
+
 - Consider optional IP allowlisting for `/api/v1/admin` later.
 - Require strong Auth0 policies (MFA for admins recommended).

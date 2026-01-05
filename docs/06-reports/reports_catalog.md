@@ -6,6 +6,7 @@
 **Last reviewed:** YYYY-MM-DD
 
 **Related ADRs:**
+
 - ADR-0012-pdf-export-pipeline.md
 - ADR-0018-pdf-rendering-html-chromium.md
 - ADR-0019-data-retention-policy.md
@@ -39,6 +40,7 @@ flowchart LR
 ### Versioning
 
 Every export artifact MUST record:
+
 - `export_id`
 - `template_version`
 - `rendering_version`
@@ -49,6 +51,7 @@ Every export artifact MUST record:
 ### Determinism
 
 For “official” exports:
+
 - Pin the PDF engine version.
 - Pin and embed fonts.
 - Normalize locale (dates, decimals).
@@ -159,4 +162,3 @@ Use the same structure as the official export, but allow inclusion of open inter
 - Open-entry policy for exports (official vs non-official)
 - Lock/unlock interaction with exports (allowed, restricted, or requires approval)
 - Template and rendering versioning scheme (semver vs monotonic)
-

@@ -4,7 +4,9 @@
 - Date: 2026-01-02
 
 ## Context
+
 ChronoLedger handles:
+
 - time and pay-related data
 - audit trails visible to admins
 - “official” PDF exports
@@ -12,15 +14,18 @@ ChronoLedger handles:
 The system is cloud-hosted with a web SPA, mobile apps, an API, and a worker. We need industry-standard security controls without over-complicating v1.
 
 ## Decision
+
 Adopt the following baseline security posture.
 
 ### 1) Authentication and session model
+
 - Auth via **Auth0** using OIDC/OAuth2.
 - Web SPA uses **Authorization Code + PKCE**.
 - Mobile uses Auth0’s recommended mobile flows (PKCE where applicable).
 - Access tokens are short-lived; refresh tokens stored only in secure storage (mobile) or via Auth0 best practices for SPAs.
 
 ### 2) Authorization
+
 - Server-enforced RBAC:
   - `USER`
   - `ADMIN`
@@ -28,6 +33,7 @@ Adopt the following baseline security posture.
 - No client-side checks are trusted for authorization decisions.
 
 ### 3) Network and transport security
+
 - TLS everywhere:
   - `app.<domain>` via CloudFront + ACM
   - `api.<domain>` via ALB + ACM
@@ -35,12 +41,14 @@ Adopt the following baseline security posture.
 - ECS tasks run in private subnets; inbound to API tasks allowed only from ALB SG.
 
 ### 4) WAF and rate limiting
+
 - Attach **AWS WAF** to the API ALB.
 - Enable managed rule groups (baseline OWASP-style protections).
 - Add rate-based rules for abuse protection (tuned after observing real traffic).
 - Allowlist rules where needed for internal admin IPs (optional).
 
 ### 5) Secrets management
+
 - Use **AWS Secrets Manager** for:
   - DB credentials
   - Auth0 config secrets (if any)
@@ -49,6 +57,7 @@ Adopt the following baseline security posture.
 - ECS task roles fetch secrets at runtime with least privilege.
 
 ### 6) Data protection
+
 - Encryption at rest:
   - RDS encryption enabled
   - S3 exports bucket uses SSE (SSE-S3 or SSE-KMS; prefer SSE-KMS for tighter control)
@@ -56,6 +65,7 @@ Adopt the following baseline security posture.
 - Store all timestamps in UTC; avoid leaking sensitive details in logs.
 
 ### 7) Application hardening
+
 - Input validation on API boundaries (DTO validation).
 - Strict CORS allowlist:
   - allow only `https://app.<domain>` (and known dev origins)
@@ -65,6 +75,7 @@ Adopt the following baseline security posture.
 - Dependency scanning in CI (SCA) + container vulnerability scanning (ECR scan or CI tool).
 
 ### 8) Audit and admin actions
+
 - Use domain audit tables (already decided) for:
   - time entry changes
   - unlock requests
@@ -72,6 +83,7 @@ Adopt the following baseline security posture.
 - Audit tables are append-only by default (ADR-0024).
 
 ## Consequences
+
 - ✅ Strong baseline aligned with common industry patterns
 - ✅ Clear separation of responsibilities (Auth0 for auth, AWS for infra security)
 - ✅ Scales to SaaS needs without major redesign
@@ -79,6 +91,7 @@ Adopt the following baseline security posture.
 - ⚠️ CSP requires care when integrating third-party scripts in the web app
 
 ## Alternatives Considered
+
 - Custom auth: rejected (Auth0 is safer and faster).
 - No WAF: rejected (unnecessary risk).
 - Putting secrets in env files: rejected (drift and leakage risk).

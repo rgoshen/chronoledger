@@ -3,6 +3,7 @@
 _Last updated: 2026-01-02_
 
 ## Topology
+
 ```mermaid
 flowchart LR
   U[User Devices] -->|HTTPS| DNS[Route53 api.<domain>]
@@ -13,6 +14,7 @@ flowchart LR
 ```
 
 ## Key settings (recommended)
+
 - ALB listener: 443 (HTTPS) with ACM cert
 - Redirect HTTP → HTTPS (optional; typically yes)
 - Health check endpoint: `GET /health`
@@ -24,5 +26,6 @@ flowchart LR
   - API SG: allow inbound only from ALB SG
 
 ## Notes
+
 - Keep API stateless; rely on Auth0 tokens for auth.
 - Do not place the API in public subnets; tasks run in private subnets behind the ALB.

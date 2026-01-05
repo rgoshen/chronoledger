@@ -7,23 +7,28 @@ This document expands ADR-0015 with an endpoint outline and payload conventions.
 ## 1) Conventions
 
 ### Base URLs
+
 - Public: `/api/v1`
 - Admin: `/api/v1/admin`
 
 ### Headers
+
 - `Authorization: Bearer <access_token>`
 - `X-Device-Id: <uuid>` (**required** for per-device preferences)
 - `Idempotency-Key: <uuid>` (recommended on POSTs that are retryable)
 - `Content-Type: application/json`
 
 ### Time formats
+
 - UTC timestamps: ISO 8601 (e.g., `2026-01-02T18:30:00Z`)
 - IANA TZ: `America/Phoenix`, `Europe/London`, etc.
 
 ### Rounding
+
 - Rounding is computed only (nearest 15 minutes) and never stored.
 
 ### Error format (RFC 7807)
+
 ```json
 {
   "type": "https://chronoledger/errors/validation",
@@ -40,6 +45,7 @@ This document expands ADR-0015 with an endpoint outline and payload conventions.
 ## 2) Core Endpoints
 
 ### 2.1 Identity / Session helpers
+
 - `GET /api/v1/me`
   - Returns current user profile + role(s)
 - `GET /api/v1/settings`
@@ -48,6 +54,7 @@ This document expands ADR-0015 with an endpoint outline and payload conventions.
   - Updates per-user-per-device settings (timezone override, time format, etc.)
 
 **Settings payload**
+
 ```json
 {
   "displayTimeZone": "America/Phoenix",
@@ -58,9 +65,11 @@ This document expands ADR-0015 with an endpoint outline and payload conventions.
 ### 2.2 Time entries
 
 #### Create (open)
+
 - `POST /api/v1/time-entries` (Idempotency-Key supported)
 
 **Request**
+
 ```json
 {
   "dateLocal": "2026-01-02",
@@ -72,6 +81,7 @@ This document expands ADR-0015 with an endpoint outline and payload conventions.
 ```
 
 **Response (simplified)**
+
 ```json
 {
   "id": "te_123",
@@ -85,9 +95,11 @@ This document expands ADR-0015 with an endpoint outline and payload conventions.
 ```
 
 #### Complete (set end time)
+
 - `PATCH /api/v1/time-entries/{id}`
 
 **Request**
+
 ```json
 {
   "endLocal": "12:00",
@@ -96,25 +108,30 @@ This document expands ADR-0015 with an endpoint outline and payload conventions.
 ```
 
 Server responsibilities:
+
 - auto-split cross-midnight if applicable
 - block overlaps (after split)
 - compute and persist raw duration
 - lock on completion
 
 #### Read/list
+
 - `GET /api/v1/time-entries/{id}`
 - `GET /api/v1/time-entries?from=2026-01-01&to=2026-01-15&status=LOCKED&timeCodeId=ATO&limit=50&cursor=...`
 
 #### Delete
+
 - `DELETE /api/v1/time-entries/{id}`
   - Only when unlocked; otherwise returns 409 Conflict
 
 ### 2.3 Unlock workflow
 
 #### Request unlock
+
 - `POST /api/v1/time-entries/{id}/unlock-requests` (Idempotency-Key supported)
 
 **Request**
+
 ```json
 {
   "reason": "Correct start time; entered 7:30 instead of 7:00"
@@ -122,6 +139,7 @@ Server responsibilities:
 ```
 
 **Response**
+
 ```json
 {
   "id": "ur_456",
@@ -132,11 +150,13 @@ Server responsibilities:
 ```
 
 #### Admin queue + decision
+
 - `GET /api/v1/admin/unlock-requests?status=PENDING&limit=50&cursor=...`
 - `POST /api/v1/admin/unlock-requests/{id}/approve`
 - `POST /api/v1/admin/unlock-requests/{id}/deny`
 
 Admin decision payload (optional)
+
 ```json
 {
   "note": "Approved. Please correct and save; entry will re-lock."
@@ -146,19 +166,23 @@ Admin decision payload (optional)
 ### 2.4 Reports and exports
 
 #### Report data (for UI views)
+
 - `GET /api/v1/reports/pay-period?year=2026&month=1&payPeriod=PP1`
 - `GET /api/v1/reports/weekly?from=2026-01-01&to=2026-01-31`
 - `GET /api/v1/reports/ato?year=2026`
 
 These endpoints return JSON for UI rendering and include:
+
 - raw totals
 - computed rounded totals
 - warnings (e.g., >44 hours)
 
 #### Export (PDF)
+
 - `POST /api/v1/exports` (Idempotency-Key supported)
 
 **Request**
+
 ```json
 {
   "type": "PAY_PERIOD_SUMMARY",
@@ -172,6 +196,7 @@ These endpoints return JSON for UI rendering and include:
 ```
 
 **Response**
+
 ```json
 {
   "id": "ex_789",
@@ -195,6 +220,7 @@ These endpoints return JSON for UI rendering and include:
 ## 3) Sequence diagrams
 
 ### PDF export
+
 ```mermaid
 sequenceDiagram
   participant C as Client
@@ -235,4 +261,3 @@ sequenceDiagram
   - API: `api.<domain>`
 - Time entry deletes are **soft deletes** (default behavior). Hard purge, if ever supported, is admin-only.
 - `X-Device-Id` is required on authenticated requests to support **per-user-per-device** settings (timezone override). The server treats it as client-provided telemetry/preferences (not an authorization factor).
-

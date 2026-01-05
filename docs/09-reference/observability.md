@@ -3,6 +3,7 @@
 _Last updated: 2026-01-02_
 
 ## 1) Log schema (recommended fields)
+
 ```json
 {
   "timestamp": "2026-01-02T18:30:00Z",
@@ -20,6 +21,7 @@ _Last updated: 2026-01-02_
 ```
 
 ## 2) Correlation flow
+
 ```mermaid
 flowchart LR
   UI[Client] -->|X-Request-Id| API[API]
@@ -30,6 +32,7 @@ flowchart LR
 ```
 
 ## 3) Alarm starter set
+
 - API:
   - 5xx > 1% over 5 minutes
   - p95 latency threshold (tune after baseline data)
@@ -42,6 +45,7 @@ flowchart LR
   - CPU > threshold sustained
 
 ## 4) PII/sensitive logging rules
+
 - Never log raw tokens, passwords, or full request bodies.
 - For time entries, log IDs and summary fields only.
 - Escape/sanitize user-provided strings in audit logs and templates.

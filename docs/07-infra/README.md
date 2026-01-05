@@ -4,7 +4,7 @@ Local dev, cloud approach, and operational planning.
 
 ## Contents
 
-- [`chronoledger-infra-approach.md`](chronoledger-infra-approach.md)
+- [`infra-approach.md`](cnfra-approach.md)
 - [`local-dev-plan.md`](local_dev_plan.md) (exact “clone → run” path)
 
 ## Recommended additions

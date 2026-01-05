@@ -4,11 +4,10 @@ Database and data-layer documentation.
 
 ## Contents
 
-- [`chronoledger-db-migrations.md`](chronoledger-db-migrations.md)
-- [`chronoledger-data-retention.md`](chronoledger-data-retention.md)
+- [`db-migrations.md`](db-migrations.md)
+- [`data-retention.md`](data-retention.md)
 - [`schema_blueprint.md`](schema_blueprint.md)
-- [`fixtures/`](fixtures/)
-- [`fixtures/README.md`](./fixtures/README.md)
+- [`fixtures/`](fixtures/README.md)
 
 ## Notes
 

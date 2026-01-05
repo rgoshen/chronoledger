@@ -42,6 +42,7 @@ _Last updated: 2026-01-02_
 | R-007 | Admin approval gate adds workflow overhead | Low | Low | Make approval UI fast; default admin notifications |
 
 ## 4. Next decisions to make (best order)
+
 1) Finalize ATO day-level constraints (Q-001)
 2) Pick database (Postgres vs DynamoDB) and API style (REST vs GraphQL)
 3) Confirm time zone display strategy (Q-003)
@@ -58,6 +59,7 @@ _Last updated: 2026-01-02_
 | D-025 | Use separate hostnames (`app.*` and `api.*`) | Clear boundaries + simpler ops |
 
 ## Pending Decisions
+
 | D-027 | Adopt **row-level multi-tenancy** (`tenant_id` on domain tables) | SaaS-ready without redesign |
 | D-028 | Render PDFs via **HTML templates + headless Chromium** (worker) | High-fidelity official exports |
 | D-029 | Define data retention + purging policy (soft deletes, S3 lifecycle) | Cost control + auditability |

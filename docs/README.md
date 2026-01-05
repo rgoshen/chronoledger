@@ -4,34 +4,18 @@ This folder contains ChronoLedger documentation: roadmap, requirements, ADRs, AP
 
 ## Quick navigation
 
-- Roadmap: [`00-roadmap/`](00-roadmap/)
-- Requirements: 
-  - Folder: [`01-requirements/`](01-requirements/)
-  - [`traceability-req-backlog-adr.md`](01-requirements/traceability_req_adr_backlog.md)
-- ADRs: [`02-adr/`](02-adr/)
-- API:
-  - Folder: [`03-api/`](03-api/)
-  - Contract: [`03-api/openapi.yaml`](03-api/openapi.yaml)
-- Data: [`04-data/`](04-data/)
-- UX: [`05-ux/`](05-ux/)
-- Reports/Exports:
-  - Folder: [`06-reports/`](06-reports/)
-  - Contract: [`reports-catalog.md](06-reports/reports_catalog.md)
-  - [`pdf-testing.md`](06-reports/pdf_testing.md)
-- Infrastructure: 
-  - Folder: [`07-infra/`](07-infra/)
-  - [`local-dev-plan.md`](07-infra/local_dev_plan.md)
-- Testing:
-  - Folder: [`08-testing/`](08-testing/)
-  - [`testing-plan.md`](08-testing/testing_plan.md)
-- Reference (supporting docs):
-  - Folder: [`09-reference/`](09-reference/)
-  - [`adr_support_mapping.md`](09-reference/adr_support_mapping.md)
-  - [`chronoledger_candidate_patterns_and_adr_triggers.md`](09-reference/chronoledger_candidate_patterns_and_adr_triggers.md)
-- Governance:
-  - Folder: [`10-governance/`](10-governance/)
-  - Roles: [`10-governance/roles/`](10-governance/roles/)
-- Archive: [`99-archive/`](99-archive/)
+- Roadmap: [`00-roadmap/`](00-roadmap/README.md)
+- Requirements: [`01-requirements/`](01-requirements/README.md)
+- ADRs: [`02-adr/`](02-adr/README.md)
+- API: [`03-api/`](03-api/README.md)
+- Data: [`04-data/`](04-data/README.md)
+- UX: [`05-ux/`](05-ux/README.md)
+- Reports/Exports: [`06-reports/`](06-reports/README.md)
+- Infrastructure: [`07-infra/`](07-infra/README.md)
+- Testing: [`08-testing/`](08-testing/README.md)
+- Reference (supporting docs): [`09-reference/`](09-reference/README.md)
+- Governance: [`10-governance/`](10-governance/README.md)
+- Archives: [`99-archive`](10-governance/README.md)
 
 ## Reading order (recommended)
 
@@ -41,4 +25,3 @@ This folder contains ChronoLedger documentation: roadmap, requirements, ADRs, AP
 
 - **ADRs** capture decisions (what we decided and why) and should change rarely once accepted.
 - **Supporting docs** are deeper, evolving notes that back the ADRs and implementation plans. Those live in `09-reference/`.
-

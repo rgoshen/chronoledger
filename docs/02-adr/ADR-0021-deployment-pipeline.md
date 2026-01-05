@@ -4,7 +4,9 @@
 - Date: 2026-01-02
 
 ## Context
+
 ChronoLedger includes:
+
 - Web SPA hosted on S3 + CloudFront
 - API + worker services on ECS/Fargate
 - RDS PostgreSQL migrations
@@ -13,13 +15,16 @@ ChronoLedger includes:
 We need a repeatable, safe, low-ops deployment pipeline suitable for a solo developer now and a team later.
 
 ## Decision
+
 Use **GitHub Actions** as the CI/CD runner and deploy with the following flow per environment:
 
 1) **CI on PR**
+
 - Lint + unit tests for changed projects
 - Build (optional) to catch compile errors
 
-2) **On merge to main (or env branch)**
+1) **On merge to main (or env branch)**
+
 - Build and push Docker images to **ECR**:
   - `api:<git_sha>`
   - `worker:<git_sha>`
@@ -32,10 +37,12 @@ Use **GitHub Actions** as the CI/CD runner and deploy with the following flow pe
   - upload to S3
   - invalidate CloudFront cache
 
-3) **Authentication to AWS**
+1) **Authentication to AWS**
+
 - Use GitHub OIDC to assume an AWS role (no long-lived AWS keys in GitHub).
 
 ## Consequences
+
 - ✅ Repeatable releases with minimal manual steps
 - ✅ Safer DB changes via controlled migrations gate
 - ✅ Immutable image tags by SHA improve traceability
@@ -44,6 +51,7 @@ Use **GitHub Actions** as the CI/CD runner and deploy with the following flow pe
 - ⚠️ Adds initial setup work for OIDC roles and environment protections
 
 ## Alternatives Considered
+
 - Manual deploys: rejected due to error risk and repeatability.
 - “Latest” image tags only: rejected for traceability and rollback safety.
 - Single monolithic deploy step: rejected; we want explicit gates.

@@ -3,15 +3,18 @@
 _Last updated: 2026-01-04_
 
 ## Purpose
+
 This doc is a **shortlist of design patterns** that are likely to matter for ChronoLedger (mobile + web, Node/Nest API, Postgres/Prisma, PDF-first reporting, auditability, and cross-device sync). It’s not a commitment to use all of these—think of it as a **menu + decision checklist**.
 
 **How to use this:**
+
 - Start with the **System-level patterns** (these are the ones that can cause rework if picked late).
 - Treat everything else as **candidate implementation patterns** that can be adopted incrementally.
 - When a “Trigger” becomes true, capture the decision as an **ADR**.
 
 ## What belongs in planning vs implementation
-- **Planning / ADR-worthy**: patterns that affect *boundaries, data flow, sync, reporting architecture, security posture, deployment, observability*.
+
+- **Planning / ADR-worthy**: patterns that affect _boundaries, data flow, sync, reporting architecture, security posture, deployment, observability_.
 - **Implementation-time**: patterns that mostly improve local code structure (Strategy/Factory/etc.) and can be introduced safely later.
 
 ---
@@ -30,6 +33,7 @@ This doc is a **shortlist of design patterns** that are likely to matter for Chr
 | **Policy-based Authorization (RBAC now, ABAC later)** | API guards; admin routes | Keeps permissions explicit and testable; avoids scattered `if (isAdmin)` checks | “Are roles static or do we need fine-grained permissions later?” | P0 |
 
 ### Mermaid: high-level boundary sketch
+
 ```mermaid
 flowchart LR
   subgraph Clients
@@ -83,6 +87,7 @@ flowchart LR
 | **Adapter Pattern for Storage** | Local persistence (SQLite vs something else) | Keeps storage implementation swappable and testable | “Do we expect swapping local DB or sharing code with web?” | P1 |
 
 ### Mermaid: offline sync (typical)
+
 ```mermaid
 sequenceDiagram
   participant UI as Mobile UI
@@ -114,6 +119,7 @@ sequenceDiagram
 | **Strategy for Format Variants** | PDF now, CSV later | Prevents report logic from being tied to PDF | “Are we adding CSV or ‘draft vs official’ outputs later?” | P1 (maps to Export Formats ADR) |
 
 ### Mermaid: export pipeline (typical)
+
 ```mermaid
 flowchart LR
   A[API Request: Generate Report] --> J[(Outbox/Jobs Table)]
@@ -142,7 +148,7 @@ flowchart LR
 
 These are powerful, but they cost complexity. Consider them only if you hit real pain:
 
-- **Full Event Sourcing** (beyond the ATO ledger) — only if auditability + history replay becomes central to *everything*.
+- **Full Event Sourcing** (beyond the ATO ledger) — only if auditability + history replay becomes central to _everything_.
 - **Saga / Process Manager** — only if workflows span multiple services or long-lived multi-step processes.
 - **CQRS + Read Models everywhere** — only if reporting/performance demands it broadly.
 - **CRDTs for sync** — only if you need collaborative editing / extremely complex merges.
@@ -161,8 +167,8 @@ These align with the areas already identified as ADR-worthy topics:
 ---
 
 ## 8) Next steps
+
 1. Add this doc under `docs/` (wherever you keep design notes), and treat it as a living “pattern radar.”
 2. For each P0/P1 trigger above, decide whether it becomes an ADR now or stays as an implementation note.
 
 **Reminder:** update any applicable README index files (e.g., `docs/README.md` and/or ADR index) with a link to this doc so it doesn’t get lost.
-

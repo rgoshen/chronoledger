@@ -4,8 +4,8 @@ API design and ingress notes for ChronoLedger.
 
 ## Contents
 
-- [`chronoledger-api-design.md`](chronoledger-api-design.md)
-- [`chronoledger-api-ingress.md`](chronoledger-api-ingress.md)
+- [`api-design.md`](api-design.md)
+- [`api-ingress.md`](api-ingress.md)
 - [`openapi.yaml`](openapi.yaml)
 
 ## Recommended additions (pre-coding blockers)

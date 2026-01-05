@@ -4,7 +4,9 @@
 - Date: 2026-01-02
 
 ## Context
+
 ChronoLedger runs the API as a containerized service on ECS/Fargate with separate hostnames (`api.<domain>`). We need a secure, maintainable ingress that supports:
+
 - TLS termination with managed certificates
 - Path-based routing (future admin API separation is still under `/api/v1/admin`)
 - Standard HTTP features (timeouts, health checks)
@@ -12,6 +14,7 @@ ChronoLedger runs the API as a containerized service on ECS/Fargate with separat
 - Straightforward operations and debugging
 
 ## Decision
+
 Use an **Application Load Balancer (ALB)** in front of the **ECS/Fargate API service**:
 
 - `api.<domain>` → Route53 alias → ALB (HTTPS :443)
@@ -22,6 +25,7 @@ Use an **Application Load Balancer (ALB)** in front of the **ECS/Fargate API ser
 We will **not** place API Gateway in front of ECS in v1.
 
 ## Consequences
+
 - ✅ Simplest, most “native” ECS ingress pattern
 - ✅ Works cleanly with WAF, TLS (ACM), access logs, and target health
 - ✅ Avoids API Gateway + VPC Link complexity and cost
@@ -30,5 +34,6 @@ We will **not** place API Gateway in front of ECS in v1.
 - ⚠️ If we later need edge caching for API, we may add CloudFront in front of ALB (not needed now)
 
 ## Alternatives Considered
+
 - API Gateway (HTTP API) + VPC Link to ALB/NLB: rejected due to added complexity and limited benefit for this use case.
 - CloudFront in front of the API immediately: deferred; API responses are largely user-specific and should not be cached at the edge by default.

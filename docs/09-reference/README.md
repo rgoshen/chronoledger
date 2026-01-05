@@ -4,20 +4,20 @@ Supporting documents referenced by ADRs and implementation planning. These docs 
 
 ## Contents
 
-- [`chronoledger-architecture.md`](chronoledger-architecture.md)
-- [`chronoledger-backlog.md`](chronoledger-backlog.md)
-- [`chronoledger-caching.md`](chronoledger-caching.md)
-- [`chronoledger-ci-cd.md`](chronoledger-ci-cd.md)
-- [`chronoledger-master-checklist.md`](chronoledger-master-checklist.md)
-- [`chronoledger-multitenancy.md`](chronoledger-multitenancy.md)
-- [`chronoledger-observability.md`](chronoledger-observability.md)
-- [`chronoledger-pdf-rendering.md`](chronoledger-pdf-rendering.md)
-- [`chronoledger-project-plan.md`](chronoledger-project-plan.md)
-- [`chronoledger-risk-decision-log.md`](chronoledger-risk-decision-log.md)
-- [`chronoledger-security.md`](chronoledger-security.md)
-- [`chronoledger-tech-stack.md`](chronoledger-tech-stack.md)
+- [`architecture.md`](architecture.md)
+- [`backlog.md`](backlog.md)
+- [`caching.md`](caching.md)
+- [`ci-cd.md`](ci-cd.md)
+- [`master-checklist.md`](master-checklist.md)
+- [`multitenancy.md`](multitenancy.md)
+- [`observability.md`](observability.md)
+- [`pdf-rendering.md`](pdf-rendering.md)
+- [`project-plan.md`](project-plan.md)
+- [`risk-decision-log.md`](risk-decision-log.md)
+- [`security.md`](security.md)
+- [`tech-stack.md`](tech-stack.md)
 - [`adr-support-mapping.md`](adr_support_mapping.md) table: Supporting doc → Related ADR(s)
-- [`chronoledger_candidate_patterns_and_adr_triggers.md`](chronoledger_candidate_patterns_and_adr_triggers.md)
+- [`candidate_patterns_and_adr_triggers.md`](candidate_patterns_and_adr_triggers.md)
 
 ## Recommended additions
 

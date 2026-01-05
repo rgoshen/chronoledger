@@ -3,6 +3,7 @@
 _Last updated: 2026-01-02_
 
 ## 1. Working Style (assumptions)
+
 - You’ll work on this iteratively in spare time, so we optimize for:
   - Small, independent slices of work
   - High confidence via automated tests
@@ -11,7 +12,9 @@ _Last updated: 2026-01-02_
 ## 2. Recommended Delivery Approach
 
 ### 2.1 Build in vertical slices
+
 Each slice should include:
+
 - UI + API + data model changes (if needed)
 - Validation rules (server-side authoritative)
 - Automated tests
@@ -62,50 +65,59 @@ Each slice should include:
 ## 3. Technical Architecture (proposal + decision points)
 
 ### 3.1 Frontend
+
 - Web: React + TypeScript (recommended)
 - Mobile: React Native + TypeScript (recommended)
 
 ### 3.2 Backend
+
 - API: REST (recommended for simplicity) or GraphQL
 - Hosting: AWS (per requirement)
 
 ### 3.3 Auth (industry standard)
+
 - OAuth 2.0 / OIDC
 - Authorization Code Flow with PKCE
 - Social provider auto-link by verified email
 - Consider AWS Cognito (fits email/password + Apple/Google/Facebook well)
 
 ### 3.4 Data store (decision needed)
+
 Two good options:
+
 - **PostgreSQL (Aurora Serverless)**: easiest for reporting/aggregations and domain audit tables
 - **DynamoDB**: lower ops, but reporting queries require careful modeling
 
 ## 4. Quality & Engineering Standards
 
 ### 4.1 Test strategy
+
 - Unit tests: rules engine, time zone and split logic, overlap detection
 - Integration tests: API + DB (including audit tables)
 - UI tests: critical flows (entry create/complete, unlock request, PDF export)
 - Regression tests: DST boundaries and time zone changes
 
 ### 4.2 Observability
+
 - Structured application logs with correlation IDs (separate from audit tables)
 - Metrics for report generation and PDF export failures
 - Admin-only audit table viewer in `/admin`
 
 ### 4.3 Security
+
 - RBAC enforced server-side (not just UI)
 - Admin routes protected and audited
 - Secure secrets management
 
 ## 5. “Definition of Done” (per work item)
+
 - Validations implemented server-side
 - Tests added/updated
 - Docs updated (PRD/backlog/decision log)
 - Audit entries recorded for relevant actions
 - No sensitive info stored in app logs
 
-
 ## Locked architecture decisions
+
 - Containerized hosting on AWS
 - Auth0 authentication

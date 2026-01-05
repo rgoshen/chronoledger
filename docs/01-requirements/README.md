@@ -9,4 +9,4 @@ Product requirements for ChronoLedger.
 
 ## Related
 
-- Archived initial TimeKeeper-era requirements live in [`../99-archive/`](../99-archive/)
+- Archived initial TimeKeeper-era requirements live in [`../99-archive/`](../99-archive/README.md)

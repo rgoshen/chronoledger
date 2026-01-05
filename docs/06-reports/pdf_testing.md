@@ -6,6 +6,7 @@
 **Last reviewed:** YYYY-MM-DD
 
 **Related ADRs:**
+
 - ADR-0012-pdf-export-pipeline.md
 - ADR-0018-pdf-rendering-html-chromium.md
 - ADR-0033-testing-strategy.md
@@ -89,6 +90,7 @@ Recommended layout:
 - `docs/04-data/fixtures/exports/<export-id>/<fixture-id>/README.md`
 
 Fixture README must include:
+
 - Scenario purpose
 - Tenant/user/pay period assumptions
 - Timezone used for display
@@ -99,28 +101,34 @@ Fixture README must include:
 ### Preferred: strict checksum comparison
 
 Use when determinism is strong:
+
 - Render the PDF
 - Compute SHA-256
 - Compare to expected checksum / expected PDF bytes
 
 Pros:
+
 - Fast
 - Simple
 - Sensitive to any change
 
 Cons:
+
 - Requires excellent determinism discipline
 
 ### Fallback: render-to-image comparison
 
 Use only if checksum determinism is not feasible early on:
+
 - Render expected and actual PDFs to PNG images per page
 - Compare images with a defined threshold
 
 Pros:
+
 - Tolerates benign metadata differences
 
 Cons:
+
 - Slower
 - More moving parts
 - Must pin image renderer versions too
@@ -153,12 +161,14 @@ sequenceDiagram
 ```
 
 Rules:
+
 - Updating goldens requires a dedicated command and explicit commit.
 - Prefer reviewer approval from someone familiar with export requirements.
 
 ## CI expectations
 
 Minimum:
+
 - Golden PDF tests run on every PR that touches:
   - templates
   - rendering code
@@ -166,6 +176,7 @@ Minimum:
   - timezone/formatting utilities
 
 Artifacts:
+
 - On failure, CI should upload:
   - actual PDF
   - expected PDF
@@ -177,4 +188,3 @@ Artifacts:
 - Rounding rules and presentation (hh:mm vs decimal)
 - Whether open time entries are allowed in non-official exports
 - Tooling choice for PDF render and (if needed) PDF-to-image conversion
-

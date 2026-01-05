@@ -6,6 +6,7 @@
 **Last reviewed:** YYYY-MM-DD
 
 **Related ADRs:**
+
 - ADR-0033-testing-strategy.md
 - ADR-0030-api-error-contract-problem-json.md
 - ADR-0004-time-and-timezone-strategy.md
@@ -39,6 +40,7 @@ flowchart TB
 ### 1) Unit tests (domain rules)
 
 Focus:
+
 - Time arithmetic and rounding rules
 - Pay period selection (PP1/PP2) and edge cases
 - Time entry validation (start/end, open-entry policy)
@@ -46,6 +48,7 @@ Focus:
 - Idempotency key logic (if implemented at application layer)
 
 Required characteristics:
+
 - No database
 - No network
 - No system clock (use fixed timestamps)
@@ -53,50 +56,59 @@ Required characteristics:
 ### 2) Integration tests (database)
 
 Focus:
+
 - Migrations apply cleanly from empty database
 - Constraints enforce invariants (e.g., no overlaps, one open entry)
 - Multi-tenancy isolation rules (tenant_id boundaries; RLS if enabled)
 - Audit tables are append-only (no updates/deletes where prohibited)
 
 Required characteristics:
+
 - Run against a disposable Postgres instance (Docker)
 - Use deterministic fixtures
 
 ### 3) Contract tests (API)
 
 Focus:
+
 - OpenAPI matches implementation (requests/responses)
 - Problem Details (`application/problem+json`) shape and stable `code`
 - Pagination/filter conventions
 - Auth boundaries and authorization error behavior
 
 Contract test sources:
+
 - `docs/03-api/openapi.yaml` as the source of truth
 
 ### 4) End-to-end tests (critical flows)
 
 Focus:
+
 - User flows: create/edit/list time entries, pay period summary views
 - Admin flows: lock/unlock requests, approvals, audit visibility
 - Export flows: create export job, poll status, download artifact
 
 Required characteristics:
+
 - Keep minimal: cover critical paths and high-risk regressions
 - Avoid duplicating unit/integration coverage
 
 ### 5) Golden export tests (PDF determinism)
 
 Focus:
+
 - “Official” exports produce identical outputs given identical inputs
 - Template version + rendering version are recorded and asserted
 - Fonts are embedded and consistent
 - Locale/timezone formatting is consistent
 
 Golden fixture approach:
+
 - Inputs + expected PDF stored under `docs/04-data/fixtures/exports/...`
 - Test produces a PDF and compares against expected output
 
 Comparison options:
+
 - Preferred: checksum comparison of the full PDF when determinism is guaranteed
 - Fallback: render pages to images and compare (more complex; use only if necessary)
 
@@ -118,15 +130,18 @@ Comparison options:
 ## CI quality gates
 
 Minimum gates (P0):
+
 - Lint + formatting checks
 - Unit tests
 - Integration tests (DB)
 - Contract validation (OpenAPI + Problem Details)
 
 Add as exports land:
+
 - Golden PDF export tests (official exports)
 
 Recommended gates (P1):
+
 - Dependency scanning
 - SAST (static analysis)
 - Container image scanning
@@ -153,4 +168,3 @@ Recommended gates (P1):
   - fixtures (if applicable)
   - golden exports (if impacted)
 - Golden PDF changes must be intentional and reviewed.
-
