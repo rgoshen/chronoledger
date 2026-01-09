@@ -1,6 +1,6 @@
 # Documentation
 
-This folder contains ChronoLedger documentation: roadmap, requirements, ADRs, API/data design, UX artifacts, infrastructure planning, testing strategy, and supporting reference docs.
+This folder contains ChronoLedger documentation: roadmap, requirements, architecture decisions, implementation plans, and supporting reference docs.
 
 ## Quick navigation
 
@@ -15,7 +15,7 @@ This folder contains ChronoLedger documentation: roadmap, requirements, ADRs, AP
 - Testing: [`08-testing/`](08-testing/README.md)
 - Reference (supporting docs): [`09-reference/`](09-reference/README.md)
 - Governance: [`10-governance/`](10-governance/README.md)
-- Archives: [`99-archive`](10-governance/README.md)
+- Archives: [`99-archive/`](99-archive/README.md)
 
 ## Reading order (recommended)
 

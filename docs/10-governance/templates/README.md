@@ -1,62 +1,66 @@
 # Templates
 
-This folder is the **canonical home for human-facing templates** used in the ChronoLedger repo.
+This folder is the **canonical home for human-facing templates** used in the ChronoLedger repo (docs, checklists, logs, and lightweight process artifacts).
 
-## Yes: templates should live here (with one important exception)
+## Canonical vs tool-enforced (the one rule that prevents chaos)
 
-- **Human-used templates** (docs, logs, ADRs, checklists): keep the canonical versions here.
-- **Tool-enforced templates** (GitHub PR/issue templates) must live under `.github/` to work.
+- **Canonical templates live here**: `docs/10-governance/templates/`
+- **Tool-enforced templates live where the tool expects them** (example: GitHub PR/issue templates under `.github/`)
 
 Best practice:
 
-- Canonical template in `docs/10-governance/templates/`
-- Mirror/copy into tool-required paths when needed (and note it’s mirrored)
+- Keep the **source of truth** here.
+- If a tool needs the file elsewhere, **mirror** it there and clearly label it as a mirror.
 
 ## Template inventory
 
-### Governance + delivery templates (canonical)
+| Template | Purpose | Primary users | Mirror required? |
+|---|---|---|---|
+| `adr-template.md` | Standard ADR format (context, decision, consequences) | PM, Tech Lead, Eng | No |
+| `decision-log-template.md` | Lightweight decision log entry format | PM, Tech Lead | No |
+| `feature-retrospective-template.md` | “What went well / didn’t / outcomes / follow-ups” after a slice/feature | All agents | No |
+| `user-story-template.md` | User story format with G/W/T acceptance criteria + DoD | Product Manager, UX, Tech Lead | No |
+| `vertical-slice-template.md` | Thin end-to-end delivery slice spec (UI→API→DB→tests) | Tech Lead, Eng | No |
+| `backlog-readme-template.md` | Backlog folder README template (workflow + conventions) | PM, Tech Lead | No |
 
-- `feature-retrospective-template.md`
-  - Output lives in: `docs/10-governance/retrospectives/YYYY-MM-DD__<feature-slug>.md`
-- `decision-log-template.md`
-  - Output lives in: `docs/10-governance/decision-logs/YYYY-MM-DD__<feature-slug>__decision-log.md`
+> If you add a new template, update this table in the same PR.
 
-### ADR template (recommended)
+## Mirroring rules (when you *must* place a copy elsewhere)
 
-- `adr-template.md` *(canonical)*
-- Optional mirror for convenience:
-  - `docs/02-adr/ADR_TEMPLATE.md`
+Use mirroring when a tool requires a specific path (e.g., GitHub templates).
 
-### GitHub templates (required special paths)
+### 1) Add a mirror header
 
-- Pull request template:
-  - `.github/PULL_REQUEST_TEMPLATE.md`
-- Issue templates:
-  - `.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md`
-
-If you keep canonical copies here too, mirror them outward and mark the `.github/` files as mirrored.
-
-## Mirroring rules
-
-If a template exists in two places:
-
-1) Canonical lives in `docs/10-governance/templates/`
-2) Tool-required location is a mirror
-3) Update canonical first, then re-copy into the mirror
-4) Add a short header to mirrored files:
+At the very top of the mirrored file, include:
 
 ```md
 <!-- NOTE: Mirrored from docs/10-governance/templates/<template-name>.md -->
 ```
 
+### 2) Keep mirrors identical (except the header)
+
+- No “small tweaks” in the mirror copy.
+- Update the canonical version **first**, then mirror it.
+
+### 3) Recommended mirror command
+
+Example:
+
+```bash
+cp docs/10-governance/templates/<template-name>.md .github/<tool-path>/<file-name>.md
+```
+
 ## Adding a new template
 
-1) Add `<topic>-template.md` here
-2) Update this README
-3) If tooling requires a special path, add a mirror copy and follow the mirroring rules
+1) Add a new file here using the naming convention: `<topic>-template.md`  
+2) Update **Template inventory** (table above)  
+3) If tooling requires a special path, create a **mirrored** copy and follow the mirroring rules  
 
 ## Related governance docs
 
 - Agent orchestration + decision rights: `docs/10-governance/agent-orchestration.md`
-- Retrospectives: `docs/10-governance/retrospectives/`
-- Decision logs: `docs/10-governance/decision-logs/`
+- Governance home: `docs/10-governance/README.md`
+- Decision logs output: `docs/10-governance/decision-logs/`
+- Retrospectives output: `docs/10-governance/retrospectives/`
+- Backlog (stories + slices): `docs/10-governance/backlog/`
+- Roles (agent responsibilities): `docs/10-governance/roles/README.md`

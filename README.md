@@ -60,7 +60,6 @@ Notes:
 - Some database rules (e.g., exclusion constraints) may require raw migrations even when using an ORM.
 
 ## Repository structure
-
 ```
 docs/               # requirements, ADRs, API notes, UX flows, report catalog, plans
 apps/               # web, mobile, api, worker
@@ -97,6 +96,8 @@ If you don’t see runnable services yet, start here:
 - `docs/00-roadmap/` for the current build plan
 - `docs/01-requirements/` for functional requirements
 - `docs/02-adr/` for architecture decisions
+- `docs/10-governance/backlog/` for user stories + vertical slices
+- `docs/10-governance/templates/` for canonical templates (ADRs, decision logs, retros)
 
 ## Configuration
 
