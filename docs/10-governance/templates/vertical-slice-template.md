@@ -29,6 +29,43 @@ Describe the smallest end-to-end increment that delivers real value:
 3. Failure path(s):
 4. Exit/confirmation:
 
+## Work Breakdown (execution checklist)
+Keep this checklist **small and parallelizable**. Prefer updating this section over creating separate WO docs.
+
+### Backend / API
+- [ ] Define/confirm endpoints + contracts (align with ADRs)
+- [ ] Implement validation + authorization rules
+- [ ] Implement invariants (DB-enforced where required)
+- [ ] Add integration tests for the critical path
+
+### Data / Migrations
+- [ ] Schema changes + migrations
+- [ ] Seed/fixtures for local and tests
+- [ ] Backfill/retention impacts (if any)
+
+### Web UI
+- [ ] Screens/components
+- [ ] Empty/loading/error/success states
+- [ ] Accessibility pass (keyboard/focus/labels)
+
+### Mobile UI (if in-scope)
+- [ ] Screens/components
+- [ ] Offline/latency behavior (if relevant)
+
+### Worker / Jobs (if in-scope)
+- [ ] Job definitions + idempotency/retry posture
+- [ ] Storage/artifact handling
+
+### QA
+- [ ] E2E coverage for the slice’s happy path
+- [ ] Negative cases (top 2–3 failure modes)
+- [ ] Regression notes
+
+### Observability
+- [ ] Structured logs for key actions
+- [ ] Basic metrics (requests, failures, timings)
+- [ ] Trace hooks (if enabled)
+
 ## Implementation Plan (by layer)
 ### UX/UI
 - Components/pages:
@@ -59,17 +96,8 @@ Describe the smallest end-to-end increment that delivers real value:
 - Traces:
 - Dashboards/alerts:
 
-## Rollout Plan
-- Feature flags:
-- Backward compatibility:
-- Migration ordering:
-- Fallback/rollback:
-
-## Work Orders (agent-executable)
-Break into discrete tasks that can be assigned to agents.
-- WO-____: …
-- WO-____: …
-- WO-____: …
+## Change Log
+- 2026-01-09: Created
 
 ## Acceptance Checklist
 - [ ] Slice provides an end-to-end “demoable” increment
@@ -77,7 +105,7 @@ Break into discrete tasks that can be assigned to agents.
 - [ ] Perf considerations captured
 - [ ] Tests in place for the slice’s critical path
 - [ ] Docs updated (as needed)
-- [ ] Retrospective written after completion (see docs/10-governance/templates/feature-retrospective-template.md)
+- [ ] Retrospective written after completion (see `docs/10-governance/templates/feature-retrospective-template.md`)
 
 ## Demo Script
 1. …
