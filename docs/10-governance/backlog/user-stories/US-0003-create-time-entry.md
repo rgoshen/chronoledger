@@ -15,8 +15,7 @@
 
 ## Narrative
 
-As a **user**, I want to **create a time entry with correct validation**, so that my **hours and pay period totals
-remain accurate**.
+As a **user**, I want to **create a complete time entry with robust validation and overlap prevention**, so that my **pay period totals are accurate and time conflicts are impossible**.
 
 ## Traceability
 
@@ -27,14 +26,41 @@ remain accurate**.
 
 ## Acceptance Criteria (Given/When/Then)
 
-1. **Given** I provide date, start time, end time, and a valid code **When** I save **Then** the entry is created and
-   visible in the current pay period view.
-2. **Given** my entry would overlap an existing entry **When** I attempt to save **Then** the save is rejected and I
-   see a clear overlap error.
-3. **Given** I enter invalid time ranges (end before start) or missing required fields **When** I save **Then** I see
-   field-level validation errors.
-4. **Given** I attempt to create an entry outside the allowed current pay period rules **When** I save **Then** the
-   system prevents it per FR-014.
+1. **Given** I provide all required fields (date, start time, end time, and a valid time entry code) **When** I save **Then** the entry is created with a 201 response, assigned a unique ID, and immediately visible in my current pay period list.
+2. **Given** my entry would overlap an existing entry (same user, overlapping date-time range) **When** I attempt to save **Then** the save is rejected with a 409 response, a Problem+JSON error, and a clear message including the conflicting entry's time range (e.g., "Overlaps with entry from 09:00-11:00").
+3. **Given** I enter invalid time ranges (end time before or equal to start time) or missing required fields **When** I save **Then** I receive a 400 response with field-level validation errors in Problem+JSON format specifying each invalid field.
+4. **Given** I attempt to create an entry outside the allowed pay period window (per FR-014, e.g., cannot enter time for locked past periods or far-future dates) **When** I save **Then** the system rejects it with a 400 response and a clear message (e.g., "Cannot create entries for locked pay periods").
+5. **Given** I am authenticated with a tenant and user context **When** I create a time entry **Then** the entry is scoped to my user and tenant only, and I cannot create entries for other users or tenants.
+
+## In Scope
+
+- Complete time entry creation (date, start time, end time, code)
+- Overlap prevention enforced at database layer (unique constraint or check constraint)
+- Time range validation (end > start, required fields, valid code)
+- Pay period boundary enforcement per FR-014 (locked periods, future date limits)
+- Field-level validation errors in Problem+JSON format
+- Tenant and user scoping enforcement (row-level security)
+
+## Out of Scope
+
+- Bulk import or batch time entry creation (deferred)
+- Entry templates or "copy from previous" functionality (deferred)
+- Multi-day time entries (spans midnight) (deferred or handled as separate entries)
+- Time entry editing or deletion (separate stories)
+- Time entry approval workflows (future release)
+
+## Dependencies
+
+- ADR-0028 (Domain invariants) for overlap and validation logic
+- ADR-0002 (PostgreSQL 3NF) for schema design
+- ADR-0024 (Prisma migrations) for DB constraint implementation
+- US-0002 (Account Linking) for tenant context in requests
+
+## Risks
+
+- **Race condition on overlap check**: Mitigate via database-level constraint (unique index on user, date range) and proper transaction isolation.
+- **Timezone handling errors**: Ensure all times stored in UTC with explicit timezone conversion rules; test cross-timezone scenarios.
+- **Pay period calculation bugs**: Thoroughly test boundary conditions (period start/end, DST transitions, locked periods).
 
 ## UX / UI Notes
 
