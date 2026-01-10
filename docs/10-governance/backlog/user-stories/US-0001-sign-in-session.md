@@ -112,9 +112,10 @@ These technical standards apply across all acceptance criteria and implementatio
 
 **Session Expired State**
 
-- Modal overlay (non-dismissible) with message: "Your session has expired. Please sign in again."
+- Modal overlay (non-dismissible, user must re-authenticate) with message: "Your session has expired. Please sign in again."
 - Single "Sign In" button that navigates to SignInScreen
 - Preserves user's current location for redirect after re-auth
+- Exception: This modal cannot be dismissed with Escape key (re-authentication is required)
 
 **Forbidden Action State**
 
@@ -148,7 +149,7 @@ These technical standards apply across all acceptance criteria and implementatio
 
 - Tab order: Email field → Password field → Submit button → (optional) "Forgot password" link
 - Enter key submits form from any field
-- Escape key dismisses SessionExpiredModal (if re-auth is optional)
+- Escape key: Does NOT dismiss SessionExpiredModal (re-authentication is required, not optional)
 
 **Focus Management**
 

@@ -132,7 +132,7 @@ These technical standards apply across all acceptance criteria and implementatio
 
 **Network Retry State**
 
-- During stop operation network failure:
+- During the stop operation, if a network failure occurs:
 - Message: "Unable to save. Retrying..."
 - Timer: Continues running (shows last known time)
 - Retry indicator: Small spinner or icon
@@ -149,10 +149,17 @@ These technical standards apply across all acceptance criteria and implementatio
 
 **Multiple Device State** (edge case)
 
+- Server is the single source of truth for entry state
 - If user starts entry on Device A and opens app on Device B:
-- Device B shows running timer with sync indicator
-- If sync fails: Warning message "Timer running on another device. Refreshing..."
-- User can only stop from device where state is synced
+  - Device B fetches current state from server and shows running timer with sync indicator
+  - User can stop the timer from any device (Device A or B)
+- If sync fails on Device B:
+  - Warning message: "Timer running on another device. Refreshing..."
+  - Device B attempts to re-sync with server
+  - User should not interact with timer until sync completes
+- If Device B has stale state but backend allows stop:
+  - Backend accepts the stop request (server state is authoritative)
+  - Device B receives updated state and shows completed entry
 
 ### Validation Behavior
 
@@ -161,7 +168,7 @@ These technical standards apply across all acceptance criteria and implementatio
 - Date: Required, must be within current pay period
 - Code: Required, must be valid
 - Start time: Defaults to now, user can adjust if needed
-- Constraint: Only one open entry allowed at a time (enforced client and server side)
+- Constraint: Only one open entry allowed at a time (enforced client- and server-side)
 
 **On Stop**
 

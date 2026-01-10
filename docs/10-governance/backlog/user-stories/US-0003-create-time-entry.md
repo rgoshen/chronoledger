@@ -95,7 +95,7 @@ These technical standards apply across all acceptance criteria and implementatio
 
 - Form: All fields blank except Date (defaults to today)
 - List: "No time entries for this pay period yet." (if no entries exist)
-- Save button: Disabled (until all required fields filled)
+- Save button: Disabled (until all required fields are filled)
 
 **Filling State**
 
@@ -118,7 +118,7 @@ These technical standards apply across all acceptance criteria and implementatio
 **Overlap Error State**
 
 - Modal or inline alert appears
-- Message: "This entry overlaps with an existing entry from [conflicting start time] to [conflicting end time] on [date]. Please adjust your times."
+- Message: "This entry overlaps with an existing entry from [HH:MM AM/PM] to [HH:MM AM/PM] on [MM/DD/YYYY]. Please adjust your times."
 - "OK" or "Close" button to dismiss
 - Form remains filled (user can edit times and retry)
 - Focus returns to start time field after dismissal
