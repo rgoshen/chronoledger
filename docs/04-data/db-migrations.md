@@ -19,7 +19,8 @@ packages/
     prisma/         (optional shared package if you want one schema definition)
 ```
 
-Practical default: keep Prisma schema in **API** and have the worker import a generated client package (so there is one schema source of truth).
+Practical default: keep Prisma schema in **API** and have the worker import a generated client package (so there is one
+schema source of truth).
 
 ## 2) Environment workflow
 

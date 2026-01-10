@@ -5,7 +5,8 @@
 
 ## Context
 
-ChronoLedger runs the API as a containerized service on ECS/Fargate with separate hostnames (`api.<domain>`). We need a secure, maintainable ingress that supports:
+ChronoLedger runs the API as a containerized service on ECS/Fargate with separate hostnames (`api.<domain>`). We need
+a secure, maintainable ingress that supports:
 
 - TLS termination with managed certificates
 - Path-based routing (future admin API separation is still under `/api/v1/admin`)
@@ -36,4 +37,5 @@ We will **not** place API Gateway in front of ECS in v1.
 ## Alternatives Considered
 
 - API Gateway (HTTP API) + VPC Link to ALB/NLB: rejected due to added complexity and limited benefit for this use case.
-- CloudFront in front of the API immediately: deferred; API responses are largely user-specific and should not be cached at the edge by default.
+- CloudFront in front of the API immediately: deferred; API responses are largely user-specific and should not be
+  cached at the edge by default.

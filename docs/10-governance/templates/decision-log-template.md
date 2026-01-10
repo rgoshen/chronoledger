@@ -7,13 +7,16 @@
 **Status:** Proposed | Accepted | Rejected | Superseded
 
 ## Context
+
 - What prompted the decision?
 - Constraints (time, compliance, ADRs, dependencies)
 
 ## Decision
+
 - What was decided?
 
 ## Options Considered
+
 1) **Option A** — <name>
    - Pros:
      - <bullet>
@@ -29,10 +32,12 @@
 (Add more options if needed.)
 
 ## Rationale
+
 - Why this option was chosen over the others
 - What evidence/inputs mattered most (tests, user feedback, risk assessment)
 
 ## Consequences
+
 - Positive outcomes expected:
   - <bullet>
 - Tradeoffs / risks accepted:
@@ -41,6 +46,7 @@
   - [ ] <task>
 
 ## Links
+
 - Related ADRs:
   - ADR-XXXX — <title>
 - PRs:

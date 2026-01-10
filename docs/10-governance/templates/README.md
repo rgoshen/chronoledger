@@ -1,6 +1,9 @@
+<!-- markdownlint-disable MD013 -->
+
 # Templates
 
-This folder is the **canonical home for human-facing templates** used in the ChronoLedger repo (docs, checklists, logs, and lightweight process artifacts).
+This folder is the **canonical home for human-facing templates** used in the ChronoLedger repo (docs, checklists, logs,
+and lightweight process artifacts).
 
 ## Canonical vs tool-enforced (the one rule that prevents chaos)
 
@@ -15,7 +18,7 @@ Best practice:
 ## Template inventory
 
 | Template | Purpose | Primary users | Mirror required? |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `adr-template.md` | Standard ADR format (context, decision, consequences) | PM, Tech Lead, Eng | No |
 | `decision-log-template.md` | Lightweight decision log entry format | PM, Tech Lead | No |
 | `feature-retrospective-template.md` | “What went well / didn’t / outcomes / follow-ups” after a slice/feature | All agents | No |
@@ -64,3 +67,5 @@ cp docs/10-governance/templates/<template-name>.md .github/<tool-path>/<file-nam
 - Retrospectives output: `docs/10-governance/retrospectives/`
 - Backlog (stories + slices): `docs/10-governance/backlog/`
 - Roles (agent responsibilities): `docs/10-governance/roles/README.md`
+
+<!-- markdownlint-enable MD013 -->

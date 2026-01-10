@@ -33,4 +33,5 @@ Host the backend as **containerized services on AWS** (not serverless functions)
 
 ## Alternatives Considered
 
-- API Gateway + Lambda: rejected due to operational complexity around relational DB connectivity and heavier workloads like PDF generation.
+- API Gateway + Lambda: rejected due to operational complexity around relational DB connectivity and heavier workloads
+  like PDF generation.

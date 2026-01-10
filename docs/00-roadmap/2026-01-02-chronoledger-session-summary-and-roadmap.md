@@ -2,7 +2,8 @@
 
 _Last updated: 2026-01-02_
 
-This document summarizes what we accomplished so far (requirements + architecture decisions) and provides a **complete roadmap of what remains to do before writing feature code**, so you can resume later without context loss.
+This document summarizes what we accomplished so far (requirements + architecture decisions) and provides a
+**complete roadmap of what remains to do before writing feature code**, so you can resume later without context loss.
 
 ---
 
@@ -10,7 +11,8 @@ This document summarizes what we accomplished so far (requirements + architectur
 
 ### 1.1 Product scope and requirements (high level)
 
-We defined ChronoLedger as a personal (initially) time-clock style system that later scales to additional users with tenant configurability. Core behaviors and constraints:
+We defined ChronoLedger as a personal (initially) time-clock style system that later scales to additional users with
+tenant configurability. Core behaviors and constraints:
 
 - Track work time like a time clock (start/stop entries).
 - Store **raw timestamps and raw hours only**; rounding is computed, not stored.
@@ -19,7 +21,8 @@ We defined ChronoLedger as a personal (initially) time-clock style system that l
 - **Cross-midnight entries:** auto-split into daily segments; store UTC; retain capture timezone.
 - **Overlap blocking:** prevent any overlapping entries; only one open entry at a time.
 - **Lock/unlock workflow:** once complete, entries are locked; unlock requires **admin approval** every time.
-- **Auditability:** audit tables in DB (separate domain tables) for time entry changes, unlock requests, and admin actions (admin-visible only).
+- **Auditability:** audit tables in DB (separate domain tables) for time entry changes, unlock requests, and admin
+  actions (admin-visible only).
 - **PDF export required:** official exports only (consistent, server-generated).
 - **Pay rates:** rate history supported; changes effective only on the **1st of the month**.
 - **ATO rules:**
@@ -130,7 +133,8 @@ These live at the top level (downloads previously provided), including:
 
 ## 4) Roadmap: what remains **before** starting feature coding
 
-This is the “pre-coding checklist” that gets us to a clean, low-risk starting line. Once completed, we begin repo scaffolding and then features.
+This is the “pre-coding checklist” that gets us to a clean, low-risk starting line. Once completed, we begin repo
+scaffolding and then features.
 
 ### 4.1 Requirements consolidation (single source of truth)
 
@@ -326,7 +330,7 @@ These are not required to begin repo scaffolding, but we should decide them soon
 
 ### P2 ADRs (later, when it matters)
 
-4) **Mobile release strategy**
+1) **Mobile release strategy**
    - Store pipelines (iOS/Android), signing, versioning approach
    - Decide on OTA updates (if desired)
 
@@ -338,4 +342,5 @@ These are not required to begin repo scaffolding, but we should decide them soon
 
 ## 6) When you resume later (suggested next command)
 
-“Open the latest ChronoLedger session summary and then start with Section 4.1 Requirements consolidation; propose the concrete documents and stubs we need to create, in order, without starting repo scaffolding yet.”
+“Open the latest ChronoLedger session summary and then start with Section 4.1 Requirements consolidation; propose the
+concrete documents and stubs we need to create, in order, without starting repo scaffolding yet.”

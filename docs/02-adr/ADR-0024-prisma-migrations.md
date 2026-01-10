@@ -5,7 +5,8 @@
 
 ## Context
 
-ChronoLedger uses PostgreSQL (RDS) with a 3NF core schema, tenant scoping (`tenant_id`), soft deletes, and domain audit tables. We need:
+ChronoLedger uses PostgreSQL (RDS) with a 3NF core schema, tenant scoping (`tenant_id`), soft deletes, and domain
+audit tables. We need:
 
 - repeatable schema evolution across dev/staging/prod
 - reliable migration ordering in CI/CD with a migration gate

@@ -104,4 +104,3 @@ To keep golden PDFs stable across machines:
 
 - If a fixture changes, treat it like a breaking change for tests.
 - For golden PDFs, require intentional updates (e.g., explicit approval or a dedicated update command).
-

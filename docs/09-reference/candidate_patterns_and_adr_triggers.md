@@ -1,10 +1,14 @@
+<!-- markdownlint-disable MD013 -->
+
 # ChronoLedger — Candidate Patterns & ADR Triggers
 
 _Last updated: 2026-01-04_
 
 ## Purpose
 
-This doc is a **shortlist of design patterns** that are likely to matter for ChronoLedger (mobile + web, Node/Nest API, Postgres/Prisma, PDF-first reporting, auditability, and cross-device sync). It’s not a commitment to use all of these—think of it as a **menu + decision checklist**.
+This doc is a **shortlist of design patterns** that are likely to matter for ChronoLedger (mobile + web, Node/Nest API,
+Postgres/Prisma, PDF-first reporting, auditability, and cross-device sync). It’s not a commitment to use all of
+these—think of it as a **menu + decision checklist**.
 
 **How to use this:**
 
@@ -14,15 +18,17 @@ This doc is a **shortlist of design patterns** that are likely to matter for Chr
 
 ## What belongs in planning vs implementation
 
-- **Planning / ADR-worthy**: patterns that affect _boundaries, data flow, sync, reporting architecture, security posture, deployment, observability_.
-- **Implementation-time**: patterns that mostly improve local code structure (Strategy/Factory/etc.) and can be introduced safely later.
+- **Planning / ADR-worthy**: patterns that affect _boundaries, data flow, sync, reporting architecture, security_
+  _posture, deployment, observability_.
+- **Implementation-time**: patterns that mostly improve local code structure (Strategy/Factory/etc.) and can be
+  introduced safely later.
 
 ---
 
 ## 1) System-level patterns (most ADR-worthy)
 
 | Pattern | Where it applies | Why it matters for ChronoLedger | ADR trigger (decision point) | Priority |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **Vertical Slice / Feature Modules** | Repo structure; API modules; UI modules | Matches the “build in vertical slices” plan; minimizes cross-cutting rework | “Are we organizing by layer (controllers/services/repos) or by feature (time-entry, reports, admin)?” | P0 |
 | **Clean Architecture / Hexagonal (Ports & Adapters)** | API (and optionally mobile) | Keeps domain rules (time validation, locks, ATO ledger) independent from Nest/Prisma; makes testing simpler | “Do we expect swapping storage/export engines, or heavy rule evolution?” | P0 |
 | **Optimistic Concurrency Control (OCC)** | Sync + API writes | Prevents silent overwrites; supports deterministic conflict handling | “Do we allow edits from multiple devices? How do we detect/resolve concurrent edits?” | P0 |
@@ -66,7 +72,7 @@ flowchart LR
 ## 2) Backend/API patterns (high leverage, usually easy to add)
 
 | Pattern | Where it applies | Why it matters | ADR trigger (decision point) | Priority |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **Repository Pattern** | API data access | Prevents Prisma from leaking everywhere; improves testability | “Do we want domain/use cases independent of Prisma queries?” | P0 |
 | **Unit of Work (transaction boundary)** | Multi-step writes (lock/unlock, approvals, ATO events) | Ensures consistency when multiple tables change together | “Do we have multi-entity operations that must be atomic?” | P0 |
 | **Specification Pattern (rule composition)** | Time-entry validation (overlaps, weekly limits, lock rules) | Keeps complex rules readable and reusable | “Are rules growing and becoming hard to reason about?” | P0 |
@@ -80,7 +86,7 @@ flowchart LR
 ## 3) Mobile/client patterns (especially important if offline is real)
 
 | Pattern | Where it applies | Why it matters | ADR trigger (decision point) | Priority |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **Offline Queue (Pending Ops)** | Mobile local DB | Enables offline entry and reliable sync; operations replay safely | “Are we committing to offline support (recommended in PRD)?” | P1 (maps to Offline/Sync ADR) |
 | **Sync Engine with Deterministic Conflict Rules** | Mobile + API | Conflicts are inevitable with multi-device edits; deterministic outcomes avoid support nightmares | “What wins on conflict (server, client, timestamps, versions)?” | P1 |
 | **State Machine for Time Entry Mode** | Timer/open-interval handling | Prevents invalid UI states (multiple open intervals, half-saved edits) | “Do we support open intervals + editing while running?” | P0 |
@@ -110,7 +116,7 @@ sequenceDiagram
 ## 4) Reporting + export patterns (PDF-first “official outputs”)
 
 | Pattern | Where it applies | Why it matters | ADR trigger (decision point) | Priority |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **Export Pipeline (staged processing)** | Worker/service | Clean separation: fetch → transform → render → store → version | “Are exports async? Do we store versions and re-render deterministically?” | P0/P1 |
 | **Template Method for Report Generation** | Each report type | Standardizes steps; report-specific overrides are small | “Are we adding multiple report types soon?” | P0 |
 | **Factory for Report Builders** | Export worker | Selects correct report generator from catalog | “Do we need a single entry point for exports?” | P0 |
@@ -137,7 +143,7 @@ flowchart LR
 ## 5) Auditability patterns (ChronoLedger’s “special sauce”)
 
 | Pattern | Where it applies | Why it matters | ADR trigger (decision point) | Priority |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **Append-only Audit Log** | DB tables | Makes “who/what/when/why” provable; avoids tampering concerns | “Do we allow edits/deletes of audit records? (Usually: no.)” | P0 |
 | **Audit as Cross-Cutting Concern (Interceptor)** | API | Prevents missing audits; consistent event schema | “Do we want audits guaranteed for specific actions?” | P0 |
 | **Event-like Ledger Entries** | ATO accrual/usage; lock/unlock history | Supports traceability and reproducible recomputation | “Do balances need to be recomputable from history?” | P0 |
@@ -171,4 +177,7 @@ These align with the areas already identified as ADR-worthy topics:
 1. Add this doc under `docs/` (wherever you keep design notes), and treat it as a living “pattern radar.”
 2. For each P0/P1 trigger above, decide whether it becomes an ADR now or stays as an implementation note.
 
-**Reminder:** update any applicable README index files (e.g., `docs/README.md` and/or ADR index) with a link to this doc so it doesn’t get lost.
+**Reminder:** update any applicable README index files (e.g., `docs/README.md` and/or ADR index) with a link to this
+doc so it doesn’t get lost.
+
+<!-- markdownlint-enable MD013 -->

@@ -14,7 +14,7 @@
 ## Map
 
 | Supporting doc | Related ADR(s) | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `chronoledger-architecture.md` | ADR-0016, ADR-0007, ADR-0009, ADR-0010 | system shape and hosting assumptions |
 | `chronoledger-tech-stack.md` | ADR-0022, ADR-0003 | primary stack and client platforms |
 | `chronoledger-security.md` | ADR-0027, ADR-0013 | security baseline and networking controls |

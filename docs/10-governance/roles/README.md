@@ -33,8 +33,10 @@ This folder contains **role charters** used to coordinate human contributors and
   - UX: UI states + accessibility notes (in the story)
   - Tech Lead: slice readiness, constraints, and task breakdown (in the slice)
   - Engineering roles: implement tasks + tests
-- When a role identifies a cross-cutting decision, capture it as an **ADR** (or decision log entry) rather than implementing implicitly.
+- When a role identifies a cross-cutting decision, capture it as an **ADR** (or decision log entry) rather than
+  implementing implicitly.
 
 ## Related
+
 - Backlog workflow: `docs/10-governance/backlog/README.md`
 - Governance: `docs/10-governance/README.md`

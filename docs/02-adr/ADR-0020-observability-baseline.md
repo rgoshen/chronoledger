@@ -5,7 +5,8 @@
 
 ## Context
 
-ChronoLedger runs on ECS/Fargate (API + worker), uses RDS PostgreSQL, processes async jobs via SQS, and must support admin audit visibility. Operational needs include:
+ChronoLedger runs on ECS/Fargate (API + worker), uses RDS PostgreSQL, processes async jobs via SQS, and must support
+admin audit visibility. Operational needs include:
 
 - Diagnosing issues quickly (PDF jobs failing, overlap validation problems, auth/permission errors)
 - Correlating client requests to server actions (including background work)

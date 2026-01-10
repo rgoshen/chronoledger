@@ -5,7 +5,8 @@
 
 ## Context
 
-ChronoLedger includes complex time rules (timezone boundaries, overlaps, ATO caps), admin workflows, and “official” PDFs. We need confidence without heavyweight process.
+ChronoLedger includes complex time rules (timezone boundaries, overlaps, ATO caps), admin workflows, and “official”
+PDFs. We need confidence without heavyweight process.
 
 ## Decision
 

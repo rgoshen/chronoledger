@@ -5,7 +5,8 @@
 
 ## Context
 
-ChronoLedger stores time entries, pay-related configuration, and admin-visible audit history. The system also produces “official” PDF exports stored in S3.
+ChronoLedger stores time entries, pay-related configuration, and admin-visible audit history. The system also produces
+“official” PDF exports stored in S3.
 
 Key drivers:
 
@@ -16,7 +17,8 @@ Key drivers:
 
 ## Decision
 
-Adopt a retention model with **soft deletes by default**, and **scheduled purging/archiving** governed by explicit retention periods.
+Adopt a retention model with **soft deletes by default**, and **scheduled purging/archiving** governed by explicit
+retention periods.
 
 ### 1) Source-of-truth data
 

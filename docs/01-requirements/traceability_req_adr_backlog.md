@@ -14,7 +14,7 @@
 ## Traceability table
 
 | Requirement ID | Requirement (summary) | ADRs | Backlog item(s) | Notes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | REQ-0001 | Multi-tenant boundary and membership model | [ADR-0017](../02-adr/ADR-0017-multitenancy-row-level.md), [ADR-0006](../02-adr/ADR-0006-auto-link-by-verified-email.md) | BL-0001 | confirm tenant selection UX |
 | REQ-0002 | Time entry CRUD with correctness invariants | [ADR-0004](../02-adr/ADR-0004-time-and-timezone-strategy.md), [ADR-0028](../02-adr/ADR-0028-domain-invariants-state-machines.md) | BL-0002 | overlap + open-entry policies |
 | REQ-0003 | Prevent overlapping time entries (DB enforced) | [ADR-0002](../02-adr/ADR-0002-postgresql-3nf.md), [ADR-0024](../02-adr/ADR-0024-prisma-migrations.md) | BL-0003 | exclusion constraint + raw SQL |

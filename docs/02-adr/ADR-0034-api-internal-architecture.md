@@ -13,7 +13,8 @@ ChronoLedger’s API will evolve beyond simple CRUD due to:
 - business rules for time entry validation, pay periods, locking/unlocking, and ATO ledger
 - potential mobile sync constraints (retries, idempotency, conflicts)
 
-A simple layered structure (controllers/services/repos) tends to blur business rules across layers as complexity grows. We want an architecture that:
+A simple layered structure (controllers/services/repos) tends to blur business rules across layers as complexity grows.
+We want an architecture that:
 
 - supports incremental delivery (vertical slices)
 - enforces isolation of domain rules from frameworks (Nest), persistence (Prisma), and transports (HTTP)
@@ -38,7 +39,8 @@ Each feature module will follow this internal structure:
 ### Boundary rules (hard constraints)
 
 - `domain/` MUST NOT import from NestJS, Prisma, DB clients, HTTP libraries, queue clients, or framework decorators.
-- `application/` MAY reference `domain/` and port interfaces; MUST NOT reference `http/` and SHOULD NOT reference concrete `adapters/`.
+- `application/` MAY reference `domain/` and port interfaces; MUST NOT reference `http/` and SHOULD NOT reference
+  concrete `adapters/`.
 - `adapters/` implement ports and MAY reference Prisma/queue/storage.
 - `http/` maps transport to use cases; MUST NOT contain business rules.
 
@@ -58,8 +60,10 @@ Each feature module will follow this internal structure:
 
 ## Alternatives considered
 
-- **Layered architecture (controllers/services/repos)**: simpler initially, but tends to leak rules and become harder to test.
-- **Pure Clean Architecture across the whole repo (layer-first)**: very strict, but makes navigation harder for feature-driven delivery.
+- **Layered architecture (controllers/services/repos)**: simpler initially, but tends to leak rules and become harder
+  to test.
+- **Pure Clean Architecture across the whole repo (layer-first)**: very strict, but makes navigation harder for
+  feature-driven delivery.
 
 ## Implementation sketch
 

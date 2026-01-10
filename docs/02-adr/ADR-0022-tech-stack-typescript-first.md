@@ -44,7 +44,8 @@ Adopt a **TypeScript-first** stack across clients and services:
 ### Data access
 
 - PostgreSQL on RDS (ADR-0010)
-- Use a typed ORM (**Prisma** (approved) for typed data access and migrations) + migrations; server remains source of truth for rules and validation.
+- Use a typed ORM (**Prisma** (approved) for typed data access and migrations) + migrations; server remains source
+  of truth for rules and validation.
 
 ## Consequences
 

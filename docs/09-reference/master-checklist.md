@@ -37,11 +37,13 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
 ## 2) Architecture Decision Records (ADRs)
 
 ### 2.1 Governance
+
 - [x] Establish ADR process and index (`adr/README.md`)
 - [x] Decide REST API conventions (ADR-0015)
 - [x] Decide monorepo layout (ADR-0016)
 
 ### 2.2 Platform, hosting, and infrastructure
+
 - [x] Cloud-first direction (multi-device sync; future SaaS readiness)
 - [x] Containerized hosting shape (ECS/Fargate)
 - [x] Auth provider: Auth0
@@ -55,6 +57,7 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
 - [x] IaC tool + env stacks (OpenTofu/Terraform) (ADR-0023)
 
 ### 2.3 Tech stack and data
+
 - [x] TypeScript-first stack (ADR-0022)
   - [x] Web: React + TS
   - [x] Mobile: React Native + TS
@@ -64,10 +67,12 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
 - [x] Migrations + typed access: Prisma (ADR-0024)
 
 ### 2.4 Security, caching, and operability
+
 - [x] Security baseline (Auth0 PKCE, WAF, TLS, Secrets Manager, hardening) (ADR-0027)
 - [x] Caching strategy (CloudFront for web; no edge cache for API; ETags where safe) (ADR-0026)
 
 ### 2.5 Domain correctness (P0 ADRs)
+
 - [x] Domain invariants + state machines (ADR-0028)
 - [x] Authorization model + Auth0 claim mapping + admin MFA (ADR-0029)
 - [x] API error contract (RFC 7807 Problem+JSON) (ADR-0030)
@@ -76,6 +81,7 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
 - [x] Testing strategy (unit/integration/contract + PDF golden tests) (ADR-0033)
 
 ### 2.6 P1 ADRs (soon after initial build starts)
+
 - [ ] Offline + sync policy for mobile
   - [ ] Decide online-only vs offline-first
   - [ ] Define conflict resolution strategy
@@ -89,6 +95,7 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
   - [ ] Update retention implications (CSV storage/lifecycle)
 
 ### 2.7 P2 ADRs (later, when it matters)
+
 - [ ] Mobile release strategy
   - [ ] Define store pipelines (iOS/Android)
   - [ ] Define versioning approach
@@ -114,17 +121,20 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
 ## 4) Pre-coding checklist (must complete before repo scaffolding / feature coding)
 
 ### 4.1 Requirements consolidation (single source of truth)
+
 - [ ] Consolidate/verify one canonical requirements doc (no contradictions)
 - [ ] Create traceability mapping: Requirement → Backlog item → ADR references
 - [ ] Explicitly define “official export” vs “non-official” outputs (if any)
 
 ### 4.2 PDF report/export catalog
+
 - [ ] Enumerate every report type and required fields
 - [ ] Define sorting/grouping/pagination rules per report
 - [ ] Define footer/header rules (timezone, generated-at, template version)
 - [ ] Define fixtures for PDF golden tests per template version
 
 ### 4.3 Database schema blueprint (before Prisma schema)
+
 - [ ] Finalize table list and relationships
   - [ ] tenant, app_user, tenant_user
   - [ ] time_entry (soft delete)
@@ -139,6 +149,7 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
 - [ ] Decide whether to use views for reporting (or raw SQL modules), and where they live
 
 ### 4.4 API surface outline (OpenAPI-first)
+
 - [ ] Define endpoints + DTOs (user + admin)
 - [ ] Define authZ rules per route (USER vs ADMIN)
 - [ ] Define stable Problem+JSON `code` catalog
@@ -146,24 +157,28 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
 - [ ] Define ETag/If-Match coverage (which resources require optimistic concurrency)
 
 ### 4.5 UX flows and wireframes (minimum clarity)
+
 - [ ] Web user flows (time clock, daily/weekly, lock)
 - [ ] Timezone selector UX (device default vs override)
 - [ ] Admin flows (unlock queue, approve/deny, audit views)
 - [ ] Mobile flows (time clock + quick status + secure storage behaviors)
 
 ### 4.6 Local dev plan (ready-to-run)
+
 - [ ] Draft docker-compose architecture (api/worker/postgres)
 - [ ] Define seed data strategy (tenant, admin, baseline time codes, pay rate history)
 - [ ] Define Auth0 dev configuration (apps, callbacks, allowed origins)
 - [ ] Decide AWS dev usage vs local emulation for each dependency (S3/SQS/secrets)
 
 ### 4.7 Infra first-apply plan (dev environment)
+
 - [ ] Define module list and env variables for IaC
 - [ ] Define minimal dev sizing defaults (RDS class, ECS task sizes, etc.)
 - [ ] Define remote state bootstrap steps (S3 backend + Dynamo lock)
 - [ ] Define log groups, alarms, WAF rules baseline (initial values)
 
 ### 4.8 CI/CD first pipeline plan
+
 - [ ] Define GitHub environment strategy and branch mapping
 - [ ] Define build/test steps per package
 - [ ] Define migration gate mechanism (one-off ECS task command)
@@ -171,6 +186,7 @@ This is the end-to-end checklist for the project lifecycle so far, with items al
 - [ ] Define rollback steps (ECS task def rollback + forward-only migration remediation)
 
 ### 4.9 Testing harness/tooling plan
+
 - [ ] Decide test runners and frameworks (unit + integration + e2e)
 - [ ] Decide integration test DB strategy (dockerized DB/Testcontainers)
 - [ ] Define contract test approach (OpenAPI validation)

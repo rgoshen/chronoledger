@@ -10,7 +10,8 @@ ChronoLedger serves:
 - A static web SPA (`app.<domain>`) via S3 + CloudFront
 - A user-specific API (`api.<domain>`) behind ALB → ECS
 
-We must avoid caching sensitive, user-specific API responses at shared edges. At the same time, we want good performance for:
+We must avoid caching sensitive, user-specific API responses at shared edges. At the same time, we want good
+performance for:
 
 - static assets
 - some stable reference data (time codes, holidays)

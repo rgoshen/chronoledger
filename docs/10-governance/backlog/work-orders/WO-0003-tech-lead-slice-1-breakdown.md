@@ -1,16 +1,20 @@
 # WO-0003 — Tech Lead: Mark SL-0001 “Ready” + decompose into implementation WOs
 
 ## Owner
+
 - Primary: Tech Lead / Architect agent
 - Reviewer: PM + QA (as needed)
 
 ## Goal
+
 Make SL-0001 executable by the engineering agents by:
+
 - confirming scope and constraints,
 - ensuring ADR alignment,
 - breaking into small implementation work orders (WO-010x) that can run in parallel without conflicts.
 
 ## Inputs
+
 - `AGENTS.md` (boundaries, DoD, feature completion rules)
 - Slice: `docs/10-governance/backlog/slices/SL-0001-auth-time-entry.md`
 - Stories: `docs/10-governance/backlog/user-stories/US-0001..US-0004`
@@ -18,6 +22,7 @@ Make SL-0001 executable by the engineering agents by:
 - Traceability map: `docs/10-governance/backlog/traceability-map.md`
 
 ## Required Outputs (repo artifacts)
+
 1) Update SL-0001 in place:
    - Set Status to **Ready**
    - Add a “Work Orders” list with links to new WOs below
@@ -25,6 +30,7 @@ Make SL-0001 executable by the engineering agents by:
    - `docs/10-governance/backlog/work-orders/WO-0101-...md` etc.
 
 ### Recommended implementation WOs (create these)
+
 - WO-0101 — Backend: data model + migration plan for time entries (incl. overlap enforcement)
 - WO-0102 — Backend: time entry API endpoints + Problem+JSON errors
 - WO-0103 — Backend: idempotency keys for open entry start/stop
@@ -33,7 +39,9 @@ Make SL-0001 executable by the engineering agents by:
 - WO-0106 — DevOps/Platform: local dev wiring needed for SL-0001 (if missing)
 
 ## Agent Prompt (copy/paste)
-You are the **Tech Lead / Architect** agent. Follow `AGENTS.md`: do not improvise around ADRs; no mass rewrites; produce small, parallelizable work.
+
+You are the **Tech Lead / Architect** agent. Follow `AGENTS.md`: do not improvise around ADRs; no mass rewrites;
+produce small, parallelizable work.
 
 1) Read SL-0001 + referenced ADRs + US-0001..US-0004.
 2) Update `docs/10-governance/backlog/slices/SL-0001-auth-time-entry.md`:

@@ -1,6 +1,7 @@
 # Testing Plan
 
-**Purpose:** Define ChronoLedger’s testing strategy and quality gates to ensure correctness, auditability, and reproducible “official” exports.
+**Purpose:** Define ChronoLedger’s testing strategy and quality gates to ensure correctness, auditability, and
+reproducible “official” exports.
 
 **Status:** Draft
 **Last reviewed:** YYYY-MM-DD

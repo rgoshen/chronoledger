@@ -2,7 +2,8 @@
 
 _Last updated: 2026-01-02_
 
-This document expands ADR-0015 with an endpoint outline and payload conventions. It is an implementation guide, not a contract for future versions.
+This document expands ADR-0015 with an endpoint outline and payload conventions. It is an implementation guide, not a
+contract for future versions.
 
 ## 1) Conventions
 

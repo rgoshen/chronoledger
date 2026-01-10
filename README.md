@@ -1,6 +1,7 @@
 # ChronoLedger
 
-ChronoLedger is an auditable timekeeping and pay-period reporting platform with role-based administration and “official” export outputs. This repository houses the complete system—applications, services, infrastructure, and documentation.
+ChronoLedger is an auditable timekeeping and pay-period reporting platform with role-based administration and “official”
+export outputs. This repository houses the complete system—applications, services, infrastructure, and documentation.
 
 ## Table of contents
 
@@ -60,7 +61,8 @@ Notes:
 - Some database rules (e.g., exclusion constraints) may require raw migrations even when using an ORM.
 
 ## Repository structure
-```
+
+```bash
 docs/               # requirements, ADRs, API notes, UX flows, report catalog, plans
 apps/               # web, mobile, api, worker
 packages/           # shared libraries (types, validation, config, utilities)
@@ -70,7 +72,8 @@ infra/              # infrastructure-as-code (environments, modules, deploy tool
 
 ## Getting started
 
-> This project may begin docs-first while architecture and contracts are finalized. As runtime components land, this section will be updated with a fully runnable local setup.
+> This project may begin docs-first while architecture and contracts are finalized. As runtime components land, this
+> section will be updated with a fully runnable local setup.
 
 ### Prerequisites
 

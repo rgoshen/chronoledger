@@ -11,7 +11,8 @@ ChronoLedger handles:
 - audit trails visible to admins
 - “official” PDF exports
 
-The system is cloud-hosted with a web SPA, mobile apps, an API, and a worker. We need industry-standard security controls without over-complicating v1.
+The system is cloud-hosted with a web SPA, mobile apps, an API, and a worker. We need industry-standard security
+controls without over-complicating v1.
 
 ## Decision
 

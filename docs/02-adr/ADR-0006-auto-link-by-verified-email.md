@@ -5,11 +5,13 @@
 
 ## Context
 
-ChronoLedger supports email/password and social login (Apple/Google/Facebook). Users should not end up with multiple accounts just because they used a different provider on a different device.
+ChronoLedger supports email/password and social login (Apple/Google/Facebook). Users should not end up with multiple
+accounts just because they used a different provider on a different device.
 
 ## Decision
 
-When a social login provider supplies a **verified email**, the system will **auto-link/merge** to an existing account with the same verified email.
+When a social login provider supplies a **verified email**, the system will **auto-link/merge** to an existing account
+with the same verified email.
 
 ## Consequences
 

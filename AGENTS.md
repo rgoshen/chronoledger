@@ -4,7 +4,8 @@ _Last updated: 2026-01-04_
 
 ## Purpose
 
-This document defines **non-negotiable rules** for humans and AI agents contributing to ChronoLedger. The goal is predictable, maintainable changes that respect architectural decisions and keep the codebase understandable.
+This document defines **non-negotiable rules** for humans and AI agents contributing to ChronoLedger. The goal is
+predictable, maintainable changes that respect architectural decisions and keep the codebase understandable.
 
 **These rules apply to every change unless an ADR explicitly overrides them.**
 
@@ -239,10 +240,100 @@ Related:
 - Agent orchestration + decision rights: `docs/10-governance/agent-orchestration.md`
 - Templates index: `docs/10-governance/templates/README.md`
 
-## Repo placement
+## Recommended Worktrees + Branch Naming (Parallel Agent Execution)
 
-Save this file at the repo root:
+Use this when multiple agents (PM/UX/Tech Lead/BE/FE/QA/DevOps) are working in parallel. The key is
+**isolated working directories**, not necessarily separate terminals.
 
-- `AGENTS.md`
+### Worktree layout (recommended)
 
-Add a link in `README.md` and/or `docs/README.md` so it is discoverable.
+Create worktrees in a sibling folder next to the main repo:
+
+```bash
+chronoledger/              # main repo (main branch)
+../chronoledger-wt/
+  pm/
+  ux/
+  techlead/
+  backend/
+  frontend/
+  qa/
+  devops/
+```
+
+### Branch naming convention (must match `git-workflow.md`)
+
+Branches must follow:
+
+- `<type>/<ticket>-<slug>`
+
+Where `<type>` is one of your repo’s allowed prefixes (e.g., `feature/`, `bugfix/`, `docs/`, `chore/`, etc.).
+If you don’t have a ticket yet, use `no-ticket` and include the slice ID in the slug.
+
+Examples:
+
+- PM: `docs/no-ticket-sl-0001-stories`
+- UX: `docs/no-ticket-sl-0001-ux-notes`
+- Tech Lead: `docs/no-ticket-sl-0001-slice-ready`
+- Backend: `feature/no-ticket-sl-0001-time-entry-api`
+- Frontend: `feature/no-ticket-sl-0001-time-entry-ui`
+- QA: `chore/no-ticket-sl-0001-tests`
+
+When you do have a ticket, replace `no-ticket` with your ticket ID:
+
+- `feature/CL-123-sl-0001-time-entry-api`
+
+### Create worktrees (copy/paste)
+
+Run from the main repo folder (on `main`):
+
+```bash
+mkdir -p ../chronoledger-wt
+
+git worktree add ../chronoledger-wt/pm -b docs/no-ticket-sl-0001-stories main
+git worktree add ../chronoledger-wt/ux -b docs/no-ticket-sl-0001-ux-notes main
+git worktree add ../chronoledger-wt/techlead -b docs/no-ticket-sl-0001-slice-ready main
+```
+
+Add implementation worktrees when ready:
+
+```bash
+git worktree add ../chronoledger-wt/backend -b feature/no-ticket-sl-0001-time-entry-api main
+git worktree add ../chronoledger-wt/frontend -b feature/no-ticket-sl-0001-time-entry-ui main
+git worktree add ../chronoledger-wt/qa -b chore/no-ticket-sl-0001-tests main
+git worktree add ../chronoledger-wt/devops -b chore/no-ticket-sl-0001-devops main
+```
+
+Useful checks:
+
+```bash
+git worktree list
+git branch --show-current
+```
+
+### Role boundaries (to prevent conflicts)
+
+For a given slice (e.g., `SL-0001`):
+
+- **PM** edits: `docs/10-governance/backlog/user-stories/US-####...`
+- **UX** edits: only the **UX/UI Notes** sections in the same US files + any `docs/05-ux/...` flow docs
+- **Tech Lead** edits: the slice file `docs/10-governance/backlog/slices/SL-####...` (and ADRs/decision logs as needed)
+- **Backend/Frontend/QA/DevOps** edit: code + tests, and tick off slice checklist items as completed
+
+### PR convention (simple)
+
+PR titles should include the slice:
+
+- `SL-0001: <short summary>`
+- `Docs (SL-0001): <short summary>`
+
+PR descriptions should reference:
+
+- Slice: `SL-0001`
+- Stories: `US-0001..US-0004` (as applicable)
+
+### Terminals: optional
+
+Separate terminals are optional. Use multiple terminals only if you want to run:
+
+- web server, api server, worker, tests/watchers concurrently.

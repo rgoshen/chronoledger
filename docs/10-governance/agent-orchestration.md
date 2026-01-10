@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD013 -->
 # ChronoLedger — Agent Orchestration, Decision Rights, and Feature Retrospectives
 
 ## How the role files are orchestrated
@@ -32,7 +33,8 @@ A practical orchestration model for these role charters is:
    - Ensures boundaries, maintainability, and ADR compliance.
    - Confirms cross-cutting concerns (errors, logging, observability, performance)
 
-The above is the “default choreography.” You can still run one agent at a time, but you keep the same sequence: PM → Tech Lead → implementers → QA/Security → Tech Lead.
+The above is the “default choreography.” You can still run one agent at a time, but you keep the same sequence:
+PM → Tech Lead → implementers → QA/Security → Tech Lead.
 
 ---
 
@@ -43,7 +45,7 @@ Conflicts are inevitable. The solution is to explicitly assign **decision rights
 ### Decision rights matrix (final say)
 
 | Decision type | Final decision owner | Notes / constraints |
-|---|---|---|
+| --- | --- | --- |
 | Product scope, prioritization, timelines, acceptance criteria | **Product Manager** | PM cannot override security/compliance requirements; may choose to defer scope. |
 | Architecture, boundaries, ADRs, cross-cutting design | **Tech Lead / Architect** | Must align with ADR hierarchy in `AGENTS.md`. |
 | Security controls, risk acceptance recommendations, authz/authn constraints | **Security** (with PM sign-off for risk acceptance) | Security can block release if critical issues exist; PM decides whether to ship only if Security provides an explicit risk acceptance path and it’s allowed by policy. |
@@ -144,3 +146,5 @@ Add one bullet in **Key deliverables** (or similar section):
 - **One integration owner** per feature (default: Tech Lead) to prevent cross-role deadlocks.
 - **Written contracts early** (API DTOs, data shape, component interfaces) to reduce rework.
 - **QA + Security have explicit stop-ship authority** for quality/security gates.
+
+<!-- markdownlint-enable MD013 -->

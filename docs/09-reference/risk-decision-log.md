@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD013 -->
+
 # ChronoLedger — Risk & Decision Log
 
 _Last updated: 2026-01-02_
@@ -5,7 +7,7 @@ _Last updated: 2026-01-02_
 ## 1. Decisions (Confirmed)
 
 | ID | Decision | Rationale |
-|---|---|---|
+| --- | --- | --- |
 | D-001 | Week boundary for rules is **Sunday–Saturday** | Matches your definition for start/end of week |
 | D-002 | Typical work days are Mon–Fri; weekend work allowed | Reflects real working patterns |
 | D-003 | Store timestamps in DB as **UTC** | Correctness across DST/TZ changes |
@@ -77,3 +79,5 @@ _Last updated: 2026-01-02_
 | D-041 | Concurrency strategy: DB constraints + ETags + Idempotency-Key | Prevent races/duplicates |
 | D-042 | Local dev strategy: docker compose + real AWS dev env (optional emulation) | Fast dev + low drift |
 | D-043 | Testing strategy: unit/integration/contract + PDF golden tests | Regression safety |
+
+<!-- markdownlint-enable MD013 -->

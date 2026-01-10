@@ -1,10 +1,12 @@
 # Schema Blueprint
 
-**Purpose:** Define the authoritative database blueprint for ChronoLedger: entities, relationships, invariants, constraints, and indexes.
+**Purpose:** Define the authoritative database blueprint for ChronoLedger: entities, relationships, invariants,
+constraints, and indexes.
 
 **Status:** Draft
 **Last reviewed:** YYYY-MM-DD
 **Related ADRs:**
+
 - ADR-0002-postgresql-3nf.md
 - ADR-0017-multitenancy-row-level.md
 - ADR-0024-prisma-migrations.md
@@ -14,6 +16,7 @@
 ## Scope
 
 This document specifies:
+
 - Core entities and relationships
 - Tenant boundaries and multi-tenant isolation strategy
 - Invariants enforced at the database level
@@ -21,6 +24,7 @@ This document specifies:
 - Migration approach (including where raw SQL is required)
 
 This document does **not** specify:
+
 - UI-specific derived fields
 - Non-authoritative caches/materialized views (unless explicitly added)
 
@@ -35,7 +39,7 @@ This document does **not** specify:
 ## Entity list (overview)
 
 | Entity | Description | Notes |
-|---|---|---|
+| --- | --- | --- |
 | tenant | Organization / boundary for isolation | row-level isolation strategy |
 | user | Global user identity | typically mapped from Auth0 subject |
 | membership | user ↔ tenant association | role(s), status, lifecycle |
@@ -75,15 +79,18 @@ erDiagram
 **Purpose:** Tenant boundary and metadata.
 
 Columns (suggested):
+
 - `id` (uuid, pk)
 - `name` (text, not null)
 - `created_at` (timestamptz, not null, default now())
 - `updated_at` (timestamptz, not null)
 
 Constraints:
+
 - Unique tenant name (optional; decide if global uniqueness is required)
 
 Indexes:
+
 - `tenant(name)` (optional)
 
 ---
@@ -93,6 +100,7 @@ Indexes:
 **Purpose:** Global user identity.
 
 Columns (suggested):
+
 - `id` (uuid, pk)
 - `auth_subject` (text, unique, not null) — Auth0 `sub`
 - `email` (text, nullable)
@@ -102,9 +110,11 @@ Columns (suggested):
 - `updated_at` (timestamptz, not null)
 
 Constraints:
+
 - `auth_subject` unique
 
 Indexes:
+
 - Unique index on `auth_subject`
 
 ---
@@ -114,6 +124,7 @@ Indexes:
 **Purpose:** Associates a user with a tenant and grants roles.
 
 Columns (suggested):
+
 - `id` (uuid, pk)
 - `tenant_id` (uuid, fk → tenant.id, not null)
 - `user_id` (uuid, fk → user.id, not null)
@@ -123,9 +134,11 @@ Columns (suggested):
 - `updated_at` (timestamptz, not null)
 
 Constraints:
+
 - Unique (`tenant_id`, `user_id`) (or (`tenant_id`, `user_id`, `role`) if multi-role)
 
 Indexes:
+
 - `membership(tenant_id, user_id)`
 
 ---
@@ -135,6 +148,7 @@ Indexes:
 **Purpose:** Primary time interval record.
 
 Columns (suggested):
+
 - `id` (uuid, pk)
 - `tenant_id` (uuid, fk → tenant.id, not null)
 - `user_id` (uuid, fk → user.id, not null)
@@ -147,21 +161,25 @@ Columns (suggested):
 - `updated_at` (timestamptz, not null)
 
 Invariants (must hold):
+
 - `end_at` is null OR `end_at > start_at`
 - At most one open entry per (`tenant_id`, `user_id`) at a time
 - No overlapping intervals per (`tenant_id`, `user_id`) (policy defines boundary inclusivity)
 - Entries cannot be created/edited within locked periods unless an approved unlock exists
 
 Constraints:
+
 - CHECK (`end_at is null OR end_at > start_at`)
 - Partial unique index for “one open entry”
 - Exclusion constraint (Postgres) to prevent overlap
 
 Indexes:
+
 - `time_entry(tenant_id, user_id, start_at desc)`
 - `time_entry(tenant_id, user_id, end_at desc)` (optional)
 
 Overlap prevention (raw SQL migration required):
+
 - Use `tstzrange(start_at, end_at, '[)')` with exclusion constraint
 - Define behavior for null end separately (open-entry uniqueness constraint)
 
@@ -205,4 +223,3 @@ Document raw SQL decisions in `chronoledger-db-migrations.md` and reference the 
 - Locking model: tenant-wide, user-specific, or both?
 - RLS: enforce now (P0) vs later (P1)?
 - Soft deletes: required? (If yes, audit + retention changes)
-

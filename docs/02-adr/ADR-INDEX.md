@@ -5,7 +5,7 @@ This index provides a quick, stable navigation view of all Architecture Decision
 ## ADRs
 
 | ADR | Title | Status | File |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | ADR-0000 | ADR process and template | — | [ADR-0000-adr-process-and-template.md](ADR-0000-adr-process-and-template.md) |
 | ADR-0001 | Cloud-first deployment | — | [ADR-0001-cloud-first-deployment.md](ADR-0001-cloud-first-deployment.md) |
 | ADR-0002 | PostgreSQL 3NF | — | [ADR-0002-postgresql-3nf.md](ADR-0002-postgresql-3nf.md) |

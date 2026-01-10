@@ -1,6 +1,7 @@
 # Documentation
 
-This folder contains ChronoLedger documentation: roadmap, requirements, architecture decisions, implementation plans, and supporting reference docs.
+This folder contains ChronoLedger documentation: roadmap, requirements, architecture decisions, implementation plans,
+and supporting reference docs.
 
 ## Quick navigation
 

@@ -6,7 +6,9 @@ Tags: Personal, Planning, Work
 
 ## Purpose
 
-TimeKeeper is a solution to help me track my current hours worked per day per code.  Track my Accrued Time Off (ATO) and my projected use/lose ATO.  It will produce a pay period summary, current month summary, and a current year summary.  It will also keep current year and historical work records.
+TimeKeeper is a solution to help me track my current hours worked per day per code.  Track my Accrued Time Off (ATO)
+and my projected use/lose ATO.  It will produce a pay period summary, current month summary, and a current year summary.
+It will also keep current year and historical work records.
 
 ## Platforms
 
@@ -41,7 +43,8 @@ TimeKeeper is a solution to help me track my current hours worked per day per co
 6. Once start and stop times entered, calculate total hours to nearest 15 mins otherwise show 0
 7. Enter in partial time
     1. enter in start time without end time
-    2. if entering in end time, search on date, time code and in start time but no end time entered and if does not exist, alert user cannot enter in end time with a start time.
+    2. if entering in end time, search on date, time code and in start time but no end time entered and if does not
+   exist, alert user cannot enter in end time with a start time.
 8. Validation:
     1. stop time can not occur before end time on same date
     2. check if 12-hr time, then must enter in AM or PM
@@ -57,7 +60,8 @@ TimeKeeper is a solution to help me track my current hours worked per day per co
 3. Show all days within that pay period
     1. highlight weekend days
     2. holidays should also be obvious
-4. Show each entry day of week, date, all codes of time taken for each date and daily totals (actual and rounded to nearest 15 mins)
+4. Show each entry day of week, date, all codes of time taken for each date and daily totals (actual and rounded to
+   nearest 15 mins)
 5. Show/calculate total week days in pay period, total contract hours + additional hours available in pay period
 6. Show/calculate total hours accounted and remaining hours
 7. Show/calculate breakdown of hours against each code and pay based on hourly rate

@@ -35,4 +35,5 @@ Use **ECS on Fargate** to run:
 
 ## Alternatives Considered
 
-- App Runner: rejected for reduced control and flexibility as the app grows (multi-tenant patterns, complex networking, worker topology).
+- App Runner: rejected for reduced control and flexibility as the app grows (multi-tenant patterns, complex networking,
+  worker topology).

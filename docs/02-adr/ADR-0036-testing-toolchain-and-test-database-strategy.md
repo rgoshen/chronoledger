@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD024 -->
+
 # ADR-0036 — Testing Toolchain + Test Database Strategy
 
 ## Status
@@ -13,7 +15,8 @@ ChronoLedger requires confidence in correctness across:
 - report/export outputs (PDF determinism)
 - critical user flows across Web and Mobile
 
-To keep velocity high and avoid regressions, we need a consistent testing stack across the monorepo and a clear policy for test environments—especially database isolation.
+To keep velocity high and avoid regressions, we need a consistent testing stack across the monorepo and a clear policy
+for test environments—especially database isolation.
 
 ## Decision
 
@@ -52,7 +55,8 @@ We will standardize the testing toolchain and test environments as follows.
 #### Browser E2E tests
 
 - **Runner:** Playwright
-- **Scope:** critical flows (login stub/dev auth path, create/edit entries, pay period review, request export, download export).
+- **Scope:** critical flows (login stub/dev auth path, create/edit entries, pay period review, request export,
+  download export).
 
 ### 3) Mobile (React Native)
 
@@ -71,7 +75,8 @@ We will standardize the testing toolchain and test environments as follows.
 
 - **Unit tests:** Vitest for orchestration, template/model generation, storage adapters.
 - **Integration tests (selected):** run against Testcontainers Postgres where DB interaction is required.
-- **PDF golden tests:** Playwright-based rendering checks with deterministic fixtures (pinned fonts/Chromium settings where applicable).
+- **PDF golden tests:** Playwright-based rendering checks with deterministic fixtures (pinned fonts/Chromium settings
+  where applicable).
 
 ---
 
@@ -144,3 +149,5 @@ Save this file at:
 - `docs/02-adr/ADR-0036-testing-toolchain-and-test-database-strategy.md`
 
 Then update any applicable index files (e.g., `docs/README.md`, `docs/02-adr/README.md`) to include a link.
+
+<!-- markdownlint-enable MD024 -->

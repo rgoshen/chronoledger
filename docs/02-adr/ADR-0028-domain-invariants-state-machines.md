@@ -5,7 +5,8 @@
 
 ## Context
 
-ChronoLedger is a time-clock style system that stores **raw times** (UTC) and derives calculations (rounding, weekly totals, pay) at runtime. The system must:
+ChronoLedger is a time-clock style system that stores **raw times** (UTC) and derives calculations (rounding, weekly
+totals, pay) at runtime. The system must:
 
 - prevent overlapping entries
 - enforce lock/unlock workflow with admin approval
@@ -15,7 +16,8 @@ ChronoLedger is a time-clock style system that stores **raw times** (UTC) and de
 
 ## Decision
 
-Define explicit **domain invariants** and **state machines**. The API is authoritative; clients may pre-validate for UX only.
+Define explicit **domain invariants** and **state machines**. The API is authoritative; clients may pre-validate for
+UX only.
 
 ### 1) Core domain invariants
 

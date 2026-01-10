@@ -170,7 +170,8 @@ To keep rollback viable and reduce incidents, migrations must follow forward-com
 ### Web rollback
 
 - Web assets are retained per SHA under `releases/<sha>/`.
-- Roll back by re-running the promote workflow with a previous known-good SHA, re-syncing those assets and invalidating CloudFront.
+- Roll back by re-running the promote workflow with a previous known-good SHA, re-syncing those assets and
+  invalidating CloudFront.
 
 ## Infrastructure workflow (OpenTofu)
 

@@ -2,7 +2,8 @@
 
 _Last updated: 2026-01-03_
 
-This document summarizes what we accomplished today (repo + documentation hardening) and provides an updated, **complete roadmap of what remains before writing feature code**, so you can resume later without context loss.
+This document summarizes what we accomplished today (repo + documentation hardening) and provides an updated,
+**complete roadmap of what remains before writing feature code**, so you can resume later without context loss.
 
 ---
 
@@ -36,7 +37,8 @@ These are the key artifacts created/updated today to reduce ambiguity before imp
 
 **API contract**
 
-- `docs/03-api/openapi.yaml` — initial OpenAPI contract stub (health, me, tenants, time-entries, pay-periods, exports, admin unlock requests).
+- `docs/03-api/openapi.yaml` — initial OpenAPI contract stub (health, me, tenants, time-entries, pay-periods, exports,
+  admin unlock requests).
 
 **Reports and exports**
 
@@ -45,7 +47,8 @@ These are the key artifacts created/updated today to reduce ambiguity before imp
 
 **Requirements and traceability**
 
-- `docs/01-requirements/traceability-req-adr-backlog.md` — req → ADR → backlog mapping table (backlog placeholders to be converted to GitHub issues).
+- `docs/01-requirements/traceability-req-adr-backlog.md` — req → ADR → backlog mapping table (backlog placeholders to
+  be converted to GitHub issues).
 
 **Testing and local development**
 
@@ -236,11 +239,12 @@ This is the remaining “pre-coding checklist,” updated based on what we compl
 
 ### P2 ADRs (later, when it matters)
 
-4) Mobile release strategy
+1) Mobile release strategy
 2) Advanced tracing (OpenTelemetry)
 
 ---
 
 ## 6) When you resume later (suggested next command)
 
-“Open the latest ChronoLedger session summary and then start with Section 4.3 Repo scaffolding. Propose the minimal workspace config, docker compose, and runnable API/worker shells so we can validate the local dev loop before feature work.”
+“Open the latest ChronoLedger session summary and then start with Section 4.3 Repo scaffolding. Propose the minimal
+workspace config, docker compose, and runnable API/worker shells so we can validate the local dev loop before feature work.”

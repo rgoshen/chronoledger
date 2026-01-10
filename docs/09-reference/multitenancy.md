@@ -54,15 +54,18 @@ create index idx_time_entry_tenant_user_start
 ## 2) Request scoping rules
 
 ### 2.1 Resolve identity
+
 - Validate Auth0 JWT.
 - Use `sub` claim to look up `app_user`.
 - Find membership in `tenant_user`.
 
 ### 2.2 Determine tenant
+
 - Default behavior: a user belongs to one tenant initially.
 - Future-friendly behavior: if a user belongs to multiple tenants, client may pass `X-Tenant-Id` and server verifies membership.
 
 ### 2.3 Enforce scope
+
 - All CRUD queries include `tenant_id = :tenantId`.
 - Admin routes enforce both:
   - `role=ADMIN`
@@ -71,6 +74,7 @@ create index idx_time_entry_tenant_user_start
 ## 3) Config strategy
 
 ### 3.1 Small settings
+
 Use `tenant_setting` for low-risk values:
 
 ```sql
@@ -84,22 +88,28 @@ tenant_setting(
 ```
 
 Examples:
+
 - default display TZ
 - rounding policy version (calculation only)
 - PDF footer text
 - feature flags
 
 ### 3.2 Domain configuration
+
 Use dedicated tables for high-value domains:
+
 - `time_code` (tenant-owned)
 - `pay_rate` (tenant-owned, effective 1st of month)
 - `holiday` (visibility for dates; not special “pay logic”)
 
 ## 4) Audit tables and tenancy
+
 Each audit table includes `tenant_id` and references the domain entity ID. Example:
+
 - `audit_time_entry(tenant_id, time_entry_id, ...)`
 
 ## 5) Migration strategy
+
 - Add `tenant_id` early to avoid expensive backfills later.
 - Seed one tenant for personal use.
 - When expanding to other users, tenant creation becomes an admin workflow.

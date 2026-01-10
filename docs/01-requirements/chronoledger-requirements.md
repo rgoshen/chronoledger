@@ -4,7 +4,9 @@ _Last updated: 2026-01-02_
 
 ## 1. Overview
 
-ChronoLedger is a time-clock-style application that allows users to record work time, calculate pay-period and weekly summaries, generate **official PDF reports**, and track accrued time off (ATO). It runs on **Web** and **Mobile (phone + tablet)** and is hosted on **AWS**, with data synced across devices.
+ChronoLedger is a time-clock-style application that allows users to record work time, calculate pay-period and weekly
+summaries, generate **official PDF reports**, and track accrued time off (ATO). It runs on **Web** and
+**Mobile (phone + tablet)** and is hosted on **AWS**, with data synced across devices.
 
 This document captures the full set of requirements (no MVP-only scope).
 
@@ -57,7 +59,8 @@ This document captures the full set of requirements (no MVP-only scope).
   - The system provides **visibility** (highlighting/labeling) for holidays.
 
 - **Time Code**
-  - A category assigned to a time entry (e.g., ATO, HSES, MCADS, CONNEXION, FLEXCELERATE, OTHER, USTC, RECRUITING, UPDLV, TRAINING).
+  - A category assigned to a time entry (e.g., ATO, HSES, MCADS, CONNEXION, FLEXCELERATE, OTHER, USTC, RECRUITING,
+  UPDLV, TRAINING).
   - Time codes are configurable via Admin.
 
 - **Raw Time / Raw Hours**
@@ -86,7 +89,8 @@ Cannot take more than **40 hours/week** against contract codes.
 
 **BR-06 Weekly additional cap**  
 Cannot take more than **4 additional hours/week** beyond 40 contract hours.  
-Additional hours are a combination of codes such as TRAINING, OTHER, RECRUITING, CONNEXION, FLEXCELERATE (exact mapping is configurable).
+Additional hours are a combination of codes such as TRAINING, OTHER, RECRUITING, CONNEXION, FLEXCELERATE (exact mapping
+is configurable).
 
 **BR-07 Prior authorization flag**  
 If total hours > **44** in a Sunday–Saturday work week, the system must flag that **prior authorization is required**.
@@ -137,7 +141,8 @@ Users must authenticate to use the app.
 
 **FR-004 Account linking (required)**
 
-- If a user signs in with a social provider and the provider supplies a **verified email**, the system must **auto-merge/link** to an existing account with the same verified email.
+- If a user signs in with a social provider and the provider supplies a **verified email**, the system must
+  **auto-merge/link** to an existing account with the same verified email.
 
 **FR-005 Account management**
 
@@ -193,14 +198,16 @@ _(Recommended)_ **FR-007 MFA**
 
 **FR-016 Overlap prevention (required)**
 
-- The system must **block** creating/updating any entry that overlaps another entry for the same user (after cross-midnight splitting is applied).
+- The system must **block** creating/updating any entry that overlaps another entry for the same user (after
+  cross-midnight splitting is applied).
 - If a split would cause overlap, the save must fail with a clear error.
 
 ### 7.3 Cross-Midnight & Time Zone Handling
 
 **FR-018 Cross-midnight auto-split (required)**
 
-- If a user enters an end time that implies crossing midnight (end < start in local clock terms), the system must **auto-split** into two entries:
+- If a user enters an end time that implies crossing midnight (end < start in local clock terms), the system must
+  **auto-split** into two entries:
   1) Start → end-of-day
   2) start-of-day → End
 - Both entries preserve the same time code and are linked for audit/reporting.
@@ -213,7 +220,8 @@ _(Recommended)_ **FR-007 MFA**
 **FR-020 UTC storage (required)**
 
 - All stored timestamps must be persisted as **UTC**.
-- The system must store the **IANA time zone identifier** used for start/end capture (to support correct reconstruction and auditing).
+- The system must store the **IANA time zone identifier** used for start/end capture (to support correct
+  reconstruction and auditing).
 
 **FR-021 Display time zone behavior (required)**
 

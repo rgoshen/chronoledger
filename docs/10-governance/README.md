@@ -4,7 +4,8 @@ _Last updated: 2026-01-09_
 
 ## Purpose
 
-This section documents the operating rules for building ChronoLedger, including how responsibilities are split across human contributors and AI agents.
+This section documents the operating rules for building ChronoLedger, including how responsibilities are split across
+human contributors and AI agents.
 
 ## What lives here
 

@@ -1,6 +1,7 @@
 # Reports and Exports Catalog
 
-**Purpose:** Define ChronoLedger’s reports and export outputs with precise, testable specifications—especially “official” PDFs.
+**Purpose:** Define ChronoLedger’s reports and export outputs with precise, testable specifications—especially
+“official” PDFs.
 
 **Status:** Draft
 **Last reviewed:** YYYY-MM-DD
@@ -78,7 +79,7 @@ Export endpoints return Problem Details (`application/problem+json`) with stable
 ### Inputs
 
 | Parameter | Type | Required | Notes |
-|---|---:|:---:|---|
+| --- | ---: | :---: | --- |
 | tenantId | UUID | Yes | Tenant boundary |
 | userId | UUID | No | Defaults to current user unless admin export is allowed |
 | year | int | Yes | e.g., 2026 |
@@ -89,7 +90,7 @@ Export endpoints return Problem Details (`application/problem+json`) with stable
 ### Output: Header fields
 
 | Field | Source | Notes |
-|---|---|---|
+| --- | --- | --- |
 | Tenant name | tenant.name | |
 | User display name | user.display_name | fall back to email |
 | User email | user.email | optional |
@@ -103,7 +104,7 @@ Export endpoints return Problem Details (`application/problem+json`) with stable
 Sorted by **date ascending**, then **start time ascending**.
 
 | Column | Definition | Notes |
-|---|---|---|
+| --- | --- | --- |
 | Date | local date | derived from `start_at` in display timezone |
 | Time code | code/name | per `time_code` |
 | Start | local time | |
@@ -114,7 +115,7 @@ Sorted by **date ascending**, then **start time ascending**.
 ### Output: Totals
 
 | Metric | Definition |
-|---|---|
+| --- | --- |
 | Total hours | sum of durations |
 | Totals by time code | grouped sum |
 
@@ -128,7 +129,7 @@ Sorted by **date ascending**, then **start time ascending**.
 ### Problem codes (examples)
 
 | HTTP | code | When |
-|---:|---|---|
+| ---: | --- | --- |
 | 400 | INVALID_PAY_PERIOD | year/month/PP invalid |
 | 403 | FORBIDDEN | tenant/membership does not allow export |
 | 404 | NOT_FOUND | tenant/user not found or inaccessible |

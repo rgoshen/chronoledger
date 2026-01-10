@@ -1,13 +1,17 @@
 # WO-0001 — Product Manager: P0 backlog refinement (US-0001..US-0010)
 
 ## Owner
+
 - Primary: Product Manager agent
 - Reviewer: Tech Lead + UX (as needed)
 
 ## Goal
-Turn the seeded P0 user stories into **build-ready** stories by tightening acceptance criteria, clarifying scope, and sequencing work into the first MVP slices.
+
+Turn the seeded P0 user stories into **build-ready** stories by tightening acceptance criteria, clarifying scope,
+and sequencing work into the first MVP slices.
 
 ## Inputs
+
 - PRD: `chronoledger-requirements.md` (focus: Section 7 Functional Requirements; Section 6 Business Rules; Section 9 NFRs)
 - Traceability table: `traceability_req_adr_backlog.md` (REQ → ADR → BL placeholders)
 - Existing backlog seed:
@@ -16,6 +20,7 @@ Turn the seeded P0 user stories into **build-ready** stories by tightening accep
   - `docs/10-governance/backlog/slices/SL-0001..SL-0003`
 
 ## Required Outputs (repo artifacts)
+
 1) Update (edit in place) the 10 stories:
    - `docs/10-governance/backlog/user-stories/US-0001-...md` through `US-0010-...md`
 2) Update (edit in place) the epic:
@@ -24,7 +29,9 @@ Turn the seeded P0 user stories into **build-ready** stories by tightening accep
    - `docs/10-governance/backlog/epics/EP-0001-sequencing-notes.md`
 
 ## Definition of Ready (DoR) for each story
+
 A story can be marked **Ready** only if:
+
 - Acceptance criteria are explicit and testable (Given/When/Then)
 - Scope is tight (In/Out of scope listed)
 - Dependencies are called out (other stories, ADRs, platform baselines)
@@ -32,7 +39,9 @@ A story can be marked **Ready** only if:
 - It clearly maps to at least one slice (SL-0001..SL-0003)
 
 ## Agent Prompt (copy/paste)
-You are the **Product Manager** agent for ChronoLedger. Follow `AGENTS.md` rules: **no mass rewrites**, change only what is necessary, and keep outputs **repo-ready**.
+
+You are the **Product Manager** agent for ChronoLedger. Follow `AGENTS.md` rules: **no mass rewrites**, change only
+what is necessary, and keep outputs **repo-ready**.
 
 1) Read:
    - `chronoledger-requirements.md` (PRD)

@@ -1,6 +1,7 @@
 # Traceability Map: REQ / BL → User Stories / Slices
 
-This document links the existing requirements traceability placeholders (`BL-####`) to the concrete backlog items in this repo (`US-####`, `SL-####`).
+This document links the existing requirements traceability placeholders (`BL-####`) to the concrete backlog items in
+this repo (`US-####`, `SL-####`).
 
 > Source table: `docs/traceability_req_adr_backlog.md` (or equivalent location in your repo)
 
@@ -19,5 +20,7 @@ This document links the existing requirements traceability placeholders (`BL-###
 | BL-0011 | REQ-0011 Testing strategy (domain + exports) | ADR-0033 | US-0010; SL-0001..SL-0003 |
 
 ## Maintenance
-- When you convert BL placeholders to GitHub Issues, replace the “Backlog in this repo” column with issue links (and keep the US/SL references as supporting design docs).
+
+- When you convert BL placeholders to GitHub Issues, replace the “Backlog in this repo” column with issue links (and
+  keep the US/SL references as supporting design docs).
 - If a story/slice is split, update this table in the same PR.

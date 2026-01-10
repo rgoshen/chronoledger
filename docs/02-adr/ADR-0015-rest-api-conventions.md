@@ -88,7 +88,8 @@ Adopt a **RESTful JSON API** with the following conventions:
 ### 9) Long-running work
 
 - PDF generation is asynchronous:
-  - client requests export -> API creates an export job -> worker produces PDF -> client polls job status -> client downloads via signed URL.
+  - client requests export -> API creates an export job -> worker produces PDF -> client polls job status -> client
+  downloads via signed URL.
 
 ## Consequences
 

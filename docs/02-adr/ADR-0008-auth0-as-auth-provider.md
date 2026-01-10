@@ -21,7 +21,8 @@ Use **Auth0** as the authentication provider.
 
 - Implement OIDC/OAuth flows for web and mobile using Auth0 recommended patterns
 - Configure social identity providers (Apple/Google/Facebook) in Auth0
-- Enforce the product requirement to **auto-link/merge accounts by verified email** (implementation details may use Auth0 account-linking capabilities and/or application-side safeguards)
+- Enforce the product requirement to **auto-link/merge accounts by verified email** (implementation details may use
+  Auth0 account-linking capabilities and/or application-side safeguards)
 
 ## Consequences
 

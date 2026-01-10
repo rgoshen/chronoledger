@@ -5,7 +5,8 @@
 
 ## Context
 
-ChronoLedger includes a web application that must run on a work computer and should load quickly and reliably. We want a standard, cost-effective static hosting approach.
+ChronoLedger includes a web application that must run on a work computer and should load quickly and reliably. We want
+a standard, cost-effective static hosting approach.
 
 ## Decision
 
