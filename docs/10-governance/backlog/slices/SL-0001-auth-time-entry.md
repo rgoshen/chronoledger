@@ -12,6 +12,7 @@
 ### AuthN/AuthZ
 - **Provider**: Auth0 (OIDC/OAuth2) per ADR-0027, ADR-0008
 - **Flow**: Authorization Code + PKCE for web SPA
+- **Callback**: GET `/auth/callback` receives authorization code from Auth0; token exchange handled by Auth0 SDK
 - **Roles**: USER, ADMIN (server-enforced per ADR-0029)
 - **Tenant Linking**: Auto-link by verified email per ADR-0006
 - **Session**: Short-lived access tokens; refresh tokens via Auth0 best practices
@@ -24,7 +25,9 @@
 ### Idempotency
 - **Header**: `Idempotency-Key` (UUID) for POST operations per ADR-0031
 - **Scope**: Keyed by `(tenant_id, user_id, route, idempotency_key)`
+- **DB Constraint**: Unique index on `(tenant_id, user_id, route, idempotency_key)` to prevent duplicate processing
 - **Retry Behavior**: Return original response for duplicate keys
+- **Retention**: 24-hour TTL on idempotency records; cleanup via scheduled job or DB-level expiration (e.g., `created_at + interval '24 hours' < now()`)
 
 ### Error Contract
 - **Format**: RFC 7807 Problem+JSON per ADR-0030
@@ -54,7 +57,7 @@ Prefer updating this checklist over creating separate WO docs.
 - [ ] Implement Auth0 integration with OIDC/PKCE flow
 - [ ] Create middleware for JWT validation and tenant resolution
 - [ ] Implement auto-linking logic by verified email (per ADR-0006)
-- [ ] POST `/auth/callback` - handle Auth0 callback and establish session
+- [ ] GET `/auth/callback` - handle Auth0 callback with authorization code; establish session via Auth0 SDK token exchange
 - [ ] POST `/time-entries` - create complete time entry with overlap validation
 - [ ] POST `/time-entries/start` - start open entry (start_utc, no end_utc)
 - [ ] POST `/time-entries/:id/stop` - stop open entry (set end_utc)
@@ -79,6 +82,8 @@ Prefer updating this checklist over creating separate WO docs.
 - [ ] Add unique partial index: one open entry per `(tenant_id, user_id)` where `end_utc IS NULL AND deleted_at IS NULL`
 - [ ] Create composite indexes: `(tenant_id, user_id, start_utc)`, `(tenant_id, user_id, deleted_at)`
 - [ ] Create `idempotency_record` table (tenant_id, user_id, route, idempotency_key, response_json, created_at)
+- [ ] Add unique index on `idempotency_record` (tenant_id, user_id, route, idempotency_key) to enforce single processing
+- [ ] Implement 24-hour retention/cleanup for `idempotency_record` (scheduled job or WHERE clause filter)
 - [ ] Seed: minimal time codes (WORK, ATO, SICK, etc.) for Rick's tenant
 - [ ] Seed: Rick's user membership in personal tenant
 - [ ] Create time_entry_audit table (per ADR-0005)
@@ -163,6 +168,7 @@ Prefer updating this checklist over creating separate WO docs.
 
 ## Change Log
 
+- 2026-01-09: Address code review - clarified Auth0 callback uses GET (not POST); added idempotency DB constraint (unique index), 24-hour TTL retention strategy, and cleanup mechanism tasks; updated task count to 65 (Backend/API: 16, Data: 14, Web UI: 16, QA: 11, Observability: 8)
 - 2026-01-09: Set Status to Ready; added Constraints and Posture section (AuthN/AuthZ, overlap enforcement, idempotency, error contract, data invariants); expanded Work Breakdown with concrete tasks per layer (Backend/API: 16 tasks, Data: 12 tasks, Web UI: 16 tasks, QA: 11 tasks, Observability: 8 tasks); total 63 actionable checklist items
 - 2026-01-09: Added Work Breakdown checklist (lean mode)
 
