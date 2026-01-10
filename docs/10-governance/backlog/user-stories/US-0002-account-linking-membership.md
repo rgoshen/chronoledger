@@ -23,6 +23,13 @@ As a **user**, I want my **account to automatically resolve to the correct tenan
 - Traceability: REQ-0001 (Multi-tenant boundary and membership model)
 - ADRs: [ADR-0017](../02-adr/ADR-0017-multitenancy-row-level.md), [ADR-0006](../02-adr/ADR-0006-auto-link-by-verified-email.md)
 
+## Shared Technical Contracts
+
+These technical standards apply across all acceptance criteria and implementation:
+- **Data isolation**: Tenant data isolation per ADR-0017 (row-level security or equivalent)
+- **Auto-linking**: Email-based membership resolution per ADR-0006
+- **Session context**: Tenant context included in session tokens per US-0001
+
 ## Acceptance Criteria (Given/When/Then)
 
 1. **Given** I authenticate with a verified email that matches a tenant's auto-link policy (e.g., email domain) **When** I sign in for the first time **Then** the system creates or resolves my membership to that tenant, includes tenant context in my session token, and grants me the appropriate default role.
@@ -32,11 +39,11 @@ As a **user**, I want my **account to automatically resolve to the correct tenan
 
 ## In Scope
 
-- Email-based auto-linking per ADR-0006 policy (domain matching or explicit rules)
+- Email-based auto-linking per ADR-0006 policy
 - Membership lookup and creation/resolution on first sign-in
-- Tenant context inclusion in session token (claims)
+- Tenant context inclusion in session token
 - Default tenant selection for multi-tenant users (or selection prompt)
-- Row-level security enforcement for all tenant-scoped data access
+- Data isolation enforcement per ADR-0017 for all tenant-scoped data access
 
 ## Out of Scope
 
@@ -53,8 +60,8 @@ As a **user**, I want my **account to automatically resolve to the correct tenan
 
 ## Risks
 
-- **Wrong tenant assignment**: Mitigate via explicit auto-link policy testing and domain validation.
-- **Missing row-level security**: Ensure all queries include tenant filters (use Prisma middleware or DB RLS).
+- **Wrong tenant assignment**: Mitigate via comprehensive auto-link policy testing and email validation per ADR-0006.
+- **Missing data isolation**: Ensure data isolation mechanisms per ADR-0017 are implemented and tested; all queries must respect tenant boundaries.
 - **Cross-tenant data leakage**: Audit all API endpoints for proper tenant scoping; add integration tests for isolation.
 
 ## UX / UI Notes

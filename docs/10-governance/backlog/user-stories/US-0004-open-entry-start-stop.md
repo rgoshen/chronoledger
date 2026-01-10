@@ -23,6 +23,15 @@ As a **user**, I want to **start a time entry without specifying an end time and
 - Traceability: REQ-0002, REQ-0007 (idempotency for writes) (as applicable)
 - ADRs: [ADR-0028](../02-adr/ADR-0028-domain-invariants-state-machines.md), [ADR-0031](../02-adr/ADR-0031-concurrency-idempotency.md)
 
+## Shared Technical Contracts
+
+These technical standards apply across all acceptance criteria and implementation:
+- **Error responses**: All API errors use Problem+JSON format per ADR-0030
+- **Idempotency**: Start/stop operations support idempotency keys per ADR-0031
+- **State transitions**: Entry state machine (open → completed) per ADR-0028
+- **Overlap prevention**: Reuses validation from US-0003
+- **HTTP status codes**: 201 (created), 200 (updated), 409 (conflict)
+
 ## Acceptance Criteria (Given/When/Then)
 
 1. **Given** I provide a valid time entry code and start time (defaults to now) **When** I start an open entry **Then** the entry is created with a 201 response, no end time, and a status of "running" or "open", and is visible in my current entries list with a clear indicator (e.g., "In Progress").
@@ -56,13 +65,13 @@ As a **user**, I want to **start a time entry without specifying an end time and
 
 ## Risks
 
-- **Lost stop request (network failure)**: Mitigate via idempotency keys and client retry logic; ensure UI shows retry options.
-- **Race condition on concurrent stops**: Mitigate via optimistic locking (version field) or database-level constraints; test with concurrent requests.
-- **Timer drift on long-running entries**: Document limitations; consider server-side time validation to reject implausible durations (e.g., >24 hours without stop).
+- **Lost stop request (network failure)**: Mitigate via idempotency mechanisms per ADR-0031 and client retry logic; ensure UI shows retry options.
+- **Race condition on concurrent stops**: Ensure server-side concurrency controls guarantee a consistent final state; test with concurrent requests from multiple clients.
+- **Timer drift on long-running entries**: Document limitations; consider server-side validation to reject implausible durations (e.g., >24 hours without stop).
 
 ## UX / UI Notes
 
-- Show a clear "currently running" indicator and the active timer duration.
+- Show a clear "currently running" indicator (e.g., "In Progress" badge or status label).
 - Provide safe retry messaging for network interruptions.
 
 ## Data & API Notes

@@ -24,6 +24,14 @@ As a **user**, I want to **create a complete time entry with robust validation a
 - ADRs: [ADR-0028](../02-adr/ADR-0028-domain-invariants-state-machines.md),
   [ADR-0002](../02-adr/ADR-0002-postgresql-3nf.md), [ADR-0024](../02-adr/ADR-0024-prisma-migrations.md)
 
+## Shared Technical Contracts
+
+These technical standards apply across all acceptance criteria and implementation:
+- **Error responses**: All API errors use Problem+JSON format per ADR-0030
+- **Overlap prevention**: Enforced server-side at persistence layer per ADR-0028
+- **Data isolation**: Tenant and user scoping per ADR-0017
+- **HTTP status codes**: 201 (created), 400 (validation), 409 (conflict)
+
 ## Acceptance Criteria (Given/When/Then)
 
 1. **Given** I provide all required fields (date, start time, end time, and a valid time entry code) **When** I save **Then** the entry is created with a 201 response, assigned a unique ID, and immediately visible in my current pay period list.
@@ -35,11 +43,11 @@ As a **user**, I want to **create a complete time entry with robust validation a
 ## In Scope
 
 - Complete time entry creation (date, start time, end time, code)
-- Overlap prevention enforced at database layer (unique constraint or check constraint)
+- Overlap prevention enforced server-side at persistence layer
 - Time range validation (end > start, required fields, valid code)
 - Pay period boundary enforcement per FR-014 (locked periods, future date limits)
 - Field-level validation errors in Problem+JSON format
-- Tenant and user scoping enforcement (row-level security)
+- Tenant and user scoping enforcement per ADR-0017
 
 ## Out of Scope
 
@@ -58,8 +66,8 @@ As a **user**, I want to **create a complete time entry with robust validation a
 
 ## Risks
 
-- **Race condition on overlap check**: Mitigate via database-level constraint (unique index on user, date range) and proper transaction isolation.
-- **Timezone handling errors**: Ensure all times stored in UTC with explicit timezone conversion rules; test cross-timezone scenarios.
+- **Race condition on overlap check**: Ensure overlap prevention is enforced at the persistence layer with proper concurrency controls per ADR-0028; test concurrent creation attempts.
+- **Timezone handling errors**: Establish consistent timezone handling strategy (e.g., store in UTC); test cross-timezone scenarios and DST transitions.
 - **Pay period calculation bugs**: Thoroughly test boundary conditions (period start/end, DST transitions, locked periods).
 
 ## UX / UI Notes
@@ -69,8 +77,8 @@ As a **user**, I want to **create a complete time entry with robust validation a
 
 ## Data & API Notes
 
-- Overlap prevention must be enforced at the database layer (not UI-only).
-- Use consistent server-side validation errors (Problem+JSON).
+- Overlap prevention must be enforced server-side at the persistence layer (not client-only).
+- Use consistent server-side validation errors per ADR-0030.
 
 ## Test Plan
 
