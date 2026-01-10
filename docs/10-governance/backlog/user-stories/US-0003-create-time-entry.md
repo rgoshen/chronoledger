@@ -72,8 +72,142 @@ These technical standards apply across all acceptance criteria and implementatio
 
 ## UX / UI Notes
 
-- Inline validation for required fields and time ordering.
-- Clear overlap error wording (include conflicting range).
+### Screens / Components
+
+- **TimeEntryScreen**: Main screen containing the form and list
+- **TimeEntryForm**: Form component for creating new entries
+- **TimeEntryList**: List of entries for the current pay period
+- **OverlapErrorDialog**: Modal/alert showing overlap details
+
+### Happy Path Flow
+
+1. User navigates to Time Entry screen
+2. Form displays with empty fields (date defaults to today)
+3. User selects/enters: Date, Start time, End time, Code
+4. Real-time validation shows end > start
+5. User submits (Enter or Save button)
+6. Loading state shows during save
+7. Success: Entry appears in list below, form resets
+
+### States
+
+**Empty State**
+
+- Form: All fields blank except Date (defaults to today)
+- List: "No time entries for this pay period yet." (if no entries exist)
+- Save button: Disabled (until all required fields filled)
+
+**Filling State**
+
+- User is actively entering data
+- Real-time validation feedback (e.g., end time turns red if before start time)
+- Save button: Enabled once all required fields have values and pass client validation
+
+**Validating State**
+
+- Brief client-side validation before submission
+- Visual indicator on individual fields if invalid
+- Save button remains enabled (server will validate definitively)
+
+**Saving State**
+
+- Save button shows spinner and is disabled
+- Form fields are disabled
+- Text: "Saving entry..."
+
+**Overlap Error State**
+
+- Modal or inline alert appears
+- Message: "This entry overlaps with an existing entry from [conflicting start time] to [conflicting end time] on [date]. Please adjust your times."
+- "OK" or "Close" button to dismiss
+- Form remains filled (user can edit times and retry)
+- Focus returns to start time field after dismissal
+
+**Validation Error State**
+
+- Field-level errors shown inline beneath each invalid field
+- Examples:
+  - End time before start: "End time must be after start time."
+  - Missing code: "Time code is required."
+  - Outside pay period: "This date is outside the current pay period ([start date] - [end date])."
+- Save button remains enabled for retry
+- Focus moves to first invalid field
+
+**Success State**
+
+- Brief success message (toast/banner): "Time entry saved."
+- Form clears and resets to defaults
+- New entry appears at top of TimeEntryList
+- Focus returns to date field for next entry
+
+### Validation Behavior
+
+**Client-side (Real-time)**
+
+- Date: Required, must be within current pay period
+- Start time: Required
+- End time: Required, must be after start time
+- Code: Required, must be a valid code from the system
+
+**Client-side (Pre-submit)**
+
+- All required fields present
+- End time > Start time
+- Date within current pay period range
+- Total duration reasonable (e.g., not > 24 hours)
+
+**Server-side (Authoritative)**
+
+- Overlap detection (DB-enforced constraint)
+- Authorization check (user can create entries for themselves)
+- Code validation (code exists and is active)
+- Pay period rules enforcement
+
+**Error Copy**
+
+- Overlap: "This entry overlaps with an existing entry from [HH:MM AM/PM] to [HH:MM AM/PM] on [MM/DD/YYYY]. Please adjust your times."
+- End before start: "End time must be after start time."
+- Missing date: "Date is required."
+- Missing start time: "Start time is required."
+- Missing end time: "End time is required."
+- Missing code: "Time code is required."
+- Outside pay period: "This date is outside the current pay period ([MM/DD/YYYY] - [MM/DD/YYYY])."
+- Invalid code: "Please select a valid time code."
+- Duration too long: "Entry duration cannot exceed 24 hours."
+- Network error: "Unable to save. Please check your connection and try again."
+
+### Accessibility
+
+**Keyboard Navigation**
+
+- Tab order: Date field → Start time → End time → Code dropdown → Save button → Cancel/Reset button
+- Enter key submits form from any field (except dropdowns, where Enter selects)
+- Arrow keys navigate time picker and code dropdown options
+
+**Focus Management**
+
+- On screen load: focus date field
+- On validation error: focus first invalid field
+- After save success: focus date field (ready for next entry)
+- On overlap error dialog: focus "Close" button; on close, return to start time field
+
+**Labels & ARIA**
+
+- Date field: `<label for="date">Date</label>` + `aria-required="true"` + `aria-describedby="date-error"` (when error present)
+- Start time: `<label for="start-time">Start Time</label>` + `aria-required="true"`
+- End time: `<label for="end-time">End Time</label>` + `aria-required="true"`
+- Code dropdown: `<label for="code">Time Code</label>` + `aria-required="true"`
+- Save button: `aria-busy="true"` during save, `aria-disabled="true"` when disabled
+- Error messages: `role="alert"` + `aria-live="polite"` for field errors
+- OverlapErrorDialog: `role="alertdialog"` + `aria-modal="true"` + `aria-labelledby` pointing to error heading
+- TimeEntryList: `<ul role="list">` with clear list item structure
+
+**Screen Reader Announcements**
+
+- On field validation error: "Error: [error message]" announced when error appears
+- On overlap error: "Error: This entry overlaps with an existing entry" announced when dialog opens
+- On save success: "Time entry saved" announced before focus moves
+- List updates: "Entry added to list" when new entry appears (optional, may be implicit)
 
 ## Data & API Notes
 

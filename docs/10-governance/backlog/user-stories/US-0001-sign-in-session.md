@@ -27,6 +27,7 @@ As a **user**, I want to **authenticate once and have my session persist across 
 ## Shared Technical Contracts
 
 These technical standards apply across all acceptance criteria and implementation:
+
 - **Error responses**: All API errors use Problem+JSON format per ADR-0030
 - **Session tokens**: Secure token implementation per ADR-0027
 - **HTTP status codes**: Follow REST conventions per ADR-0015
@@ -73,6 +74,101 @@ These technical standards apply across all acceptance criteria and implementatio
 
 - Include clear "signed out" state and re-auth path.
 - Error states: invalid credentials, expired session, forbidden action.
+
+### Screens / Components
+
+- **SignInScreen**: Primary authentication screen with email/password form
+- **SessionExpiredModal**: Overlay shown when session expires during app usage
+- **ForbiddenScreen**: Error screen shown for insufficient permissions
+
+### Happy Path Flow
+
+1. User loads app while unauthenticated
+2. SignInScreen displays immediately (no flash of protected content)
+3. User enters email and password
+4. Form submits on Enter key or button click
+5. Loading state shows during authentication
+6. On success, user is navigated to default landing page (e.g., Time Entry)
+
+### States
+
+**Empty State**
+
+- Blank form with placeholders: "Email address" and "Password"
+- Disabled submit button (until both fields have content)
+- No error messages
+
+**Loading State**
+
+- Submit button shows spinner/loading indicator and is disabled
+- Form fields are disabled during submission
+- Text: "Signing in..."
+
+**Validation Error State**
+
+- Invalid credentials: "Email or password is incorrect. Please try again."
+- Network error: "Unable to connect. Please check your connection and try again."
+- Server error: "Something went wrong. Please try again in a moment."
+
+**Session Expired State**
+
+- Modal overlay (non-dismissible) with message: "Your session has expired. Please sign in again."
+- Single "Sign In" button that navigates to SignInScreen
+- Preserves user's current location for redirect after re-auth
+
+**Forbidden Action State**
+
+- Full-screen message: "You don't have permission to access this feature."
+- Subtext: "Contact your administrator if you believe this is an error."
+- "Return to Home" button
+
+**Success State**
+
+- Brief success indication (optional, can transition immediately)
+- Navigate to target screen (or last location if re-authenticating)
+
+### Validation Behavior
+
+**Client-side**
+
+- Email field: Required, basic format check (contains @ and .)
+- Password field: Required, minimum 1 character (server validates strength)
+- Submit button disabled until both fields are non-empty
+
+**Error Copy**
+
+- Invalid credentials: "Email or password is incorrect. Please try again."
+- Empty email: "Email is required."
+- Empty password: "Password is required."
+- Network timeout: "Request timed out. Please try again."
+
+### Accessibility
+
+**Keyboard Navigation**
+
+- Tab order: Email field → Password field → Submit button → (optional) "Forgot password" link
+- Enter key submits form from any field
+- Escape key dismisses SessionExpiredModal (if re-auth is optional)
+
+**Focus Management**
+
+- On screen load: focus email field automatically
+- On validation error: focus first field with error
+- After session expiry modal appears: focus "Sign In" button
+
+**Labels & ARIA**
+
+- Email field: `<label for="email">Email</label>` + `aria-required="true"`
+- Password field: `<label for="password">Password</label>` + `aria-required="true"` + `type="password"`
+- Submit button: `aria-busy="true"` during loading, `aria-disabled="true"` when disabled
+- Error messages: `role="alert"` + `aria-live="polite"` for dynamic error text
+- SessionExpiredModal: `role="alertdialog"` + `aria-modal="true"` + `aria-labelledby` pointing to heading
+
+**Screen Reader Announcements**
+
+- On validation error: "Error: [error message]" announced automatically
+- On session expiry: "Your session has expired" announced when modal appears
+- On successful sign-in: (optional) "Signed in successfully" before navigation
 
 ## Data & API Notes
 

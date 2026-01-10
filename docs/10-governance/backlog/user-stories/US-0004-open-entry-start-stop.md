@@ -26,6 +26,7 @@ As a **user**, I want to **start a time entry without specifying an end time and
 ## Shared Technical Contracts
 
 These technical standards apply across all acceptance criteria and implementation:
+
 - **Error responses**: All API errors use Problem+JSON format per ADR-0030
 - **Idempotency**: Start/stop operations support idempotency keys per ADR-0031
 - **State transitions**: Entry state machine (open → completed) per ADR-0028
@@ -73,6 +74,150 @@ These technical standards apply across all acceptance criteria and implementatio
 
 - Show a clear "currently running" indicator (e.g., "In Progress" badge or status label).
 - Provide safe retry messaging for network interruptions.
+
+### Screens / Components
+
+- **TimeEntryScreen**: Main screen (reused from US-0003)
+- **OpenEntryTimer**: Component showing running timer with elapsed time
+- **StartEntryButton**: Button to begin an open entry
+- **StopEntryButton**: Button to complete the open entry
+- **TimeEntryList**: List showing entries with visual indicator for open/running entries
+
+### Happy Path Flow
+
+1. User navigates to Time Entry screen (no open entry exists)
+2. User clicks "Start Timer" (or similar button)
+3. Start modal appears: User selects Date (defaults today) and Code
+4. User clicks "Start"
+5. Timer begins running, showing elapsed time
+6. User performs their work (timer continues running)
+7. User clicks "Stop" button
+8. Entry is completed and appears in list with final duration
+
+### States
+
+**No Open Entry State**
+
+- Start button: Enabled and prominent
+- Timer display: Hidden or shows "00:00:00" with message "No timer running"
+- TimeEntryList: Shows completed entries only
+
+**Starting State**
+
+- Start button: Loading spinner, disabled
+- Text: "Starting timer..."
+- Form fields (date, code) in modal: Disabled during submission
+
+**Running/Open State**
+
+- Timer display: Visible and prominent, showing elapsed time (HH:MM:SS format)
+- Update frequency: Every second for display (but not announced every second)
+- Start button: Hidden or disabled with message "Timer already running"
+- Stop button: Enabled and prominent, different color (e.g., red/warning)
+- Entry indicator: Visual badge or highlight in list showing which entry is open
+- Timer accessibility: `aria-live="off"` (updated visually but not announced continuously)
+
+**Stopping State**
+
+- Stop button: Loading spinner, disabled
+- Timer: Continues displaying but with "Saving..." indicator
+- Text: "Stopping timer..."
+
+**Stopped/Complete State**
+
+- Timer: Clears to "00:00:00" or hides
+- Success message: "Timer stopped. Entry saved with duration [HH:MM]."
+- Entry: Appears in list as completed with final duration
+- Start button: Returns to enabled state
+
+**Network Retry State**
+
+- During stop operation network failure:
+- Message: "Unable to save. Retrying..."
+- Timer: Continues running (shows last known time)
+- Retry indicator: Small spinner or icon
+- Idempotency: Multiple retry attempts result in single completed entry
+- User option: "Cancel Retry" button to return to running state
+
+**Overlap Error State**
+
+- Can occur on start or stop operation
+- Modal/alert: "This entry would overlap with an existing entry from [HH:MM AM/PM] to [HH:MM AM/PM] on [MM/DD/YYYY]. Please adjust your times or delete the conflicting entry."
+- If on start: Entry is not created, user returns to no-open-entry state
+- If on stop: Entry remains open, user can choose different end time or cancel the entry
+- Focus: "OK" button on dialog
+
+**Multiple Device State** (edge case)
+
+- If user starts entry on Device A and opens app on Device B:
+- Device B shows running timer with sync indicator
+- If sync fails: Warning message "Timer running on another device. Refreshing..."
+- User can only stop from device where state is synced
+
+### Validation Behavior
+
+**On Start**
+
+- Date: Required, must be within current pay period
+- Code: Required, must be valid
+- Start time: Defaults to now, user can adjust if needed
+- Constraint: Only one open entry allowed at a time (enforced client and server side)
+
+**On Stop**
+
+- End time: Defaults to now, user can adjust if needed
+- End time must be after start time
+- Cannot create overlap with existing entries
+
+**Error Copy**
+
+- Already running: "You already have a timer running. Stop it before starting a new one."
+- Overlap on start: "Starting this entry would overlap with an existing entry from [HH:MM AM/PM] to [HH:MM AM/PM]. Please adjust your start time or delete the conflicting entry."
+- Overlap on stop: "Stopping now would overlap with an existing entry from [HH:MM AM/PM] to [HH:MM AM/PM]. Please choose a different stop time."
+- Missing code: "Time code is required."
+- Invalid date: "Date is required and must be within the current pay period."
+- End before start: "End time must be after start time."
+- Network error (retry): "Unable to save. Retrying automatically..."
+- Network error (failed): "Unable to save after multiple attempts. Your timer is still running. Please check your connection."
+
+### Accessibility
+
+**Keyboard Navigation**
+
+- Start button: Focusable, activated with Space or Enter
+- Stop button: Focusable, activated with Space or Enter
+- Start modal: Tab order: Date field → Code dropdown → Start button → Cancel button
+- Timer display: Not focusable (status display only)
+
+**Focus Management**
+
+- After clicking Start: Focus moves to timer/stop button area
+- After stopping: Focus returns to start button
+- On overlap error dialog: Focus "OK" button; on close, return to stop button (if still open) or start button
+
+**Labels & ARIA**
+
+- Start button: Clear label "Start Timer" + `aria-disabled` when disabled
+- Stop button: Clear label "Stop Timer" + `aria-disabled` when disabled
+- Timer display: `<div role="timer" aria-label="Elapsed time">HH:MM:SS</div>` + `aria-live="off"` (not announced continuously)
+- Running status: Separate element with `aria-live="polite"` that announces only state changes: "Timer started" / "Timer stopped"
+- Open entry in list: Visual indicator + text "(Running)" + `aria-label="Time entry in progress"`
+- Start modal fields: Same ARIA patterns as US-0003 form fields
+
+**Screen Reader Announcements**
+
+- On timer start: "Timer started for [code name]" announced once
+- On timer stop: "Timer stopped. Entry saved with duration [H hours M minutes]" announced once
+- During retry: "Saving, please wait" announced once, then "Retrying" if needed
+- Timer elapsed time: NOT announced every second (would be overwhelming)
+- Optional: Announce milestone updates (e.g., every 15 or 30 minutes) if needed for long entries
+- On overlap error: "Error: This entry would overlap with an existing entry" announced when dialog opens
+
+**Visual Indicators**
+
+- Running timer: Use distinct color (e.g., green or blue) and possibly animated pulse/glow
+- Stop button: Use warning color (e.g., red/orange) to indicate it will complete the entry
+- Entry in list: Badge or icon showing "Running" or "In Progress"
 
 ## Data & API Notes
 
