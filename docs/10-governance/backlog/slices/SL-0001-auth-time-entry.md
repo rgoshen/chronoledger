@@ -1,5 +1,42 @@
 <!-- markdownlint-disable MD024 MD041 -->
 
+# SL-0001: Auth + Time Entry (MVP Slice)
+
+**Status**: Ready
+**Target Release**: v0.1 (MVP)
+**Epic**: EP-0001
+**Stories**: US-0001, US-0002, US-0003, US-0004
+
+## Constraints and Posture
+
+### AuthN/AuthZ
+- **Provider**: Auth0 (OIDC/OAuth2) per ADR-0027, ADR-0008
+- **Flow**: Authorization Code + PKCE for web SPA
+- **Roles**: USER, ADMIN (server-enforced per ADR-0029)
+- **Tenant Linking**: Auto-link by verified email per ADR-0006
+- **Session**: Short-lived access tokens; refresh tokens via Auth0 best practices
+
+### Overlap Enforcement
+- **DB-Level**: PostgreSQL exclusion constraint on `tstzrange(start_utc, end_utc, '[)')` by `(tenant_id, user_id)` per ADR-0031
+- **Open Entry**: Unique partial index: one open entry (`end_utc IS NULL`) per `(tenant_id, user_id)` where `deleted_at IS NULL`
+- **Cross-Category**: Overlaps checked across all categories (work/contract/ATO)
+
+### Idempotency
+- **Header**: `Idempotency-Key` (UUID) for POST operations per ADR-0031
+- **Scope**: Keyed by `(tenant_id, user_id, route, idempotency_key)`
+- **Retry Behavior**: Return original response for duplicate keys
+
+### Error Contract
+- **Format**: RFC 7807 Problem+JSON per ADR-0030
+- **Key Codes**: `TIME_ENTRY_OVERLAP` (409), `VALIDATION_ERROR` (422), `CONCURRENCY_CONFLICT` (409)
+- **Include**: `type`, `title`, `status`, `detail`, `instance`, `code`, `request_id`, `errors[]`
+
+### Data Invariants (per ADR-0028)
+- **Time Storage**: All UTC with `capture_time_zone` (IANA)
+- **Locking**: Not in MVP (entries remain unlocked)
+- **Cross-Midnight**: Defer to post-MVP
+- **Tenant Scoping**: All queries/writes scoped by `tenant_id` per ADR-0017
+
 ## Customer Journey
 
 1. Sign in
@@ -14,44 +51,81 @@ Prefer updating this checklist over creating separate WO docs.
 
 ### Backend / API
 
-- [ ] Confirm endpoints + contracts (align with ADRs)
-- [ ] Implement validation + authorization rules
-- [ ] Implement invariants (DB-enforced where required)
-- [ ] Add integration tests for the critical path
+- [ ] Implement Auth0 integration with OIDC/PKCE flow
+- [ ] Create middleware for JWT validation and tenant resolution
+- [ ] Implement auto-linking logic by verified email (per ADR-0006)
+- [ ] POST `/auth/callback` - handle Auth0 callback and establish session
+- [ ] POST `/time-entries` - create complete time entry with overlap validation
+- [ ] POST `/time-entries/start` - start open entry (start_utc, no end_utc)
+- [ ] POST `/time-entries/:id/stop` - stop open entry (set end_utc)
+- [ ] GET `/time-entries` - list entries with pay period filter, tenant-scoped
+- [ ] Implement idempotency key middleware (store/check/return cached responses)
+- [ ] Implement Problem+JSON error responses for all error cases
+- [ ] Add request_id correlation to responses (per ADR-0020)
+- [ ] Add RBAC authorization checks (USER/ADMIN roles)
+- [ ] Unit tests for validation logic (time ordering, required fields)
+- [ ] Integration tests for overlap constraint enforcement
+- [ ] Integration tests for idempotency (duplicate key handling)
+- [ ] Integration tests for tenant scoping (no cross-tenant access)
 
 ### Data / Migrations
 
-- [ ] Schema changes + migrations
-- [ ] Seed/fixtures for local and tests
-- [ ] Backfill/retention impacts (if any)
+- [ ] Create `tenant` table with initial seed for Rick's personal tenant
+- [ ] Create `tenant_user` membership table (user_id, tenant_id, role)
+- [ ] Create `time_code` table with tenant_id scope
+- [ ] Create `time_entry` table with tenant_id, user_id, start_utc, end_utc, capture_time_zone, code_id
+- [ ] Add `deleted_at` column for soft deletes
+- [ ] Add exclusion constraint: `tstzrange(start_utc, end_utc, '[)')` by `(tenant_id, user_id)` where `deleted_at IS NULL`
+- [ ] Add unique partial index: one open entry per `(tenant_id, user_id)` where `end_utc IS NULL AND deleted_at IS NULL`
+- [ ] Create composite indexes: `(tenant_id, user_id, start_utc)`, `(tenant_id, user_id, deleted_at)`
+- [ ] Create `idempotency_record` table (tenant_id, user_id, route, idempotency_key, response_json, created_at)
+- [ ] Seed: minimal time codes (WORK, ATO, SICK, etc.) for Rick's tenant
+- [ ] Seed: Rick's user membership in personal tenant
+- [ ] Create time_entry_audit table (per ADR-0005)
 
 ### Web UI
 
-- [ ] Screens/components
-- [ ] Empty/loading/error/success states
-- [ ] Accessibility pass (keyboard/focus/labels)
-
-### Mobile UI (if in-scope)
-
-- [ ] Screens/components
-- [ ] Empty/loading/error/success states
-
-### Worker / Jobs (if in-scope)
-
-- [ ] Job definitions + idempotency/retry posture
-- [ ] Storage/artifact handling
+- [ ] Implement Auth0 login flow (redirect to Auth0, handle callback)
+- [ ] Create auth context/provider for token management and refresh
+- [ ] Create protected route wrapper (redirect to login if unauthenticated)
+- [ ] Build sign-in screen with Auth0 integration
+- [ ] Build "no membership found" error screen
+- [ ] Create Time Entry form component (date, start time, end time, code selector)
+- [ ] Implement start/stop timer UI for open entries (running indicator, duration display)
+- [ ] Create time entry list view (current pay period, show all entries)
+- [ ] Handle empty state (no entries yet)
+- [ ] Handle loading states (spinner during API calls)
+- [ ] Handle validation errors (display field-level errors from Problem+JSON)
+- [ ] Handle overlap errors (clear message showing conflicting entry)
+- [ ] Handle network errors (retry with same idempotency key)
+- [ ] Implement idempotency key generation (UUID) for create/start/stop operations
+- [ ] Accessibility: keyboard navigation for form, ARIA labels, focus management
+- [ ] Accessibility: error announcements via screen reader
 
 ### QA
 
-- [ ] E2E coverage for the slice’s happy path
-- [ ] Negative cases (top 2–3 failure modes)
-- [ ] Regression notes
+- [ ] E2E: Sign in with Auth0 → redirected to time entry screen
+- [ ] E2E: Create valid time entry → appears in list
+- [ ] E2E: Start open entry → stop it → verify completed and persisted
+- [ ] E2E: Attempt overlapping entry → see clear overlap error
+- [ ] E2E: Submit invalid time range (end before start) → see validation error
+- [ ] E2E: Network interruption on create → retry succeeds idempotently
+- [ ] E2E: Session expiration → redirected to sign in
+- [ ] E2E: Unauthorized action → see 403 error
+- [ ] Negative: Attempt cross-tenant access → 404 not found
+- [ ] Negative: Invalid idempotency key format → validation error
+- [ ] Regression: Verify tenant isolation across all endpoints
 
 ### Observability
 
-- [ ] Structured logs for key actions
-- [ ] Basic metrics (requests, failures, timings)
-- [ ] Trace hooks (if enabled)
+- [ ] Add structured logs: auth.sign_in, auth.callback, auth.session_expired
+- [ ] Add structured logs: time_entry.created, time_entry.started, time_entry.stopped
+- [ ] Add structured logs: time_entry.overlap_rejected, time_entry.validation_failed
+- [ ] Add structured logs: idempotency.duplicate_key, idempotency.cache_hit
+- [ ] Add metrics: `api.time_entries.create.attempts`, `api.time_entries.create.success`, `api.time_entries.create.failure`
+- [ ] Add metrics: `api.time_entries.overlap.rejected`, `api.auth.sign_in.success`
+- [ ] Ensure all logs include `request_id` for correlation
+- [ ] Add trace spans for Auth0 callbacks and DB operations (if tracing enabled)
 
 ## Implementation Plan (by layer)
 
@@ -89,6 +163,7 @@ Prefer updating this checklist over creating separate WO docs.
 
 ## Change Log
 
+- 2026-01-09: Set Status to Ready; added Constraints and Posture section (AuthN/AuthZ, overlap enforcement, idempotency, error contract, data invariants); expanded Work Breakdown with concrete tasks per layer (Backend/API: 16 tasks, Data: 12 tasks, Web UI: 16 tasks, QA: 11 tasks, Observability: 8 tasks); total 63 actionable checklist items
 - 2026-01-09: Added Work Breakdown checklist (lean mode)
 
 ## Acceptance Checklist
