@@ -8,15 +8,18 @@ on:
 
 jobs:
   claude-review:
-    # Only run on PRs when requested via comment containing @claude or /claude (command-style pattern)
-    # Matches: "@claude ", "/claude", or @claude at start of comment
+    # Automatic code review on all PR events (opened, synchronize, reopened)
+    # Also runs on-demand when PR comments contain @claude or /claude
+    # Matches: @claude/claude at start, in middle, or end of comment (with common punctuation)
     if: |
       (github.event_name == 'pull_request') ||
       (github.event_name == 'issue_comment' && github.event.issue.pull_request && (
         startsWith(github.event.comment.body, '@claude') ||
         startsWith(github.event.comment.body, '/claude') ||
-        contains(github.event.comment.body, ' @claude ') ||
-        contains(github.event.comment.body, ' /claude')
+        contains(github.event.comment.body, ' @claude') ||
+        contains(github.event.comment.body, ' /claude') ||
+        endsWith(github.event.comment.body, '@claude') ||
+        endsWith(github.event.comment.body, '/claude')
       ))
 
     # Optionally, restrict to non-first-time contributors or team members:
@@ -40,4 +43,4 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          mode: review
+          github_token: ${{ secrets.GITHUB_TOKEN }}

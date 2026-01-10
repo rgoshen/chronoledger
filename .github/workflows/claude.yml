@@ -8,20 +8,25 @@ on:
 
 jobs:
   claude:
-    # Only run if the comment contains @claude or /claude (command-style pattern)
-    # Matches: "@claude ", "/claude", or @claude at start of comment
+    # Interactive assistant - only runs when explicitly invoked via @claude or /claude in comments
+    # Works on PR issue comments and PR review comments (not plain issues)
+    # Matches: @claude/claude at start, in middle, or end of comment (with common punctuation)
     if: |
       (github.event_name == 'issue_comment' && github.event.issue.pull_request && (
         startsWith(github.event.comment.body, '@claude') ||
         startsWith(github.event.comment.body, '/claude') ||
-        contains(github.event.comment.body, ' @claude ') ||
-        contains(github.event.comment.body, ' /claude')
+        contains(github.event.comment.body, ' @claude') ||
+        contains(github.event.comment.body, ' /claude') ||
+        endsWith(github.event.comment.body, '@claude') ||
+        endsWith(github.event.comment.body, '/claude')
       )) ||
       (github.event_name == 'pull_request_review_comment' && (
         startsWith(github.event.comment.body, '@claude') ||
         startsWith(github.event.comment.body, '/claude') ||
-        contains(github.event.comment.body, ' @claude ') ||
-        contains(github.event.comment.body, ' /claude')
+        contains(github.event.comment.body, ' @claude') ||
+        contains(github.event.comment.body, ' /claude') ||
+        endsWith(github.event.comment.body, '@claude') ||
+        endsWith(github.event.comment.body, '/claude')
       ))
 
     # Optionally, restrict to non-first-time contributors or team members:
@@ -32,6 +37,8 @@ jobs:
     permissions:
       contents: read
       pull-requests: write  # Changed from read to write to allow Claude to post comments
+      issues: read
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -41,3 +48,4 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
